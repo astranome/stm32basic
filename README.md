@@ -82,19 +82,19 @@ Assuming that the user have Windows based PC, the easiest way to build the firmw
 
 `make hex V=1`
 
-### Get the hardware sorted out
+### Sort the hardware out
 
 Arrange all components on a breadboard according to [schematics](https://github.com/vitasam/stm32basic/blob/master/docs/kicad/stm32basic_pc.pdf).
 
-### Write firmware to the board
+### Program the board
 
-If the compilation was successful, then one should have `.hex` binary files available, under each of application folder. Copy them to your Windows machine and use ST-Link utility to program and verify the device.
+If compilations were successful, then one should have `.hex` binary files available, under each applications folder. Copy them to your Windows machine and use ST-Link utility to program and verify the device.
 
 ### Backlog
 * [x] Get SD card working (for saving and loading .BAS files)
-* [ ] Add vertical scrolling
-* [ ] Add support to write and read GPIO from BASIC
-* [ ] Add support for graphics LCD (e.g. 128 x 64 pixels)
+* [ ]  Implement vertical scrolling of BASIC code (from keyboard) 
+* [ ] Writing and reading of GPIO from BASIC
+* [ ] Graphics LCD (e.g. 128 x 64 pixels)
 
 
 
