@@ -29,20 +29,20 @@ _Based on https://github.com/robinhedwards/ArduinoBASIC Arduino-BASIC_
 
 ## Getting Started
 
-Assuming that the user have Windows based PC, the easiest way to build the firmware and flash it in to MCU is as following:
+Assuming that the user has Windows PC, the easiest way to build the firmware and flash it in to the stm32 board is as following:
 
-1: Install [STM32 ST-LINK utility](https://www.st.com/en/development-tools/stsw-link004.html) on Windows PC.
+1: Install [STM32 ST-LINK utility](https://www.st.com/en/development-tools/stsw-link004.html) on a Windows PC.
 
 2: Connect ST-Link adapter to stm32 board and verify that the MCU is visible from there.
 
-3: Use any of Ubuntu based hosts machines for making a firmware. E.g. use Windows Subsystem for Linux (WSL) on Windows 10 or Raspberry Pi as a standalone build machine.
+3: Use any of Ubuntu based hosts machines for making a firmware. E.g. use Windows Subsystem for Linux (WSL) on a Windows 10 or Raspberry Pi as a standalone build machine.
 
 ### Setting up Linux environment and build applications
 * Get ARM Toolchain:
 
 `sudo apt-get install gcc-arm-none-eabi binutils-arm-none-eabi gdb-arm-none-eabi`
 
-* Clone this Stm32Basic repository and get libopencm3 library:
+* Clone this `stm32basic` repository and get libopencm3 library locally:
 
 `cd Stm32Basic`
 
@@ -51,13 +51,6 @@ Assuming that the user have Windows based PC, the easiest way to build the firmw
 * Build keyboard hardware test
 
 `cd kbd_test_app`
-
-`make hex V=1`
-
-* Build LCD hardware test
-
-`cd ..` 
-`cd lcd_test_app`
 
 `make hex V=1`
 
@@ -92,7 +85,7 @@ If compilations were successful, then one should have `.hex` binary files availa
 
 ### Backlog
 * [x] Get SD card working (for saving and loading .BAS files)
-* [ ]  Implement vertical scrolling of BASIC code (from keyboard) 
+* [ ] Implement vertical scrolling of BASIC code (from keyboard) 
 * [ ] Writing and reading of GPIO from BASIC
 * [ ] Graphics LCD (e.g. 128 x 64 pixels)
 
