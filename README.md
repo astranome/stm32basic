@@ -1,5 +1,4 @@
 # STM32Basic
-
 ![](docs/images/logo.PNG)
 
 ## Retro computer with BASIC interpreter (GCC/libopencm3 toolchain version)
@@ -28,7 +27,6 @@ _Based on https://github.com/robinhedwards/ArduinoBASIC Arduino-BASIC_
 8: (Optional) SD card slot for breadboards.
 
 ## Getting Started
-
 Assuming that the user has Windows PC, the easiest way to build the firmware and flash it in to the stm32 board is as following:
 
 1: Install [STM32 ST-LINK utility](https://www.st.com/en/development-tools/stsw-link004.html) on a Windows PC.
@@ -76,15 +74,14 @@ Assuming that the user has Windows PC, the easiest way to build the firmware and
 `make hex V=1`
 
 ### Sort the hardware out
-
 Arrange all components on a breadboard according to [schematics](https://github.com/vitasam/stm32basic/blob/master/docs/kicad/stm32basic_pc.pdf).
 
 ### Program the board
-
 If compilations were successful, then one should have `.hex` binary files available, under each applications folder. Copy them to your Windows machine and use ST-Link utility to program and verify the device.
 
 ### Backlog
 * [x] Get SD card working (for saving and loading .BAS files)
+* [ ] Update README with OpenOCD functionality
 * [ ] Implement vertical scrolling of BASIC code (from keyboard) 
 * [ ] Writing and reading of GPIO from BASIC
 * [ ] Graphics LCD (e.g. 128 x 64 pixels)
