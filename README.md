@@ -84,7 +84,7 @@ Assuming that the user have Windows based PC, the easiest way to build the firmw
 
 ### Get the hardware sorted out
 
-_TODO_
+Arrange all components on a breadboard according to [schematics](docs\kicad\stm32basic_pc.pdf).
 
 ### Write firmware to the board
 
