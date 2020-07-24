@@ -10,6 +10,14 @@ _Based on https://github.com/robinhedwards/ArduinoBASIC Arduino-BASIC_
 * SD card
 * UART port
 
+### Backlog
+* [x] Get SD card working (for saving and loading .BAS files)
+* [ ] Update README with OpenOCD functionality
+* [ ] Implement vertical scrolling of BASIC code (from keyboard)
+* [ ] Add buzzer support
+* [ ] Writing and reading of GPIO from BASIC
+* [ ] Graphics LCD (e.g. 128 x 64 pixels)
+
 ## Prerequisites
 1: STM32F103C8T6 (72 MHz, 20 KB RAM, 64 KB Flash), a.k.a. "bluepill" board. It should also work on more powerfull devices, e.g. STM32F103RET6.
 
@@ -92,12 +100,6 @@ The serial terminal should be set to 115200 bod, 8 bits, 1 stop bit:
 
 ![](docs/images/lcd_test_comport.png)
 
-### Backlog
-* [x] Get SD card working (for saving and loading .BAS files)
-* [ ] Update README with OpenOCD functionality
-* [ ] Implement vertical scrolling of BASIC code (from keyboard) 
-* [ ] Writing and reading of GPIO from BASIC
-* [ ] Graphics LCD (e.g. 128 x 64 pixels)
 
 
 
