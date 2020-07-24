@@ -6,8 +6,9 @@ _Based on https://github.com/robinhedwards/ArduinoBASIC Arduino-BASIC_
 
 * MCU: STM32F103C8T6 (72 MHz, 20 KB RAM, 64 KB Flash), a.k.a. "bluepill"
 * PS2 keyboard 
-* 20x4 LCD Alphanumeric Display with I2C interface
+* 20x4 HD44780 LCD Alphanumeric Display 
 * SD card
+* UART port
 
 ## Prerequisites
 1: STM32F103C8T6 (72 MHz, 20 KB RAM, 64 KB Flash), a.k.a. "bluepill" board. It should also work on more powerfull devices, e.g. STM32F103RET6.
