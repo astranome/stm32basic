@@ -152,9 +152,8 @@ PAUSE milliseconds
 POSITION x,y sets the cursor
 PIN pinNum, value (0 = low, non-zero = high)
 PINMODE pinNum, mode ( 0 = input, 1 = output)
-LOAD (from internal EEPROM)
-SAVE (to internal EEPROM) e.g. use SAVE + to set auto-run on boot flag
-LOAD "filename", SAVE "filename, DIR, DELETE "filename" if using with external EEPROM.
+LOAD "filename" (from SD card)
+SAVE "filename" (to SD card)
 ```
 
 "Pseudo-identifiers"
@@ -172,6 +171,4 @@ STR$(number) e.g. STR$(2) -> "2"
 LEFT$(string,n)
 RIGHT$(string,n)
 MID$(string,start,n)
-PINREAD(pin) - see Arduino digitalRead()
-ANALOGRD(pin) - see Arduino analogRead()
 ```
