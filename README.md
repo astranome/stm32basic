@@ -2,7 +2,7 @@
 ![](docs/images/stm32basic_breadboard.jpg)
 
 ## Retro computer with BASIC interpreter (GCC/libopencm3 toolchain version)
-_Based on https://github.com/robinhedwards/ArduinoBASIC _
+#### Based on https://github.com/robinhedwards/ArduinoBASIC
 
 * MCU: STM32F103C8T6 (72 MHz, 20 KB RAM, 64 KB Flash), a.k.a. "bluepill"
 * PS2 keyboard 
