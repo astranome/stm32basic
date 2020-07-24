@@ -34,14 +34,13 @@ int main(void)
     usart_setup();
 #endif
 
-    lcd_setup();
-
     comm_puts(gimmick);
     comm_puts(globalVer);
     comm_puts(newL);
     comm_puts(applicationName);
     comm_puts(newL);
-    
+
+    lcd_setup();    
     lcd_init_4bit_mode();
     lcd_backlight_on();
     lcd_clear();
