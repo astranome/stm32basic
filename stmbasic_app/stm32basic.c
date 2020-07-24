@@ -23,7 +23,7 @@
 #include "../chan_fatfs/src/ff.h"
 #include "../chan_fatfs/src/diskio.h"
 
-const char ver[] = "stm32f1BASIC v.0.70";
+const char applicationName[] = "Stm32BASIC ";
 
 uint8_t mem[MEMORY_SIZE];
 uint8_t tokenBuf[TOKEN_BUF_SIZE];
@@ -36,8 +36,10 @@ int main(void)
     host_init(BUZZER_PIN);
     host_cls();
 
-    host_outputProgMemString(ver);
-    DEBUG_PRINT(ver);
+    host_outputProgMemString(applicationName);
+    host_outputProgMemString(globalVer);
+    DEBUG_PRINT(applicationName);
+    DEBUG_PRINT(globalVer);
 
 #ifdef SD_CARD_IN_USE
 #ifdef SERIAL_TRACES_ENABLED

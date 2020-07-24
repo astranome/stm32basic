@@ -42,9 +42,9 @@ int main(void)
 
     comm_puts(gimmick);
     comm_puts(globalVer);
-    comm_puts(newLine);
+    comm_puts(newL);
     comm_puts(applicationName);
-    xprintf("\r\n");
+    comm_puts(newL);
 
     lcd_setup();
     lcd_init_4bit_mode();

@@ -79,7 +79,7 @@
 
 extern const char gimmick[];
 extern const char globalVer[];
-extern const char newLine[];
+extern const char newL[];
 
 void clock_setup(void);
 void systick_setup(void);

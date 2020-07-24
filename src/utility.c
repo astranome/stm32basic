@@ -24,7 +24,7 @@ const char gimmick[] =
 #endif
 
 const char globalVer[] = "ver.0.8";
-const char newLine[] = "\r\n";
+const char newL[] = "\r\n";
 
 void clock_setup(void)
 {
