@@ -1,5 +1,5 @@
 # STM32Basic
-![](docs/images/logo.PNG)
+![](docs/images/stm32basic_breadboard.jpg)
 
 ## Retro computer with BASIC interpreter (GCC/libopencm3 toolchain version)
 _Based on https://github.com/robinhedwards/ArduinoBASIC Arduino-BASIC_
@@ -56,6 +56,8 @@ Assuming that the user has Windows PC, the easiest way to build the firmware and
 `cd stm32basic`
 
 `./get_libopencm3.sh`
+
+**Note**: building `libopencm3` library on a Raspberry Pi can take a significant amount of time (e.g. up to 30 minutes).
 
 * Build keyboard hardware test
 
