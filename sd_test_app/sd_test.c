@@ -23,18 +23,12 @@
 #endif
 
 #include "../include/utility.h"
+#include "../include/lcd.h"
 #include "../include/rtc.h"
 #include "../chan_fatfs/src/ff.h"
 #include "../chan_fatfs/src/diskio.h"
 
-const char gimmick[] =
-"         __           ________   ____             _     \r\n"\
-"   _____/ /_____ ___ |__  /__ \\ / __ )____ ______(_)____\r\n"\
-"  / ___/ __/ __ `__ \\ /_ <__/ // __  / __ `/ ___/ / ___/\r\n"\
-" (__  ) /_/ / / / / /__/ / __// /_/ / /_/ (__  ) / /__  \r\n"\
-"/____/\\__/_/ /_/ /_/____/____/_____/\\__,_/____/_/\\___/\r\n";
-
-const char ver[] = "SD tester, v.0.15";
+const char applicationName[] = "SD tester";
 
 #ifdef SERIAL_TRACES_ENABLED
 static void put_rc(FRESULT rc)
@@ -72,10 +66,23 @@ int main(void)
 
     clock_setup();
     usart_setup();
+    lcd_setup();
 
     comm_puts(gimmick);
-    comm_puts(ver);
-    xprintf("\r\n");
+    comm_puts(globalVer);
+    comm_puts(newLine);
+    comm_puts(applicationName);
+    comm_puts(newLine);
+
+    lcd_init_4bit_mode();
+    lcd_backlight_on();
+    lcd_clear();
+    lcd_home();
+    lcd_write_string_4d(applicationName);
+    lcd_set_cursor(0, 1);
+    lcd_write_string_4d(globalVer);
+    lcd_set_cursor(0, 2);
+    lcd_write_string_4d("See results on UART");
 
     /* Initialize disk */
     comm_puts("================== Init Disk:\r\n");
