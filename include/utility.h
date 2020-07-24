@@ -77,6 +77,10 @@
 #define DEBUG_PRINT(...) do { } while (false)
 #endif
 
+extern const char gimmick[];
+extern const char globalVer[];
+extern const char newLine[];
+
 void clock_setup(void);
 void systick_setup(void);
 void ext_interrupt_setup(void);

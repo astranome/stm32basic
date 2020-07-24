@@ -25,14 +25,7 @@
 #include "../include/ps2kbd.h"
 #include "../include/lcd.h"
 
-const char gimmick[] =
-"         __           ________   ____             _     \r\n"\
-"   _____/ /_____ ___ |__  /__ \\ / __ )____ ______(_)____\r\n"\
-"  / ___/ __/ __ `__ \\ /_ <__/ // __  / __ `/ ___/ / ___/\r\n"\
-" (__  ) /_/ / / / / /__/ / __// /_/ / /_/ (__  ) / /__  \r\n"\
-"/____/\\__/_/ /_/ /_/____/____/_____/\\__,_/____/_/\\___/\r\n";
-
-const char ver[] = "KBD tester, v.0.23";
+const char applicationName[] = "PS/2 KBD tester";
 
 void dump_keyboard_data(char c, char *s);
 
@@ -48,7 +41,9 @@ int main(void)
 #endif
 
     comm_puts(gimmick);
-    comm_puts(ver);
+    comm_puts(globalVer);
+    comm_puts(newLine);
+    comm_puts(applicationName);
     xprintf("\r\n");
 
     lcd_setup();
@@ -64,7 +59,11 @@ int main(void)
     
     lcd_clear();
     lcd_home();
-    lcd_write_string_4d(ver);
+    lcd_write_string_4d(applicationName);
+    lcd_set_cursor(0, 1);
+    lcd_write_string_4d(globalVer);
+    lcd_set_cursor(0, 2);
+    lcd_write_string_4d("Press PS/2 keys");
     
     while(in_loop)
     {

@@ -23,15 +23,7 @@
 #include "../include/utility.h"
 #include "../include/lcd.h"
 
-const char gimmick[] =
-"         __           ________   ____             _     \r\n"\
-"   _____/ /_____ ___ |__  /__ \\ / __ )____ ______(_)____\r\n"\
-"  / ___/ __/ __ `__ \\ /_ <__/ // __  / __ `/ ___/ / ___/\r\n"\
-" (__  ) /_/ / / / / /__/ / __// /_/ / /_/ (__  ) / /__  \r\n"\
-"/____/\\__/_/ /_/ /_/____/____/_____/\\__,_/____/_/\\___/\r\n";
-
-
-const char ver[] = "LCD tester, v.0.24";
+const char applicationName[] = "LCD tester";
 const char teststr[] = " Stm32Basic";
 
 int main(void)
@@ -45,14 +37,20 @@ int main(void)
     lcd_setup();
 
     comm_puts(gimmick);
-    comm_puts(ver);
-    xprintf("\r\n");
+    comm_puts(globalVer);
+    comm_puts(newLine);
+    comm_puts(applicationName);
+    comm_puts(newLine);
     
     lcd_init_4bit_mode();
     lcd_backlight_on();
     lcd_clear();
     lcd_home();
-    lcd_write_string_4d(teststr);
+    lcd_write_string_4d(applicationName);
+    lcd_set_cursor(0, 1);
+    lcd_write_string_4d(globalVer);
+    lcd_set_cursor(0, 2);
+    delay_us100(SEC_2);
 
     lcd_off();
     DEBUG_PRINT("=== LCD off");
@@ -61,6 +59,8 @@ int main(void)
     lcd_on();
     DEBUG_PRINT("=== LCD on");
     delay_us100(SEC_2);
+    lcd_clear();
+    lcd_home();
     
     DEBUG_PRINT("=== Test of LCD cursor:");
 
