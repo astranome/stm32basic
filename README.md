@@ -2,7 +2,7 @@
 ![](docs/images/stm32basic_breadboard.jpg)
 
 ## Retro computer with BASIC interpreter (GCC/libopencm3 toolchain version)
-_Based on https://github.com/robinhedwards/ArduinoBASIC Arduino-BASIC_
+_Based on https://github.com/robinhedwards/ArduinoBASIC _
 
 * MCU: STM32F103C8T6 (72 MHz, 20 KB RAM, 64 KB Flash), a.k.a. "bluepill"
 * PS2 keyboard 
@@ -43,6 +43,9 @@ Assuming that the user has Windows PC, the easiest way to build the firmware and
 2: Connect ST-Link adapter to stm32 board and verify that the MCU is visible from there.
 
 3: Use any of Ubuntu based hosts machines for making a firmware. E.g. use Windows Subsystem for Linux (WSL) on a Windows 10 or Raspberry Pi as a standalone build machine.
+
+#### Setting up Visual Studio Code Remote development in WSL
+In case of Windows PC the most convenient way to work with source files in WSL is to use Visual Studio Code Remote, please follow a [Tutorial](https://code.visualstudio.com/remote-tutorials/wsl/getting-started). 
 
 ### Setting up Linux environment and build applications
 * Get ARM Toolchain:
