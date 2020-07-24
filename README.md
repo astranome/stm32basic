@@ -42,7 +42,9 @@ Assuming that the user has Windows PC, the easiest way to build the firmware and
 
 * Clone this `stm32basic` repository and get libopencm3 library locally:
 
-`cd Stm32Basic`
+`git clone https://github.com/vitasam/stm32basic.git`
+
+`cd stm32basic`
 
 `./get_libopencm3.sh`
 
