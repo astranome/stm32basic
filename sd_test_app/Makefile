@@ -2,6 +2,7 @@ BINARY = sd_test
 
 OBJS = ../src/utility.o
 OBJS += ../src/ps2kbd.o
+OBJS += ../src/lcd.o
 OBJS += ../src/comm.o
 OBJS += ../src/term_io.o
 OBJS += ../src/rtc.o

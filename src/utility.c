@@ -14,6 +14,18 @@
 
 static volatile uint32_t systick_cnt;
 
+#ifdef SERIAL_TRACES_ENABLED
+const char gimmick[] =
+"         __           ________   ____             _     \r\n"\
+"   _____/ /_____ ___ |__  /__ \\ / __ )____ ______(_)____\r\n"\
+"  / ___/ __/ __ `__ \\ /_ <__/ // __  / __ `/ ___/ / ___/\r\n"\
+" (__  ) /_/ / / / / /__/ / __// /_/ / /_/ (__  ) / /__  \r\n"\
+"/____/\\__/_/ /_/ /_/____/____/_____/\\__,_/____/_/\\___/\r\n";
+#endif
+
+const char globalVer[] = "ver.0.8";
+const char newL[] = "\r\n";
+
 void clock_setup(void)
 {
     rcc_clock_setup_in_hse_8mhz_out_72mhz();    // 72 MHz
