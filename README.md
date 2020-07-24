@@ -81,6 +81,16 @@ Arrange all components on a breadboard according to [schematics](https://github.
 ### Program the board
 If compilations were successful, then one should have `.hex` binary files available, under each applications folder. Copy them to your Windows machine and use ST-Link utility to program and verify the device.
 
+### Serial traces
+
+To get serial console traces just enable following compilation flag in a `Makefile`:
+
+`DEFS += -DSERIAL_TRACES_ENABLED`
+
+The serial terminal should be set to 115200 bod, 8 bits, 1 stop bit:
+
+![](docs/images/lcd_test_comport.png)
+
 ### Backlog
 * [x] Get SD card working (for saving and loading .BAS files)
 * [ ] Update README with OpenOCD functionality
