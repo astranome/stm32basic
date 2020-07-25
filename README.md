@@ -17,6 +17,7 @@
 * [ ] Implement vertical scrolling of BASIC code (from keyboard)
 * [ ] Add buzzer support
 * [ ] Writing and reading of GPIO from BASIC
+* [ ] Short statetemenst for saving space of 20-char screen, e.g. PRINT -> PR
 * [ ] Graphics LCD (e.g. 128 x 64 pixels)
 
 ## Prerequisites
