@@ -1,5 +1,5 @@
 # STM32Basic
-![](docs/images/stm32basic_breadboard.jpg)
+![](docs/images/stm32basic_pc.jpg)
 
 ## Retro computer with BASIC interpreter (GCC/libopencm3 toolchain version)
 #### Based on https://github.com/robinhedwards/ArduinoBASIC
