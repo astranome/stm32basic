@@ -6,8 +6,8 @@
 
 ### Technical specs
 * MCU: STM32F103C8T6 (72 MHz, 20 KB RAM, 64 KB Flash), a.k.a. "bluepill"
-* PS2 keyboard 
-* 20x4 HD44780 LCD Alphanumeric Display 
+* PS/2 keyboard 
+* 20x4 parallel character LCD display (HD44780) 
 * SD card
 * UART port
 
