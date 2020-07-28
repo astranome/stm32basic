@@ -1,7 +1,3 @@
-/*
- * Modified by VS for stm32f1BASIC project
- * TODO: http
- */
 /*----------------------------------------------------------------------------/
 / Based on
 / MMC/SDSC/SDHC (in SPI mode) control module for STM32 Version 1.1.6   

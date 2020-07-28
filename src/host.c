@@ -38,17 +38,6 @@ char inkeyChar = 0;
 char buzPin = 0
 #endif
 
-/* TODO
-#ifdef SERIAL_TRACES_ENABLED
-const char gimmick[] =
-"         __           ________   ____             _     \r\n"\
-"   _____/ /_____ ___ |__  /__ \\ / __ )____ ______(_)____\r\n"\
-"  / ___/ __/ __ `__ \\ /_ <__/ // __  / __ `/ ___/ / ___/\r\n"\
-" (__  ) /_/ / / / / /__/ / __// /_/ / /_/ (__  ) / /__  \r\n"\
-"/____/\\__/_/ /_/ /_/____/____/_____/\\__,_/____/_/\\___/\r\n";
-#endif
-*/
-
 #ifdef SD_CARD_IN_USE
 /* bool sd_card_ok = false; TODO */
 #endif
