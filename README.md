@@ -30,7 +30,7 @@
 
 4: Breadboard + wires.
 
-5: ST-Link USB adapter.
+5: ST-link v2 USB adapter.
 
 6: USB-to-COM adapter.
 
