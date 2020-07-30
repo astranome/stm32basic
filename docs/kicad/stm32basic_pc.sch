@@ -6,7 +6,7 @@ encoding utf-8
 Sheet 1 1
 Title "stm32basic retro PC \"Breadboard Edition\""
 Date "2020-07-30"
-Rev "0.25"
+Rev "0.26"
 Comp ""
 Comment1 ""
 Comment2 ""
@@ -9756,7 +9756,7 @@ Wire Wire Line
 Wire Wire Line
 	9750 3200 9750 1200
 Wire Wire Line
-	9750 1200 2350 1200
+	9750 1200 2950 1200
 Wire Wire Line
 	2350 1200 2350 1500
 Wire Wire Line
@@ -17519,10 +17519,10 @@ Wire Wire Line
 Text Label 1550 1500 0    50   ~ 0
 IN-
 $Comp
-L power:GND #PWR?
+L power:GND #PWR032
 U 1 1 5F266863
 P 2200 1250
-F 0 "#PWR?" H 2200 1000 50  0001 C CNN
+F 0 "#PWR032" H 2200 1000 50  0001 C CNN
 F 1 "GND" H 2205 1077 50  0000 C CNN
 F 2 "" H 2200 1250 50  0001 C CNN
 F 3 "" H 2200 1250 50  0001 C CNN
@@ -17531,6 +17531,35 @@ F 3 "" H 2200 1250 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	2100 1250 2200 1250
+$Comp
+L Device:CP C7
+U 1 1 5F2319EB
+P 2950 1500
+F 0 "C7" H 3068 1546 50  0000 L CNN
+F 1 "100u" H 3068 1455 50  0000 L CNN
+F 2 "" H 2988 1350 50  0001 C CNN
+F 3 "~" H 2950 1500 50  0001 C CNN
+	1    2950 1500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2950 1350 2950 1200
+Connection ~ 2950 1200
+Wire Wire Line
+	2950 1200 2350 1200
+$Comp
+L power:GND #PWR033
+U 1 1 5F23D53E
+P 2950 1750
+F 0 "#PWR033" H 2950 1500 50  0001 C CNN
+F 1 "GND" H 2955 1577 50  0000 C CNN
+F 2 "" H 2950 1750 50  0001 C CNN
+F 3 "" H 2950 1750 50  0001 C CNN
+	1    2950 1750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2950 1650 2950 1750
 Wire Bus Line
 	3350 5650 3350 7200
 Wire Bus Line
