@@ -22,7 +22,6 @@ int xatoi (char **str, long *res)
     DWORD val;
     BYTE c, radix, s = 0;
 
-
     while ((c = **str) == ' ') (*str)++;
     if (c == '-') {
         s = 1;
@@ -69,17 +68,11 @@ int xatoi (char **str, long *res)
     return 1;
 }
 
-
-
-
 void xputc (char c)
 {
     if (c == '\n') comm_put('\r');
     comm_put(c);
 }
-
-
-
 
 void xputs (const char* str)
 {
@@ -87,15 +80,11 @@ void xputs (const char* str)
         xputc(*str++);
 }
 
-
-
-
 void xitoa (long val, int radix, int len)
 {
     BYTE c, r, sgn = 0, pad = ' ';
     BYTE s[20], i = 0;
     DWORD v;
-
 
     if (radix < 0) {
         radix = -radix;
@@ -130,7 +119,6 @@ void xprintf (const char* str, ...)
 {
     va_list arp;
     int d, r, w, s, l;
-
 
     va_start(arp, str);
 
@@ -178,13 +166,9 @@ void xprintf (const char* str, ...)
     va_end(arp);
 }
 
-
-
-
 void put_dump (const BYTE *buff, DWORD ofs, int cnt)
 {
     BYTE n;
-
 
     xprintf("%08lX ", ofs);
     for(n = 0; n < cnt; n++)
@@ -198,9 +182,6 @@ void put_dump (const BYTE *buff, DWORD ofs, int cnt)
     }
     xputc('\n');
 }
-
-
-
 
 void get_line (char *buff, int len)
 {
@@ -221,7 +202,6 @@ void get_line (char *buff, int len)
     buff[idx] = 0;
     xputc('\n');
 }
-
 
 // function added by mthomas:
 int get_line_r (char *buff, int len, int* idx)
