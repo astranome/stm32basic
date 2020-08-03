@@ -18,6 +18,7 @@
 * [ ] Add buzzer support
 * [ ] Add DIR and DEL commands for file operations
 * [ ] Writing and reading of GPIO from BASIC
+* [ ] Add support for VT100 terminal (for input and output)
 * [ ] Short statetemenst for saving space of 20-char screen, e.g. PRINT -> PR
 * [ ] Graphics LCD (e.g. 128 x 64 pixels)
 
