@@ -1,6 +1,8 @@
 /*----------------------------------------------------------------------------/
 / Based on libopencm3 library
 / https://github.com/libopencm3/libopencm3
+/ 
+/ Modified by Vitasam.
 /
 / sd_test.c module is a part of Stm32Basic for stm32 systems.
 / This is a free software that opened for education, research and commercial
@@ -17,22 +19,21 @@
 #include <string.h>
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
-
-#ifdef SERIAL_TRACES_ENABLED
-#include <libopencm3/stm32/usart.h>
-#endif
-
 #include "../include/utility.h"
 #include "../include/lcd.h"
 #include "../include/rtc.h"
 #include "../chan_fatfs/src/ff.h"
 #include "../chan_fatfs/src/diskio.h"
+#ifdef SERIAL_TRACES_ENABLED
+#include <libopencm3/stm32/usart.h>
+#endif
 
 const char applicationName[] = "SD tester";
 
+#define TEST_BUFFER_SIZE                4 * 1024
+
 #ifdef SERIAL_TRACES_ENABLED
-static void put_rc(FRESULT rc)
-{
+static void print_result_code(FRESULT rc) {
     const char *p;
     static const char str[] =
         "OK\0" "NOT_READY\0" "NO_FILE\0" "FR_NO_PATH\0" "INVALID_NAME\0" "INVALID_DRIVE\0"
@@ -40,8 +41,7 @@ static void put_rc(FRESULT rc)
         "NO_FILESYSTEM\0" "INVALID_OBJECT\0" "MKFS_ABORTED\0";
 
     FRESULT i;
-    for (p = str, i = 0; i != rc && *p; i++)
-    {
+    for (p = str, i = 0; i != rc && *p; i++) {
         while(*p++);
     }
 
@@ -49,20 +49,20 @@ static void put_rc(FRESULT rc)
 }
 #endif
 
-int main(void)
-{
+int main(void) {
     long p1, p2;
-    BYTE Buff[4 * 1024] __attribute__ ((aligned (4))) ;       /* Working buffer */
+    BYTE testBuffer[TEST_BUFFER_SIZE] __attribute__ ((aligned (4)));
     UINT s1, s2, cnt;
-    WORD res, w1;
+    int res, w1;
     BYTE b1;
     FATFS Fatfs[_VOLUMES];      /* File system object for each logical drive */
     DIR Dir;                    /* Directory object */
     FRESULT rc;
-    FILINFO Finfo;
-    FATFS *fs;                  /* Pointer to file system object */
+    FILINFO FileInfo;
+    FATFS *fs;                  /* Pointer to the file system object */
     FIL File1;
     DWORD ofs = 0;
+    bool testPassed = true;
 
     clock_setup();
     usart_setup();
@@ -83,100 +83,103 @@ int main(void)
     lcd_write_string_4d(globalVer);
     lcd_set_cursor(0, 2);
     lcd_write_string_4d("See results on UART");
+    lcd_set_cursor(0, 3);
 
     /* Initialize disk */
     comm_puts("================== Init Disk:\r\n");
     res = (WORD)disk_initialize(0);
     xprintf("SD initialization: %s\n", res ? "FAIL" : "OK");
-
-    /* Show disk status */
-    Buff[0] = 2;
-
-    if (disk_ioctl(0, CTRL_POWER, Buff) == RES_OK)
-    {
-        xprintf("Power is %s\n", Buff[1] ? "ON" : "OFF");
+    if (res != RES_OK) {
+        testPassed = false;
     }
 
-    if (disk_ioctl(0, GET_SECTOR_COUNT, &p2) == RES_OK)
-    {
+    /* Show disk status */
+    testBuffer[0] = 2;
+
+    if (disk_ioctl(0, CTRL_POWER, testBuffer) == RES_OK) {
+        xprintf("Power is %s\n", testBuffer[1] ? "ON" : "OFF");
+    }
+    else {
+        testPassed = false;
+    }
+
+    if (disk_ioctl(0, GET_SECTOR_COUNT, &p2) == RES_OK) {
         xprintf("Drive size: %lu sectors\n", p2);
     }
 
-    if (disk_ioctl(0, GET_SECTOR_SIZE, &w1) == RES_OK)
-    {
+    if (disk_ioctl(0, GET_SECTOR_SIZE, &w1) == RES_OK) {
         xprintf("Sector size: %u\n", w1);
     }
 
-    if (disk_ioctl(0, GET_BLOCK_SIZE, &p2) == RES_OK)
-    {
+    if (disk_ioctl(0, GET_BLOCK_SIZE, &p2) == RES_OK) {
         xprintf("Erase block size: %lu sectors\n", p2);
     }
 
-    if (disk_ioctl(0, MMC_GET_TYPE, &b1) == RES_OK)
-    {
+    if (disk_ioctl(0, MMC_GET_TYPE, &b1) == RES_OK) {
         xprintf("MMC/SDC type: %u\n", b1);
     }
 
-    if (disk_ioctl(0, MMC_GET_CSD, Buff) == RES_OK)
-    {
-        xputs("CSD:\n"); put_dump(Buff, 0, 16);
+    if (disk_ioctl(0, MMC_GET_CSD, testBuffer) == RES_OK) {
+        xputs("CSD:\n"); put_dump(testBuffer, 0, 16);
     }
 
-    if (disk_ioctl(0, MMC_GET_CID, Buff) == RES_OK)
-    {
-        xputs("CID:\n"); put_dump(Buff, 0, 16);
+    if (disk_ioctl(0, MMC_GET_CID, testBuffer) == RES_OK) {
+        xputs("CID:\n"); put_dump(testBuffer, 0, 16);
     }
 
-    if (disk_ioctl(0, MMC_GET_OCR, Buff) == RES_OK)
-    {
-        xputs("OCR:\n"); put_dump(Buff, 0, 4);
+    if (disk_ioctl(0, MMC_GET_OCR, testBuffer) == RES_OK) {
+        xputs("OCR:\n"); put_dump(testBuffer, 0, 4);
     }
 
-    if (disk_ioctl(0, MMC_GET_SDSTAT, Buff) == RES_OK)
-    {
+    if (disk_ioctl(0, MMC_GET_SDSTAT, testBuffer) == RES_OK) {
         xputs("SD Status:\n");
-        for (s1 = 0; s1 < 64; s1 += 16)
-        {
-            put_dump(Buff+s1, s1, 16);
+        for (s1 = 0; s1 < 64; s1 += 16) {
+            put_dump(testBuffer + s1, s1, 16);
         }
     }
 
     comm_puts("================== Mount Logical Drive:\r\n");
     rc = f_mount(0, &Fatfs[0]);
-    put_rc(rc);
+    if (rc != FR_OK) {
+        testPassed = false;
+    }
+    print_result_code(rc);
 
     comm_puts("================== Directory listing:\r\n");
     rc = f_opendir(&Dir, "");
-    put_rc(rc);
+    if (rc != FR_OK) {
+        testPassed = false;
+    }
+    print_result_code(rc);
 
     p1 = s1 = s2 = 0;
     for(;;)
     {
-        rc = f_readdir(&Dir, &Finfo);
-        if ((res != FR_OK) || !Finfo.fname[0])
+        rc = f_readdir(&Dir, &FileInfo);
+        if ((res != FR_OK) || !FileInfo.fname[0])
         {
             break;
         }
 
-        if (Finfo.fattrib & AM_DIR)
+        if (FileInfo.fattrib & AM_DIR)
         {
             s2++;
         }
         else
         {
             s1++;
-            p1 += Finfo.fsize;
+            p1 += FileInfo.fsize;
         }
 
         xprintf("%c%c%c%c%c %u/%02u/%02u %02u:%02u %9lu  %s",
-            (Finfo.fattrib & AM_DIR) ? 'D' : '-',
-            (Finfo.fattrib & AM_RDO) ? 'R' : '-',
-            (Finfo.fattrib & AM_HID) ? 'H' : '-',
-            (Finfo.fattrib & AM_SYS) ? 'S' : '-',
-            (Finfo.fattrib & AM_ARC) ? 'A' : '-',
-            (Finfo.fdate >> 9) + 1980, (Finfo.fdate >> 5) & 15, Finfo.fdate & 31,
-            (Finfo.ftime >> 11), (Finfo.ftime >> 5) & 63,
-            Finfo.fsize, &(Finfo.fname[0]));
+            (FileInfo.fattrib & AM_DIR) ? 'D' : '-',
+            (FileInfo.fattrib & AM_RDO) ? 'R' : '-',
+            (FileInfo.fattrib & AM_HID) ? 'H' : '-',
+            (FileInfo.fattrib & AM_SYS) ? 'S' : '-',
+            (FileInfo.fattrib & AM_ARC) ? 'A' : '-',
+            (FileInfo.fdate >> 9) + 1980, (FileInfo.fdate >> 5) & 15, FileInfo.fdate & 31,
+            (FileInfo.ftime >> 11), (FileInfo.ftime >> 5) & 63,
+            FileInfo.fsize, &(FileInfo.fname[0]));
 
         xputc('\n');
     }
@@ -189,7 +192,7 @@ int main(void)
 
     comm_puts("================== Open (FA_READ) 'README.TXT' file:\r\n");
     rc = f_open(&File1, "README.TXT", FA_READ);
-    put_rc(rc);
+    print_result_code(rc);
 
     comm_puts("================== Read & Dump 200 bytes from 'README.TXT' file:\r\n");
     ofs = File1.fptr;
@@ -208,11 +211,11 @@ int main(void)
             p1 = 0;
         }
 
-        rc = f_read(&File1, Buff, cnt, &cnt);
+        rc = f_read(&File1, testBuffer, cnt, &cnt);
         
         if (res != FR_OK)
         {
-            put_rc(rc);
+            print_result_code(rc);
             break;
         }
 
@@ -221,35 +224,55 @@ int main(void)
             break;
         }
 
-        put_dump(Buff, ofs, cnt);
+        put_dump(testBuffer, ofs, cnt);
         ofs += 16;
     }
 
     comm_puts("================== Close 'README.TXT' file:\r\n");
     rc = f_close(&File1);
-    put_rc(rc);
+    print_result_code(rc);
 
     comm_puts("================== Create (FA_WRITE | FA_CREATE_ALWAYS) 'WRITEME.TXT' file:\r\n");
     rc = f_open(&File1, "WRITEME.TXT", FA_WRITE | FA_CREATE_ALWAYS);
-    put_rc(rc);
+    if (rc != FR_OK) {
+        testPassed = false;
+    }
+    print_result_code(rc);
 
     comm_puts("================== Write string to 'WRITEME.TXT' file:\r\n");
-    memset(Buff, 0, sizeof(Buff));
+    memset(testBuffer, 0, TEST_BUFFER_SIZE);
     char hello[] = {"Hello from stm32Basic!"};
     cnt = sizeof(hello);
 	rc = f_write(&File1, hello, cnt, &s2);
-    put_rc(rc);
+    if (rc != FR_OK) {
+        testPassed = false;
+    }
+    print_result_code(rc);
     xprintf("%d bytes written\r\n", s2);
 	
     comm_puts("================== Close 'WRITEME.TXT' file:\r\n");
     rc = f_close(&File1);
-    put_rc(rc);
+    if (rc != FR_OK) {
+        testPassed = false;
+    }
+    print_result_code(rc);
 
     comm_puts("================== Unmount Logical Drive:\r\n");
     rc = f_mount(0, NULL);
-    put_rc(rc);
+    if (rc != FR_OK) {
+        testPassed = false;
+    }
+    print_result_code(rc);
 
-    comm_puts("OK\r\n");
+    if (testPassed) {
+        lcd_write_string_4d("TEST OK");
+        comm_puts("================== SD-CARD TEST OK\r\n");
+    }
+    else {
+        lcd_write_string_4d("TEST FAILED");
+        comm_puts("================== SD-CARD TEST FAILED\r\n");
+    }
+
     return 0;
 }
 
