@@ -5,8 +5,8 @@ $Descr A3 16535 11693
 encoding utf-8
 Sheet 1 1
 Title "stm32basic retro PC \"Breadboard Edition\""
-Date "2020-08-10"
-Rev "0.27"
+Date "2020-08-11"
+Rev "0.28"
 Comp ""
 Comment1 ""
 Comment2 ""
@@ -8365,7 +8365,6 @@ F 3 "" H 2200 3550 50  0001 C CNN
 	1    2200 3550
 	1    0    0    -1  
 $EndComp
-Connection ~ 1800 3950
 $Comp
 L Device:C C1
 U 1 1 5F1B078D
@@ -8553,7 +8552,7 @@ MOSI1
 Wire Wire Line
 	2650 3450 3450 3450
 $Bitmap
-Pos 8700 6650
+Pos 8650 7450
 Scale 0.800000
 Data
 89 50 4E 47 0D 0A 1A 0A 00 00 00 0D 49 48 44 52 00 00 01 61 00 00 01 A1 08 02 00 00 00 3F 75 92 
@@ -17392,8 +17391,6 @@ Wire Wire Line
 	1450 4350 1800 4350
 Wire Wire Line
 	1800 3650 1250 3650
-Wire Wire Line
-	1800 3950 3450 3950
 Text Label 1300 3650 0    50   ~ 0
 RESET
 Wire Wire Line
@@ -17541,7 +17538,7 @@ L Connector_Generic:Conn_02x03_Row_Letter_First J4
 U 1 1 5F21F34B
 P 8950 3650
 F 0 "J4" H 9000 3967 50  0000 C CNN
-F 1 "5V SELECTOR" H 8850 3900 50  0000 C CNN
+F 1 "5V SELECTOR" H 9000 3900 50  0000 C CNN
 F 2 "" H 8950 3650 50  0001 C CNN
 F 3 "~" H 8950 3650 50  0001 C CNN
 	1    8950 3650
@@ -17582,29 +17579,27 @@ $EndComp
 $Comp
 L power:GND #PWR035
 U 1 1 5F3F4037
-P 7800 6200
-F 0 "#PWR035" H 7800 5950 50  0001 C CNN
-F 1 "GND" H 7805 6027 50  0000 C CNN
-F 2 "" H 7800 6200 50  0001 C CNN
-F 3 "" H 7800 6200 50  0001 C CNN
-	1    7800 6200
+P 7800 7000
+F 0 "#PWR035" H 7800 6750 50  0001 C CNN
+F 1 "GND" H 7805 6827 50  0000 C CNN
+F 2 "" H 7800 7000 50  0001 C CNN
+F 3 "" H 7800 7000 50  0001 C CNN
+	1    7800 7000
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
 	8300 5800 7800 5800
-Wire Wire Line
-	7800 5800 7800 6200
 Text Label 8100 5800 0    50   ~ 0
 GND
 $Comp
 L power:+3.3V #PWR034
 U 1 1 5F420593
-P 7350 6200
-F 0 "#PWR034" H 7350 6050 50  0001 C CNN
-F 1 "+3.3V" H 7365 6373 50  0000 C CNN
-F 2 "" H 7350 6200 50  0001 C CNN
-F 3 "" H 7350 6200 50  0001 C CNN
-	1    7350 6200
+P 7350 7000
+F 0 "#PWR034" H 7350 6850 50  0001 C CNN
+F 1 "+3.3V" H 7365 7173 50  0000 C CNN
+F 2 "" H 7350 7000 50  0001 C CNN
+F 3 "" H 7350 7000 50  0001 C CNN
+	1    7350 7000
 	1    0    0    -1  
 $EndComp
 Text Label 8100 5700 0    50   ~ 0
@@ -17623,18 +17618,16 @@ $EndComp
 $Comp
 L power:GND #PWR037
 U 1 1 5F42F2C1
-P 9350 6200
-F 0 "#PWR037" H 9350 5950 50  0001 C CNN
-F 1 "GND" H 9355 6027 50  0000 C CNN
-F 2 "" H 9350 6200 50  0001 C CNN
-F 3 "" H 9350 6200 50  0001 C CNN
-	1    9350 6200
+P 9350 7000
+F 0 "#PWR037" H 9350 6750 50  0001 C CNN
+F 1 "GND" H 9355 6827 50  0000 C CNN
+F 2 "" H 9350 7000 50  0001 C CNN
+F 3 "" H 9350 7000 50  0001 C CNN
+	1    9350 7000
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
 	9000 5800 9350 5800
-Wire Wire Line
-	9350 5800 9350 6200
 Text Label 9050 5800 0    50   ~ 0
 GND
 $Comp
@@ -17649,15 +17642,15 @@ F 3 "" H 9800 5400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	9000 5700 9800 5700
+	9000 5700 9500 5700
 Wire Wire Line
 	9800 5700 9800 5600
 Text Label 9050 5700 0    50   ~ 0
 HV
 Wire Wire Line
-	7350 6200 7700 6200
+	7350 7000 7700 7000
 Wire Wire Line
-	7700 6200 7700 5700
+	7700 7000 7700 6500
 Wire Wire Line
 	7700 5700 8300 5700
 Wire Wire Line
@@ -17685,24 +17678,13 @@ Wire Wire Line
 $Comp
 L Interface_Expansion:MCP23017_SP U3
 U 1 1 5F480138
-P 13250 7650
-F 0 "U3" H 13250 8931 50  0000 C CNN
-F 1 "MCP23017_SP" H 13250 8840 50  0000 C CNN
-F 2 "Package_DIP:DIP-28_W7.62mm" H 13450 6650 50  0001 L CNN
-F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/20001952C.pdf" H 13450 6550 50  0001 L CNN
-	1    13250 7650
+P 13400 7850
+F 0 "U3" H 13400 9131 50  0000 C CNN
+F 1 "MCP23017_SP" H 13400 9040 50  0000 C CNN
+F 2 "Package_DIP:DIP-28_W7.62mm" H 13600 6850 50  0001 L CNN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/20001952C.pdf" H 13600 6750 50  0001 L CNN
+	1    13400 7850
 	1    0    0    -1  
-$EndComp
-$Comp
-L Connector:Conn_01x04_Male J11
-U 1 1 5F481AE1
-P 10750 5700
-F 0 "J11" H 10722 5674 50  0000 R CNN
-F 1 "EXTENSION_PORT" H 10722 5583 50  0000 R CNN
-F 2 "" H 10750 5700 50  0001 C CNN
-F 3 "~" H 10750 5700 50  0001 C CNN
-	1    10750 5700
-	-1   0    0    -1  
 $EndComp
 Wire Wire Line
 	10550 5600 9800 5600
@@ -17710,14 +17692,14 @@ Connection ~ 9800 5600
 Wire Wire Line
 	9800 5600 9800 5400
 $Comp
-L power:GND #PWR?
+L power:GND #PWR039
 U 1 1 5F49170F
-P 9700 6200
-F 0 "#PWR?" H 9700 5950 50  0001 C CNN
-F 1 "GND" H 9705 6027 50  0000 C CNN
-F 2 "" H 9700 6200 50  0001 C CNN
-F 3 "" H 9700 6200 50  0001 C CNN
-	1    9700 6200
+P 9700 7000
+F 0 "#PWR039" H 9700 6750 50  0001 C CNN
+F 1 "GND" H 9705 6827 50  0000 C CNN
+F 2 "" H 9700 7000 50  0001 C CNN
+F 3 "" H 9700 7000 50  0001 C CNN
+	1    9700 7000
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
@@ -17746,24 +17728,180 @@ Wire Notes Line
 	8550 5450 8550 6050
 Wire Notes Line
 	8600 4900 8600 5450
-Wire Notes Line
-	8600 6050 8600 6100
-Text Label 10550 5600 2    50   ~ 0
+Text Label 10500 5600 2    50   ~ 0
 5V
-Text Label 10550 5700 2    50   ~ 0
+Text Label 10500 5700 2    50   ~ 0
 SDA1
 Text Label 8100 5600 0    50   ~ 0
 LV2
 Text Label 10500 5800 2    50   ~ 0
 SCL1
-Text Label 10500 5900 2    50   ~ 0
+Text Label 10500 6200 2    50   ~ 0
 GND
 Wire Wire Line
-	9700 5900 9700 6200
+	9700 6200 10550 6200
+Entry Wire Line
+	2550 3450 2650 3550
 Wire Wire Line
-	9700 5900 10550 5900
+	2650 3550 3450 3550
+Text Label 2650 3550 0    50   ~ 0
+INTB
+Entry Wire Line
+	2550 2750 2650 2850
+Wire Wire Line
+	2650 2850 3450 2850
+Text Label 2650 2850 0    50   ~ 0
+INTA
 Wire Bus Line
-	3350 5650 3350 7200
+	3350 7750 7100 7750
+Wire Wire Line
+	8300 5900 7200 5900
+Entry Wire Line
+	7100 5800 7200 5900
+Entry Wire Line
+	7100 5900 7200 6000
+Wire Wire Line
+	7200 6000 8300 6000
+Text Label 7200 5900 0    50   ~ 0
+INTB
+Text Label 7200 6000 0    50   ~ 0
+INTA
+Text Label 8100 5900 0    50   ~ 0
+LV3
+Text Label 8100 6000 0    50   ~ 0
+LV4
+Wire Wire Line
+	9700 6200 9700 6300
+Entry Wire Line
+	2550 3850 2650 3950
+Wire Wire Line
+	2650 3950 3450 3950
+Text Label 2650 3950 0    50   ~ 0
+RST
+Entry Wire Line
+	2450 4350 2550 4250
+Wire Wire Line
+	1800 4350 2450 4350
+Text Label 2450 4350 2    50   ~ 0
+RST
+Text Label 9050 5900 0    50   ~ 0
+HV3
+Text Label 9050 6000 0    50   ~ 0
+HV4
+Wire Wire Line
+	9000 5900 10550 5900
+Wire Wire Line
+	9000 6000 10550 6000
+Text Label 10500 5900 2    50   ~ 0
+INTB
+Text Label 10500 6000 2    50   ~ 0
+INTA
+Text Label 10500 6100 2    50   ~ 0
+RESET
+Wire Wire Line
+	9700 6300 10550 6300
+Connection ~ 9700 6300
+Text Label 10500 6300 2    50   ~ 0
+GND
+$Comp
+L Connector:Conn_01x06_Female J11
+U 1 1 5F510486
+P 8500 6500
+F 0 "J11" H 8400 6850 50  0000 L CNN
+F 1 "Conn_01x06_Female" H 8528 6385 50  0001 L CNN
+F 2 "" H 8500 6500 50  0001 C CNN
+F 3 "~" H 8500 6500 50  0001 C CNN
+	1    8500 6500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7800 5800 7800 6600
+Wire Wire Line
+	8300 6600 7800 6600
+Connection ~ 7800 6600
+Wire Wire Line
+	7800 6600 7800 7000
+Wire Wire Line
+	8300 6500 7700 6500
+Connection ~ 7700 6500
+Wire Wire Line
+	7700 6500 7700 5700
+Entry Wire Line
+	7100 6200 7200 6300
+Wire Wire Line
+	7200 6300 8300 6300
+Text Label 7200 6300 0    50   ~ 0
+RST
+Text Label 8200 6600 2    50   ~ 0
+GND
+Text Label 8200 6500 2    50   ~ 0
+LV
+$Comp
+L Connector:Conn_01x06_Female J12
+U 1 1 5F562709
+P 8800 6500
+F 0 "J12" H 8700 6850 50  0000 C CNN
+F 1 "Conn_01x06_Female" H 8692 6794 50  0001 C CNN
+F 2 "" H 8800 6500 50  0001 C CNN
+F 3 "~" H 8800 6500 50  0001 C CNN
+	1    8800 6500
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	9350 5800 9350 6600
+Wire Wire Line
+	9700 6300 9700 7000
+Wire Wire Line
+	9000 6600 9350 6600
+Connection ~ 9350 6600
+Wire Wire Line
+	9350 6600 9350 7000
+Wire Wire Line
+	9000 6300 9250 6300
+Wire Wire Line
+	9250 6300 9250 6100
+Wire Wire Line
+	9250 6100 10550 6100
+Text Label 8200 6300 2    50   ~ 0
+LV1
+Wire Notes Line
+	8550 6250 8550 6850
+Wire Notes Line
+	8550 6850 8750 6850
+Wire Notes Line
+	8750 6850 8750 6250
+Wire Notes Line
+	8600 6050 8600 6250
+Wire Notes Line
+	8550 6250 8750 6250
+Wire Wire Line
+	9000 6500 9500 6500
+Wire Wire Line
+	9500 6500 9500 5700
+Wire Bus Line
+	7100 5650 7100 7750
+Wire Bus Line
+	3350 5650 3350 7750
 Wire Bus Line
 	2550 2150 2550 5650
+Connection ~ 9500 5700
+Wire Wire Line
+	9500 5700 9800 5700
+Text Label 9050 6600 0    50   ~ 0
+GND
+Text Label 9050 6500 0    50   ~ 0
+HV
+Text Label 9050 6300 0    50   ~ 0
+HV1
+$Comp
+L Connector:Conn_01x08_Male J13
+U 1 1 5F5ED050
+P 10750 5900
+F 0 "J13" H 10722 5874 50  0000 R CNN
+F 1 "EXTENSION_PORT" H 10722 5783 50  0000 R CNN
+F 2 "" H 10750 5900 50  0001 C CNN
+F 3 "~" H 10750 5900 50  0001 C CNN
+	1    10750 5900
+	-1   0    0    -1  
+$EndComp
 $EndSCHEMATC
