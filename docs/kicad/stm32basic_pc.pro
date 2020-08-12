@@ -1,4 +1,4 @@
-update=11.8.2020 22.16.31
+update=12.8.2020 9.13.32
 version=1
 last_client=eeschema
 [general]
