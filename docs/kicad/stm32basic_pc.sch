@@ -5,8 +5,8 @@ $Descr A3 16535 11693
 encoding utf-8
 Sheet 1 1
 Title "stm32basic retro PC \"Breadboard Edition\""
-Date "2020-08-12"
-Rev "0.29"
+Date "2020-08-13"
+Rev "0.30"
 Comp ""
 Comment1 ""
 Comment2 ""
@@ -7818,10 +7818,6 @@ Wire Wire Line
 	2350 1200 2350 1500
 Wire Wire Line
 	9750 1200 2950 1200
-Wire Wire Line
-	8100 1500 8100 1700
-Wire Wire Line
-	8950 1500 8950 1550
 Wire Notes Line width 8 style solid rgb(132, 0, 0)
 	1550 1600 1550 1150
 Wire Notes Line width 8 style solid rgb(132, 0, 0)
@@ -7841,10 +7837,6 @@ F 3 "" H 1000 2500 50  0001 C CNN
 	1    1000 2500
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	8500 2700 9000 2700
-Wire Wire Line
-	9000 2500 9000 2700
 Text Label 10300 2700 0    50   ~ 0
 GND_SWD
 Wire Wire Line
@@ -8103,19 +8095,8 @@ F 3 "" H 7800 4150 50  0001 C CNN
 	1    7800 4150
 	1    0    0    -1  
 $EndComp
-$Comp
-L power:+5V #PWR015
-U 1 1 5F24E6A8
-P 8950 1500
-F 0 "#PWR015" H 8950 1350 50  0001 C CNN
-F 1 "+5V" H 8965 1673 50  0000 C CNN
-F 2 "" H 8950 1500 50  0001 C CNN
-F 3 "" H 8950 1500 50  0001 C CNN
-	1    8950 1500
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
-	8650 1700 8800 1700
+	8750 1700 8800 1700
 Wire Wire Line
 	8950 1850 8950 1950
 $Comp
@@ -8130,9 +8111,9 @@ F 3 "" H 8950 1950 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	8650 2200 8650 1700
+	8750 2200 8750 1700
 Wire Wire Line
-	8500 2200 8650 2200
+	8500 2200 8750 2200
 $Comp
 L Device:R_POT RV1
 U 1 1 5F22EAE6
@@ -8145,22 +8126,11 @@ F 3 "~" H 8950 1700 50  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L power:+5V #PWR017
-U 1 1 5F22D77B
-P 9000 2500
-F 0 "#PWR017" H 9000 2350 50  0001 C CNN
-F 1 "+5V" H 9015 2673 50  0000 C CNN
-F 2 "" H 9000 2500 50  0001 C CNN
-F 3 "" H 9000 2500 50  0001 C CNN
-	1    9000 2500
-	1    0    0    -1  
-$EndComp
-$Comp
 L Display_Character:RC1602A U2
 U 1 1 5F2240CA
 P 8100 2400
-F 0 "U2" H 7950 3300 50  0000 C CNN
-F 1 "2004A" H 7800 3150 50  0000 C CNN
+F 0 "U2" H 7950 3100 50  0000 C CNN
+F 1 "2004A" H 8250 3100 50  0000 C CNN
 F 2 "Display:RC1602A" H 8200 1600 50  0001 C CNN
 F 3 "http://www.raystar-optronics.com/down.php?ProID=18" H 8200 2300 50  0001 C CNN
 	1    8100 2400
@@ -8186,17 +8156,6 @@ F 1 "GND" H 8105 3127 50  0000 C CNN
 F 2 "" H 8100 3300 50  0001 C CNN
 F 3 "" H 8100 3300 50  0001 C CNN
 	1    8100 3300
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:+5V #PWR013
-U 1 1 5F20B582
-P 8100 1500
-F 0 "#PWR013" H 8100 1350 50  0001 C CNN
-F 1 "+5V" H 8115 1673 50  0000 C CNN
-F 2 "" H 8100 1500 50  0001 C CNN
-F 3 "" H 8100 1500 50  0001 C CNN
-	1    8100 1500
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -8879,7 +8838,7 @@ L Connector_Generic:Conn_02x03_Row_Letter_First J4
 U 1 1 5F21F34B
 P 8950 3650
 F 0 "J4" H 9000 3967 50  0000 C CNN
-F 1 "5V SELECTOR" H 9000 3900 50  0000 C CNN
+F 1 "5V_SOURCE_SELECTOR" H 9000 3900 50  0000 C CNN
 F 2 "" H 8950 3650 50  0001 C CNN
 F 3 "~" H 8950 3650 50  0001 C CNN
 	1    8950 3650
@@ -18110,10 +18069,72 @@ Wire Wire Line
 	2650 2650 3450 2650
 Text Label 2650 2650 0    50   ~ 0
 IO_RESET
+$Comp
+L Connector_Generic:Conn_02x02_Counter_Clockwise J15
+U 1 1 5F372699
+P 6900 1450
+F 0 "J15" H 6950 1600 50  0000 C CNN
+F 1 "LCD_VOLTAGE_SELECTOR" H 6950 1250 50  0000 C CNN
+F 2 "" H 6900 1450 50  0001 C CNN
+F 3 "~" H 6900 1450 50  0001 C CNN
+	1    6900 1450
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR015
+U 1 1 5F3782B0
+P 6300 1450
+F 0 "#PWR015" H 6300 1300 50  0001 C CNN
+F 1 "+3.3V" H 6315 1623 50  0000 C CNN
+F 2 "" H 6300 1450 50  0001 C CNN
+F 3 "" H 6300 1450 50  0001 C CNN
+	1    6300 1450
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR013
+U 1 1 5F37958A
+P 5900 1450
+F 0 "#PWR013" H 5900 1300 50  0001 C CNN
+F 1 "+5V" H 5915 1623 50  0000 C CNN
+F 2 "" H 5900 1450 50  0001 C CNN
+F 3 "" H 5900 1450 50  0001 C CNN
+	1    5900 1450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6300 1450 6700 1450
+Wire Wire Line
+	5900 1450 5900 1550
+Wire Wire Line
+	5900 1550 6700 1550
+Wire Wire Line
+	7200 1450 7350 1450
+Wire Wire Line
+	8950 1450 8950 1550
+Wire Wire Line
+	8100 1450 8100 1700
+Connection ~ 8100 1450
+Wire Wire Line
+	8100 1450 8600 1450
+Wire Wire Line
+	8500 2700 8600 2700
+Wire Wire Line
+	8600 2700 8600 1450
+Connection ~ 8600 1450
+Wire Wire Line
+	8600 1450 8950 1450
+Wire Wire Line
+	7200 1550 7350 1550
+Wire Wire Line
+	7350 1550 7350 1450
 Wire Bus Line
 	7100 5650 7100 7750
 Wire Bus Line
 	3350 5650 3350 7750
 Wire Bus Line
 	2550 2150 2550 5650
+Connection ~ 7350 1450
+Wire Wire Line
+	7350 1450 8100 1450
 $EndSCHEMATC
