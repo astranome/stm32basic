@@ -24,7 +24,14 @@
 * [ ] 16-Bit I/O Expander with Serial Interface (for 5V)
 * [ ] Graphics LCD (e.g. 128 x 64 pixels)
 
+## GIT branches
+
+- **master** - main "production" branch for releases
+- **development** - R&D branch
+- **dso138_port** - "unofficial" port of stm32basic to DSO138 oscilloscope platform
+
 ## Prerequisites
+
 1: STM32F103C8T6 (72 MHz, 20 KB RAM, 64 KB Flash), a.k.a. "bluepill" board. It can also work on more powerfull devices, e.g. STM32F103RET6.
 
 2: A PS/2 Keyboard. See http://playground.arduino.cc/Main/PS2Keyboard for wiring details.
