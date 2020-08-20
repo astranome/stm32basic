@@ -52,11 +52,11 @@ int main(void)
     lcd_clear();
     lcd_home();
     lcd_backlight_on();
-    
+
     ext_interrupt_setup();
     misc_gpio_setup();
     kbd_begin();
-    
+
     lcd_clear();
     lcd_home();
     lcd_write_string_4d(applicationName);
@@ -64,14 +64,14 @@ int main(void)
     lcd_write_string_4d(globalVer);
     lcd_set_cursor(0, 2);
     lcd_write_string_4d("Press PS/2 keys");
-    
+
     while(in_loop)
     {
         if (kbd_available())
         {
             /* Read the next key */
             t = kbd_read();
-            
+
             if(t >= 0)
             {
                 c = (char)t;
@@ -134,7 +134,7 @@ int main(void)
                 }
                 else
                 {
-                    dump_keyboard_data(c, "[]");
+                    dump_keyboard_data(c, " ");
                 }
             }
         }
@@ -149,13 +149,13 @@ void dump_keyboard_data(char c, char *s)
 
     if (c > 31 && c < 127)
     {
-        sprintf (buf, "%d:%c,%s", c, c, s);
+        sprintf (buf, "%d:%c %s", c, c, s);
     }
     else
     {
         sprintf (buf, "%d:%s", c, s);
     }
-    
+
     lcd_write_string_4d(buf);
     DEBUG_PRINT(buf);
 }
