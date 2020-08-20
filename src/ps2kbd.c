@@ -466,9 +466,7 @@ static char get_iso8859_code(void)
             return 0;
         }
 
-#ifdef EXTRA_TRACES_ENABLED
         DEBUG_PRINT("Scan code:%d", s);
-#endif
 
         if (s == 0xF0)
         {

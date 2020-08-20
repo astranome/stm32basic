@@ -1,7 +1,7 @@
 BINARY = stm32basic
 
 OBJS = ../src/utility.o
-OBJS += ../src/lcd.o
+OBJS += ../src/lcd2004.o
 OBJS += ../src/host.o
 OBJS += ../src/basic.o
 OBJS += ../src/ps2kbd.o

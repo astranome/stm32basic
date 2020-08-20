@@ -23,7 +23,7 @@
 
 #include "../include/utility.h"
 #include "../include/ps2kbd.h"
-#include "../include/lcd.h"
+#include "../include/lcd2004.h"
 
 const char applicationName[] = "PS/2 KBD tester";
 

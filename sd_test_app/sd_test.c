@@ -20,7 +20,7 @@
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 #include "../include/utility.h"
-#include "../include/lcd.h"
+#include "../include/lcd2004.h"
 #include "../include/rtc.h"
 #include "../chan_fatfs/src/ff.h"
 #include "../chan_fatfs/src/diskio.h"

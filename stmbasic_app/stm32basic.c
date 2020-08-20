@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
-#include "../include/lcd.h"
+#include "../include/lcd2004.h"
 #include "../include/host.h"
 #include "../include/basic.h"
 #include "../include/utility.h"

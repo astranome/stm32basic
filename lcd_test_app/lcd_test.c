@@ -21,7 +21,7 @@
 #endif
 
 #include "../include/utility.h"
-#include "../include/lcd.h"
+#include "../include/lcd2004.h"
 
 const char applicationName[] = "LCD tester";
 const char teststr[] = " Stm32Basic";

@@ -21,7 +21,7 @@
 #include "../include/host.h"
 #include "../include/utility.h"
 #include "../include/basic.h"
-#include "../include/lcd.h"
+#include "../include/lcd2004.h"
 #include "../include/term_io.h"
 #include "../include/rtc.h"
 #include "../chan_fatfs/src/ff.h"

@@ -1,7 +1,7 @@
 BINARY = lcd_test
 
 OBJS = ../src/utility.o
-OBJS += ../src/lcd.o
+OBJS += ../src/lcd2004.o
 OBJS += ../src/comm.o
 OBJS += ../src/term_io.o
 OBJS += ../src/rtc.o

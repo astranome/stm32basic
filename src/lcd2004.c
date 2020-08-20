@@ -1,23 +1,36 @@
-/*----------------------------------------------------------------------------/
-/ Based on LCD driver
-/ http://web.alfredstate.edu/faculty/weimandn/programming/lcd/ATmega328/LCD_code_gcc_4d.html
-/
-/ lcd.c module is a part of Stm32Basic for stm32 systems.
-/ This is a free software that opened for education, research and commercial
-/ developments under license policy of following terms.
-/
-/ Copyright (C) 2020, Vitasam, all right reserved.
-/
-/ * The Stm32Basic is a free software and there is NO WARRANTY.
-/ * No restriction on use. You can use, modify and redistribute it for
-/   personal, non-profit or commercial products UNDER YOUR RESPONSIBILITY.
-/ * Redistributions of source code must retain the above copyright notice.
-/---------------------------------------------------------------------------*/
+/* 
+ * lcd2004.h module is a part of STM32Basic project.
+ *
+ * Copyright (c) 2020 vitasam
+ * 
+ *  Based on LCD driver
+ *  http://web.alfredstate.edu/faculty/weimandn/programming/
+ *         lcd/ATmega328/LCD_code_gcc_4d.html
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 #include <stdio.h>
 #include <string.h>
-#include "../include/lcd.h"
+#include "../include/lcd2004.h"
 #include "../include/utility.h"
-
 
 /** @brief Send a byte of data to the LCD module
  *  (private function).
