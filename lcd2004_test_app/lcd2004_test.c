@@ -39,7 +39,7 @@
 const char applicationName[] = "LCD tester";
 const char teststr[] = " Stm32Basic";
 
-int main() {
+int main(void) {
     clock_setup();
 
 #ifdef SERIAL_TRACES_ENABLED
@@ -52,7 +52,7 @@ int main() {
     DEBUG_SERIAL_PRINT(applicationName);
     DEBUG_SERIAL_PRINT(newL);
 
-    lcd2004_setup();    
+    lcd2004_setup();
     lcd2004_init_4bit_mode();
     lcd2004_backlight_on();
     lcd2004_clear();

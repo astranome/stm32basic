@@ -38,13 +38,13 @@ int main(void)
 
     host_outputProgMemString(applicationName);
     host_outputProgMemString(globalVer);
-    DEBUG_PRINT(applicationName);
-    DEBUG_PRINT(globalVer);
+    DEBUG_SERIAL_PRINT(applicationName);
+    DEBUG_SERIAL_PRINT(globalVer);
 
 #ifdef SD_CARD_IN_USE
 #ifdef SERIAL_TRACES_ENABLED
     WORD res = (WORD)disk_initialize(0);
-    DEBUG_PRINT("SD initialization: %s\n", res ? "FAIL" : "OK");
+    DEBUG_SERIAL_PRINT("SD initialization: %s\n", res ? "FAIL" : "OK");
 #else
     disk_initialize(0);
 #endif
