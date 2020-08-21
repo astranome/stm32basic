@@ -52,66 +52,66 @@ int main() {
     DEBUG_SERIAL_PRINT(applicationName);
     DEBUG_SERIAL_PRINT(newL);
 
-    lcd_setup();    
-    lcd_init_4bit_mode();
-    lcd_backlight_on();
-    lcd_clear();
-    lcd_home();
-    lcd_write_string_4d(applicationName);
-    lcd_set_cursor(0, 1);
-    lcd_write_string_4d(globalVer);
-    lcd_set_cursor(0, 2);
+    lcd2004_setup();    
+    lcd2004_init_4bit_mode();
+    lcd2004_backlight_on();
+    lcd2004_clear();
+    lcd2004_home();
+    lcd2004_write_string_4d(applicationName);
+    lcd2004_set_cursor(0, 1);
+    lcd2004_write_string_4d(globalVer);
+    lcd2004_set_cursor(0, 2);
     delay_us100(SEC_2);
 
-    lcd_off();
+    lcd2004_off();
     DEBUG_SERIAL_PRINT("=== LCD off");
     delay_us100(SEC_2);
 
-    lcd_on();
+    lcd2004_on();
     DEBUG_SERIAL_PRINT("=== LCD on");
     delay_us100(SEC_2);
-    lcd_clear();
-    lcd_home();
+    lcd2004_clear();
+    lcd2004_home();
     
     DEBUG_SERIAL_PRINT("=== Test of LCD cursor:");
 
-    lcd_set_cursor(0, 0);
-    lcd_write_string_4d("@0,0");
-    lcd_write_string_4d(teststr);
+    lcd2004_set_cursor(0, 0);
+    lcd2004_write_string_4d("@0,0");
+    lcd2004_write_string_4d(teststr);
     DEBUG_SERIAL_PRINT("@0,0");
     DEBUG_SERIAL_PRINT(teststr);
     delay_us100(SEC_2); 
 
-    lcd_set_cursor(1, 1);
-    lcd_write_string_4d("@1,1");
-    lcd_write_string_4d(teststr);
+    lcd2004_set_cursor(1, 1);
+    lcd2004_write_string_4d("@1,1");
+    lcd2004_write_string_4d(teststr);
     DEBUG_SERIAL_PRINT("@1,1");
     DEBUG_SERIAL_PRINT(teststr);
     delay_us100(SEC_2); 
 
-    lcd_set_cursor(2, 2);
-    lcd_write_string_4d("@2,2");
-    lcd_write_string_4d(teststr);
+    lcd2004_set_cursor(2, 2);
+    lcd2004_write_string_4d("@2,2");
+    lcd2004_write_string_4d(teststr);
     DEBUG_SERIAL_PRINT("@2,2");
     DEBUG_SERIAL_PRINT(teststr);
     delay_us100(SEC_2); 
 
-    lcd_set_cursor(3, 3);
-    lcd_write_string_4d("@3,3");
-    lcd_write_string_4d(teststr);
+    lcd2004_set_cursor(3, 3);
+    lcd2004_write_string_4d("@3,3");
+    lcd2004_write_string_4d(teststr);
     DEBUG_SERIAL_PRINT("@3,3");
     DEBUG_SERIAL_PRINT(teststr);
     delay_us100(SEC_2);
     
     DEBUG_SERIAL_PRINT("=== LCD backlight ON");
-    lcd_backlight_on();
+    lcd2004_backlight_on();
     delay_us100(SEC_2);
     
-    lcd_backlight_off();
+    lcd2004_backlight_off();
     DEBUG_SERIAL_PRINT("=== LCD backlight OFF");
     delay_us100(SEC_2); 
 
-    lcd_backlight_on();     
+    lcd2004_backlight_on();     
     DEBUG_SERIAL_PRINT("=== LCD backlight ON");
     delay_us100(SEC_2); 
     

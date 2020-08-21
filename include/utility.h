@@ -94,6 +94,6 @@ void usart_setup(void);
 
 void i2c_setup(void);
 void i2c_write_byte(uint8_t address, uint8_t data);
-void lcd_setup(void);
+void lcd2004_setup(void);
 void disk_timerproc(void);      /* This function must be called in period of 10ms */
 #endif

@@ -66,7 +66,7 @@ int main(void) {
 
     clock_setup();
     usart_setup();
-    lcd_setup();
+    lcd2004_setup();
 
     comm_puts(gimmick);
     comm_puts(globalVer);
@@ -74,16 +74,16 @@ int main(void) {
     comm_puts(applicationName);
     comm_puts(newL);
 
-    lcd_init_4bit_mode();
-    lcd_backlight_on();
-    lcd_clear();
-    lcd_home();
-    lcd_write_string_4d(applicationName);
-    lcd_set_cursor(0, 1);
-    lcd_write_string_4d(globalVer);
-    lcd_set_cursor(0, 2);
-    lcd_write_string_4d("See results on UART");
-    lcd_set_cursor(0, 3);
+    lcd2004_init_4bit_mode();
+    lcd2004_backlight_on();
+    lcd2004_clear();
+    lcd2004_home();
+    lcd2004_write_string_4d(applicationName);
+    lcd2004_set_cursor(0, 1);
+    lcd2004_write_string_4d(globalVer);
+    lcd2004_set_cursor(0, 2);
+    lcd2004_write_string_4d("See results on UART");
+    lcd2004_set_cursor(0, 3);
 
     /* Initialize disk */
     comm_puts("================== Init Disk:\r\n");
@@ -265,11 +265,11 @@ int main(void) {
     print_result_code(rc);
 
     if (testPassed) {
-        lcd_write_string_4d("TEST OK");
+        lcd2004_write_string_4d("TEST OK");
         comm_puts("================== SD-CARD TEST OK\r\n");
     }
     else {
-        lcd_write_string_4d("TEST FAILED");
+        lcd2004_write_string_4d("TEST FAILED");
         comm_puts("================== SD-CARD TEST FAILED\r\n");
     }
 

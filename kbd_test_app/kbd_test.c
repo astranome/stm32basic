@@ -46,24 +46,24 @@ int main(void)
     comm_puts(applicationName);
     comm_puts(newL);
 
-    lcd_setup();
-    lcd_init_4bit_mode();
-    lcd_backlight_on();
-    lcd_clear();
-    lcd_home();
-    lcd_backlight_on();
+    lcd2004_setup();
+    lcd2004_init_4bit_mode();
+    lcd2004_backlight_on();
+    lcd2004_clear();
+    lcd2004_home();
+    lcd2004_backlight_on();
 
     ext_interrupt_setup();
     misc_gpio_setup();
     kbd_begin();
 
-    lcd_clear();
-    lcd_home();
-    lcd_write_string_4d(applicationName);
-    lcd_set_cursor(0, 1);
-    lcd_write_string_4d(globalVer);
-    lcd_set_cursor(0, 2);
-    lcd_write_string_4d("Press PS/2 keys");
+    lcd2004_clear();
+    lcd2004_home();
+    lcd2004_write_string_4d(applicationName);
+    lcd2004_set_cursor(0, 1);
+    lcd2004_write_string_4d(globalVer);
+    lcd2004_set_cursor(0, 2);
+    lcd2004_write_string_4d("Press PS/2 keys");
 
     while(in_loop)
     {
@@ -76,8 +76,8 @@ int main(void)
             {
                 c = (char)t;
 
-                lcd_clear();
-                lcd_home();
+                lcd2004_clear();
+                lcd2004_home();
 
                 /* Check for some of the special keys */
                 if (c == PS2_ENTER)
@@ -156,6 +156,6 @@ void dump_keyboard_data(char c, char *s)
         sprintf (buf, "%d:%s", c, s);
     }
 
-    lcd_write_string_4d(buf);
+    lcd2004_write_string_4d(buf);
     DEBUG_SERIAL_PRINT(buf);
 }

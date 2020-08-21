@@ -42,16 +42,16 @@
 #define LCD_FUNCTIONSET4B 0x28 /* 4-bit data, 2-line display, 5 x 7 font */
 #define LCD_SETCURSOR 0x80 /* Set cursor position */
 
-void lcd_init_4bit_mode();
-void lcd_write_character_4d(char theCharacter);
-void lcd_write_string_4d(const char *theString);
-void lcd_clear();
-void lcd_home();
-void lcd_set_cursor(uint8_t col, uint8_t row);
-void lcd_off();
-void lcd_on();
-void lcd_backlight_off();
-void lcd_backlight_on();
-void lcd_backlight_toggle();
+void lcd2004_init_4bit_mode(void);
+void lcd2004_write_character_4d(char theCharacter);
+void lcd2004_write_string_4d(const char *theString);
+void lcd2004_clear(void);
+void lcd2004_home(void);
+void lcd2004_set_cursor(uint8_t col, uint8_t row);
+void lcd2004_off(void);
+void lcd2004_on(void);
+void lcd2004_backlight_off(void);
+void lcd2004_backlight_on(void);
+void lcd2004_backlight_toggle(void);
 
 #endif

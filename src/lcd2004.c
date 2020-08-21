@@ -41,7 +41,7 @@
  *  @param theByte is a data to be sent to the desired LCD register.
  *  @return None.
  */
-static void lcd_write_4(uint8_t theByte) {
+static void lcd2004_write_4(uint8_t theByte) {
     if (theByte & (1 << 7)) {
         gpio_set(GPIOB, LCD_D7);
     }
@@ -87,17 +87,17 @@ static void lcd_write_4(uint8_t theByte) {
  *  @param theByte is a data to be sent to LCD instruction register.
  *  @return None.
  */
-static void lcd_write_instruction_4d(uint8_t theInstruction) {
+static void lcd2004_write_instruction_4d(uint8_t theInstruction) {
     gpio_clear(GPIOB, LCD_RS);
     gpio_clear(GPIOB, LCD_E); /* Make sure E is initially low */
-    lcd_write_4(theInstruction); /* Write the upper 4-bits */
-    lcd_write_4(theInstruction << 4); /* Write the lower 4-bits */
+    lcd2004_write_4(theInstruction); /* Write the upper 4-bits */
+    lcd2004_write_4(theInstruction << 4); /* Write the lower 4-bits */
 }
 
 /** @brief Initialize the LCD module for a 4-bit data interface.
  *  @return None.
  */
-void lcd_init_4bit_mode() {
+void lcd2004_init_4bit_mode() {
     /* Power-up delay, at least 40 msec */
     delay_us100(1000); /* 100 msec */
 
@@ -116,25 +116,25 @@ void lcd_init_4bit_mode() {
     Fortunately the 'LCD_FUNCTIONRESET' instruction does not care
     about what is on the lower four bits so this instruction can be sent
     on just the four available data lines and it will be interpreted
-    properly by the LCD controller. The 'lcd_write_4' subroutine will
+    properly by the LCD controller. The 'lcd2004_write_4' subroutine will
     accomplish this if the control lines have previously been configured
     properly.
     */
 
-    /* Set up the RS and E lines for the 'lcd_write_4' subroutine. */
+    /* Set up the RS and E lines for the 'lcd2004_write_4' subroutine. */
     gpio_clear(GPIOB, LCD_RS);
     gpio_clear(GPIOB, LCD_E); /* Make sure E is initially low */
 
     /* Reset the LCD controller */
-    lcd_write_4(LCD_FUNCTIONRESET); /* First part of reset sequence */
+    lcd2004_write_4(LCD_FUNCTIONRESET); /* First part of reset sequence */
     delay_us100(60); /* 4.1 mS delay (min) */
 
     /* The 2nd part of reset sequence */
-    lcd_write_4(LCD_FUNCTIONRESET);
+    lcd2004_write_4(LCD_FUNCTIONRESET);
     delay_us100(2); /* 100uS delay (min) */
 
     /* The 3rd part of reset sequence */
-    lcd_write_4(LCD_FUNCTIONRESET);
+    lcd2004_write_4(LCD_FUNCTIONRESET);
     delay_us100(2); /* this delay is omitted in the data sheet */
 
     /*
@@ -145,11 +145,11 @@ void lcd_init_4bit_mode() {
     bits of the instruction.
     */
 
-    lcd_write_4(LCD_FUNCTIONSET4B); /* Set 4-bit mode */
+    lcd2004_write_4(LCD_FUNCTIONSET4B); /* Set 4-bit mode */
     delay_us100(1); /* 40uS delay (min) */
 
     /* Function Set instruction */
-    lcd_write_instruction_4d(LCD_FUNCTIONSET4B); /* Set mode, lines, font */
+    lcd2004_write_instruction_4d(LCD_FUNCTIONSET4B); /* Set mode, lines, font */
     delay_us100(1); /* 40uS delay (min) */
 
     /*
@@ -160,15 +160,15 @@ void lcd_init_4bit_mode() {
     */
 
     /* Display On/Off Control instruction */
-    lcd_write_instruction_4d(LCD_DISPLAYOFF); /* Turn display OFF */
+    lcd2004_write_instruction_4d(LCD_DISPLAYOFF); /* Turn display OFF */
     delay_us100(1); /* 40uS delay (min) */
 
     /* Clear Display instruction */
-    lcd_write_instruction_4d(LCD_CLEAR); /* Clear display RAM */
+    lcd2004_write_instruction_4d(LCD_CLEAR); /* Clear display RAM */
     delay_us100(20); /* 1.64 mS delay (min) */
 
     /* Entry Mode Set instruction */
-    lcd_write_instruction_4d(LCD_ENTRYMODE); /* Set shift characteristics */
+    lcd2004_write_instruction_4d(LCD_ENTRYMODE); /* Set shift characteristics */
     delay_us100(1); /* 40uS delay (min) */
 
     /*
@@ -178,7 +178,7 @@ void lcd_init_4bit_mode() {
     */
 
     /* Display On/Off Control instruction */
-    lcd_write_instruction_4d(LCD_DISPLAYON); /* Turn the display ON */
+    lcd2004_write_instruction_4d(LCD_DISPLAYON); /* Turn the display ON */
     delay_us100(1); /* 40uS delay (min) */
 }
 
@@ -187,11 +187,11 @@ void lcd_init_4bit_mode() {
  *  @param theCharacter is a data to be sent to LCD data register.
  *  @return None.
  */
-void lcd_write_character_4d(char theCharacter) {
+void lcd2004_write_character_4d(char theCharacter) {
     gpio_set(GPIOB, LCD_RS);
     gpio_clear(GPIOB, LCD_E); /* Make sure E is initially low */
-    lcd_write_4((uint8_t)theCharacter); /* Write the upper 4-bits */
-    lcd_write_4((uint8_t)theCharacter << 4); /* Write the lower 4-bits */
+    lcd2004_write_4((uint8_t)theCharacter); /* Write the upper 4-bits */
+    lcd2004_write_4((uint8_t)theCharacter << 4); /* Write the lower 4-bits */
 }
 
 /** @brief Display a string of characters on the LCD.
@@ -199,10 +199,10 @@ void lcd_write_character_4d(char theCharacter) {
  *  @param theString is the string to be displayed.
  *  @return None.
  */
-void lcd_write_string_4d(const char *theString) {
+void lcd2004_write_string_4d(const char *theString) {
     volatile uint16_t i = 0;
     while (theString[i] != 0) {
-        lcd_write_character_4d((uint8_t)theString[i]);
+        lcd2004_write_character_4d((uint8_t)theString[i]);
         i++;
         delay_us100(1); /* 40uS delay (min) */
     }
@@ -212,8 +212,8 @@ void lcd_write_string_4d(const char *theString) {
  *  @param None.
  *  @return None.
  */
-void lcd_clear() {
-    lcd_write_instruction_4d(LCD_CLEAR);
+void lcd2004_clear(void) {
+    lcd2004_write_instruction_4d(LCD_CLEAR);
     delay_us100(20); /* 1.64 mS delay (min) */
 }
 
@@ -221,8 +221,8 @@ void lcd_clear() {
  *  @param None.
  *  @return None.
  */
-void lcd_home() {
-    lcd_write_instruction_4d(LCD_HOME);
+void lcd2004_home(void) {
+    lcd2004_write_instruction_4d(LCD_HOME);
     delay_us100(20); /* 1.64 mS delay (min) */
 }
 
@@ -231,10 +231,10 @@ void lcd_home() {
  *  @param row is start line of the LCD (0..3).
  *  @return None.
  */
-void lcd_set_cursor(uint8_t col, uint8_t row) {
+void lcd2004_set_cursor(uint8_t col, uint8_t row) {
     uint8_t row_offsets[] = {0x00, 0x40, 0x14, 0x54};
 
-    lcd_write_instruction_4d(LCD_SETCURSOR | (col + row_offsets[row]));
+    lcd2004_write_instruction_4d(LCD_SETCURSOR | (col + row_offsets[row]));
     delay_us100(20); /* 1.64 mS delay (min) */
 }
 
@@ -242,8 +242,8 @@ void lcd_set_cursor(uint8_t col, uint8_t row) {
  *  @param None.
  *  @return None.
  */
-void lcd_off() {
-    lcd_write_instruction_4d(LCD_DISPLAYOFF);
+void lcd2004_off(void) {
+    lcd2004_write_instruction_4d(LCD_DISPLAYOFF);
     delay_us100(20); /* 1.64 mS delay (min) */
 }
 
@@ -251,8 +251,8 @@ void lcd_off() {
  *  @param None.
  *  @return None.
  */
-void lcd_on() {
-    lcd_write_instruction_4d(LCD_DISPLAYON);
+void lcd2004_on(void) {
+    lcd2004_write_instruction_4d(LCD_DISPLAYON);
     delay_us100(20); /* 1.64 mS delay (min) */
 }
 
@@ -260,7 +260,7 @@ void lcd_on() {
  *  @param None.
  *  @return None.
  */
-void lcd_backlight_off() {
+void lcd2004_backlight_off(void) {
     gpio_clear(GPIOB, LCD_BACKLIGHT);
 }
 
@@ -268,7 +268,7 @@ void lcd_backlight_off() {
  *  @param None.
  *  @return None.
  */
-void lcd_backlight_on() {
+void lcd2004_backlight_on(void) {
     gpio_set(GPIOB, LCD_BACKLIGHT);
 }
 
@@ -276,6 +276,6 @@ void lcd_backlight_on() {
  *  @param None.
  *  @return None.
  */
-void lcd_backlight_toggle() {
+void lcd2004_backlight_toggle(void) {
     gpio_toggle(GPIOB, LCD_BACKLIGHT);
 }

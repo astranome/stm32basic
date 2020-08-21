@@ -94,7 +94,7 @@ void usart_setup(void)
 }
 #endif
 
-void lcd_setup(void)
+void lcd2004_setup(void)
 {
     // Set digital output functions for LCD pins
     gpio_set_mode(

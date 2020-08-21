@@ -60,11 +60,11 @@ void host_init(int buzzerPin)
 #endif
 
     i2c_setup();
-    lcd_setup();
-    lcd_init_4bit_mode();
-    lcd_clear();
-    lcd_home();
-    lcd_backlight_off();
+    lcd2004_setup();
+    lcd2004_init_4bit_mode();
+    lcd2004_clear();
+    lcd2004_home();
+    lcd2004_backlight_off();
 
     ext_interrupt_setup();
     misc_gpio_setup();
@@ -168,7 +168,7 @@ void host_showBuffer()
     {
         if (lineDirty[y] || (inputMode && y == curY))
         {
-            lcd_set_cursor(0, y);
+            lcd2004_set_cursor(0, y);
 
             for (int x = 0; x < SCREEN_WIDTH; x++)
             {
@@ -183,7 +183,7 @@ void host_showBuffer()
                     c = CURSOR_CHR;
                 }
 
-                lcd_write_character_4d(c);
+                lcd2004_write_character_4d(c);
 
             }
 
@@ -367,7 +367,7 @@ char *host_readLine()
 
             if (c == PS2_F7)
             {
-                lcd_backlight_toggle();
+                lcd2004_backlight_toggle();
             }
 
             if (c >= 32 && c <= 126)
