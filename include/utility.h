@@ -72,9 +72,9 @@
 #define MS_250                                  2500        /* 250 msec */
 
 #ifdef SERIAL_TRACES_ENABLED
-#define DEBUG_PRINT(...) do{xprintf(__VA_ARGS__ ); xprintf("\t\n");} while(false)
+#define DEBUG_SERIAL_PRINT(...) do{xprintf(__VA_ARGS__ ); xprintf("\t\n");} while(false)
 #else
-#define DEBUG_PRINT(...) do { } while (false)
+#define DEBUG_SERIAL_PRINT(...) do { } while (false)
 #endif
 
 extern const char gimmick[];

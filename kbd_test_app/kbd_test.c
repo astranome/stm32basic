@@ -157,5 +157,5 @@ void dump_keyboard_data(char c, char *s)
     }
 
     lcd_write_string_4d(buf);
-    DEBUG_PRINT(buf);
+    DEBUG_SERIAL_PRINT(buf);
 }

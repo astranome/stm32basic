@@ -70,7 +70,7 @@ void host_init(int buzzerPin)
     misc_gpio_setup();
     kbd_begin();
 
-    DEBUG_PRINT(gimmick);
+    DEBUG_SERIAL_PRINT(gimmick);
 
 #ifdef BUZZER_IN_USE
     if (buzPin)
@@ -491,13 +491,13 @@ bool host_saveSdCard(char *fileName)
 
     if(fileNameLen > 8)
     {
-        DEBUG_PRINT("File name is too long:%d!", fileNameLen);
+        DEBUG_SERIAL_PRINT("File name is too long:%d!", fileNameLen);
         return false;
     }
 
     sprintf(buf, "%s.BAS", fileName);
 
-    DEBUG_PRINT("Save FileName:%s, Len:%d, progLen:%d",
+    DEBUG_SERIAL_PRINT("Save FileName:%s, Len:%d, progLen:%d",
         buf,
         (int)fileNameLen,
         (int)sysPROGEND);
@@ -506,12 +506,12 @@ bool host_saveSdCard(char *fileName)
     rc = f_mount(0, &Fatfs[0]);
     if (rc != FR_OK)
     {
-        DEBUG_PRINT("SD card mount error:%d", rc);
+        DEBUG_SERIAL_PRINT("SD card mount error:%d", rc);
         return false;
     }
     else
     {
-        DEBUG_PRINT("SD card mount OK");
+        DEBUG_SERIAL_PRINT("SD card mount OK");
     }
 
     // Open file for writing
@@ -520,12 +520,12 @@ bool host_saveSdCard(char *fileName)
         rc = f_open(&dataFile, buf, FA_WRITE | FA_CREATE_ALWAYS);
         if (rc != FR_OK)
         {
-            DEBUG_PRINT("File open error:%d", rc);
+            DEBUG_SERIAL_PRINT("File open error:%d", rc);
             ret = false;
         }
         else
         {
-            DEBUG_PRINT("File open OK");
+            DEBUG_SERIAL_PRINT("File open OK");
         }
     }
     
@@ -536,12 +536,12 @@ bool host_saveSdCard(char *fileName)
         rc = f_write(&dataFile, mem, s1, &s2);
         if (rc != FR_OK)
         {
-            DEBUG_PRINT("File write error:%d", rc);
+            DEBUG_SERIAL_PRINT("File write error:%d", rc);
             ret = false;
         }
         else
         {
-            DEBUG_PRINT("%d bytes written", s2);
+            DEBUG_SERIAL_PRINT("%d bytes written", s2);
         }
     }
 	
@@ -551,12 +551,12 @@ bool host_saveSdCard(char *fileName)
         rc = f_close(&dataFile);
         if (rc != FR_OK)
         {
-            DEBUG_PRINT("File close error:%d", rc);
+            DEBUG_SERIAL_PRINT("File close error:%d", rc);
             ret = false;
         }
         else
         {
-            DEBUG_PRINT("File close OK");
+            DEBUG_SERIAL_PRINT("File close OK");
         }
     }
 
@@ -564,12 +564,12 @@ bool host_saveSdCard(char *fileName)
     rc = f_mount(0, NULL);
     if (rc != FR_OK)
     {
-        DEBUG_PRINT("SD card unmount error:%d", rc);
+        DEBUG_SERIAL_PRINT("SD card unmount error:%d", rc);
         ret = false;
     }
     else
     {
-        DEBUG_PRINT("SD card unmount OK");
+        DEBUG_SERIAL_PRINT("SD card unmount OK");
     }
 
     if(ret)
@@ -593,18 +593,18 @@ bool host_loadSdCard(char *fileName)
 
     sprintf(buf, "%s.BAS", fileName);
 
-    DEBUG_PRINT("Load FileName:%s", buf);
+    DEBUG_SERIAL_PRINT("Load FileName:%s", buf);
 
    // Mount logical drive
     rc = f_mount(0, &Fatfs[0]);
     if (rc != FR_OK)
     {
-        DEBUG_PRINT("SD card mount error:%d", rc);
+        DEBUG_SERIAL_PRINT("SD card mount error:%d", rc);
         return false;
     }
     else
     {
-        DEBUG_PRINT("SD card mount OK");
+        DEBUG_SERIAL_PRINT("SD card mount OK");
     }
 
     // Open file for reading
@@ -613,12 +613,12 @@ bool host_loadSdCard(char *fileName)
         rc = f_open(&dataFile, buf, FA_READ);
         if (rc != FR_OK)
         {
-            DEBUG_PRINT("File open error:%d", rc);
+            DEBUG_SERIAL_PRINT("File open error:%d", rc);
             ret = false;
         }
         else
         {
-            DEBUG_PRINT("File open OK");
+            DEBUG_SERIAL_PRINT("File open OK");
         }
     }
 
@@ -626,18 +626,18 @@ bool host_loadSdCard(char *fileName)
     if (rc == FR_OK)
     {
         fileSize = dataFile.fsize;
-        DEBUG_PRINT("File size:%d", fileSize);
+        DEBUG_SERIAL_PRINT("File size:%d", fileSize);
 
         sysPROGEND = fileSize;
         rc = f_read(&dataFile, mem, fileSize, &cnt);
         if (rc != FR_OK)
         {
-            DEBUG_PRINT("File read error:%d", rc);
+            DEBUG_SERIAL_PRINT("File read error:%d", rc);
             ret = false;
         }
         else
         {
-            DEBUG_PRINT("File read OK, bytes:%d", cnt);
+            DEBUG_SERIAL_PRINT("File read OK, bytes:%d", cnt);
         }
     }
 
@@ -647,12 +647,12 @@ bool host_loadSdCard(char *fileName)
         rc = f_close(&dataFile);
         if (rc != FR_OK)
         {
-            DEBUG_PRINT("File close error:%d", rc);
+            DEBUG_SERIAL_PRINT("File close error:%d", rc);
             ret = false;
         }
         else
         {
-            DEBUG_PRINT("File close OK");
+            DEBUG_SERIAL_PRINT("File close OK");
         }
     }
 
@@ -660,12 +660,12 @@ bool host_loadSdCard(char *fileName)
     rc = f_mount(0, NULL);
     if (rc != FR_OK)
     {
-        DEBUG_PRINT("SD card unmount error:%d", rc);
+        DEBUG_SERIAL_PRINT("SD card unmount error:%d", rc);
         ret = false;
     }
     else
     {
-        DEBUG_PRINT("SD card unmount OK");
+        DEBUG_SERIAL_PRINT("SD card unmount OK");
     }
 
     if(ret)

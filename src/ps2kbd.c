@@ -466,7 +466,7 @@ static char get_iso8859_code(void)
             return 0;
         }
 
-        DEBUG_PRINT("Scan code:%d", s);
+        DEBUG_SERIAL_PRINT("Scan code:%d", s);
 
         if (s == 0xF0)
         {

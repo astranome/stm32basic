@@ -59,7 +59,17 @@ Assuming that the user has Windows PC, the easiest way to build the firmware and
 
 *I especially like the last option because I (as probably many DIYers) do have Raspberri Pi lying around idle, and this is a good chance to convert it in to something useful*. 
 
+### C coding style
+
+- C type of comments `/* */`, located immediately after the statement, in order to keep lines as short as possible (old terminals and smartphones friendly). Most text editors have syntax highlighting, therefore it is not necessary to align comments for the better readability.
+- Indentation style: 4 spaces.
+- Curly brackets  are used all the time, even for single statement blocks.
+- An opening curly bracket is located on the same line as a statement.
+- A closing curly bracket should always belong on a separate line.
+- Doxygen type of comments is welcome, but completely optional.
+
 #### Setting up Visual Studio Code Remote development in WSL
+
 In case of Windows PC the most convenient way to work with source files in WSL is to use Visual Studio Code Remote, please follow a [Tutorial](https://code.visualstudio.com/remote-tutorials/wsl/getting-started). 
 
 ### Setting up Linux environment and build applications
