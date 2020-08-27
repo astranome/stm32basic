@@ -32,17 +32,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #endif
 #include "../include/term_io.h"
 
-#define PS2_CLOCK_PORT  GPIOA
-#define PS2_CLOCK_PIN   GPIO0
-#define PS2_DATA_PORT   GPIOB
-#define PS2_DATA_PIN    GPIO8
+#define PS2_CLOCK_PORT                          GPIOA
+#define PS2_CLOCK_PIN                           GPIO0
+#define PS2_DATA_PORT                           GPIOB
+#define PS2_DATA_PIN                            GPIO8
 
-#define GPIOSPI_SD_CS   GPIO4
-#define GPIOSPI_SD_SCK  GPIO5
-#define GPIOSPI_SD_MISO GPIO6
-#define GPIOSPI_SD_MOSI GPIO7
+#define SPI_SD_PORT                             GPIOA
+#define SPI_SD_CS_PIN                           GPIO4
+#define SPI_SD_SCK_PIN                          GPIO5
+#define SPI_SD_MISO_PIN                         GPIO6
+#define SPI_SD_MOSI_PIN                         GPIO7
+#define SPI_SD                                  SPI1
 
-/* Port B */
+#define I2C_PORT                                GPIOB
 #define I2C_SCL                                 GPIO6
 #define I2C_SDA                                 GPIO7
 
@@ -50,13 +52,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #define LED_GPIO                                GPIO13
 
 /* Misc. */
-#define SPI_FAST                                SPI_CR1_BR_FPCLK_DIV_4        /* 72MHz/4 */
-#define SPI_SLOW                                SPI_CR1_BR_FPCLK_DIV_256      /* 72MHz/256 */
-#define SPI_SD                                  SPI1
+#define SPI_FAST                                SPI_CR1_BR_FPCLK_DIV_4 /* 72MHz/4 */
+#define SPI_SLOW                                SPI_CR1_BR_FPCLK_DIV_256 /* 72MHz/256 */
 #define SOCKET_WP_CONNECTED                     0 /* Write-protect socket-switch */
 #define SOCKET_CP_CONNECTED                     0 /* Card-present socket-switch */
 #define CARD_SUPPLY_SWITCHABLE                  0
-#define GPIO_PORT_CS                            GPIOA
 #define RCC_GPIO                                RCC_APB2ENR
 #define RCC_GPIO_PORT_CS                        RCC_APB2ENR_IOPAEN
 #define RCC_SPI                                 RCC_APB2ENR

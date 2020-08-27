@@ -99,7 +99,7 @@ void usart_setup(void) {
 void i2c_setup(void) {
     /* Set alternate functions for the SCL and SDA pins of I2C2 */
     gpio_set_mode(
-        GPIOB,
+        I2C_PORT,
         GPIO_MODE_OUTPUT_50_MHZ,
         GPIO_CNF_OUTPUT_ALTFN_OPENDRAIN,
         I2C_SCL | I2C_SDA);
