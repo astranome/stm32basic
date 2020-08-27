@@ -54,7 +54,7 @@ void ext_interrupt_setup(void) {
 
     /* Set PS2 clock pin (in GPIO port A) to 'input open-drain' */
     gpio_set_mode(
-        GPIOA,
+        PS2_CLOCK_PORT,
         GPIO_MODE_INPUT,
         GPIO_CNF_INPUT_FLOAT,
         PS2_CLOCK_PIN);
@@ -68,7 +68,7 @@ void ext_interrupt_setup(void) {
 void misc_gpio_setup(void) {
     /* Set PS2 data pin (in GPIO port B) to 'input open-drain' */
     gpio_set_mode(
-        GPIOB,
+        PS2_DATA_PORT,
         GPIO_MODE_INPUT,
         GPIO_CNF_INPUT_FLOAT,
         PS2_DATA_PIN);

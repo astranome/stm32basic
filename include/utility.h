@@ -22,31 +22,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/f1/gpio.h>
-
-#ifdef SERIAL_TRACES_ENABLED
-#include <libopencm3/stm32/usart.h>
-#endif
-
 #include <libopencm3/stm32/i2c.h>
 #include <libopencm3/cm3/nvic.h>
 #include <libopencm3/stm32/timer.h>
 #include <libopencm3/cm3/systick.h>
 #include <libopencm3/stm32/exti.h>
+#ifdef SERIAL_TRACES_ENABLED
+#include <libopencm3/stm32/usart.h>
+#endif
 #include "../include/term_io.h"
 
-/* Port A */
-#define PS2_CLOCK_PIN                           GPIO0
-#define GPIOSPI_SD_CS                           GPIO4
-#define GPIOSPI_SD_SCK                          GPIO5
-#define GPIOSPI_SD_MISO                         GPIO6
-#define GPIOSPI_SD_MOSI                         GPIO7
+#define PS2_CLOCK_PORT  GPIOA
+#define PS2_CLOCK_PIN   GPIO0
+#define PS2_DATA_PORT   GPIOB
+#define PS2_DATA_PIN    GPIO8
+
+#define GPIOSPI_SD_CS   GPIO4
+#define GPIOSPI_SD_SCK  GPIO5
+#define GPIOSPI_SD_MISO GPIO6
+#define GPIOSPI_SD_MOSI GPIO7
 
 /* Port B */
 #define I2C_SCL                                 GPIO6
 #define I2C_SDA                                 GPIO7
-
-#define LCD_BACKLIGHT                           GPIO1
-#define PS2_DATA_PIN                            GPIO8
 
 /* Port C */
 #define LED_GPIO                                GPIO13

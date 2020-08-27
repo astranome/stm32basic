@@ -27,13 +27,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #include <stdint.h>
 
 /* LCD pins */
-#define LCD_PORT    GPIOB
-#define LCD_E       GPIO10
-#define LCD_RS      GPIO11
-#define LCD_D4      GPIO12
-#define LCD_D5      GPIO13
-#define LCD_D6      GPIO14
-#define LCD_D7      GPIO15
+#define LCD_PORT        GPIOB
+#define LCD_E           GPIO10
+#define LCD_RS          GPIO11
+#define LCD_D4          GPIO12
+#define LCD_D5          GPIO13
+#define LCD_D6          GPIO14
+#define LCD_D7          GPIO15
+#define LCD_BACKLIGHT   GPIO1
 
 /* LCD instructions */
 #define LCD_CLEAR 0x01 /* Replace all characters with ASCII 'space' */
