@@ -1,36 +1,41 @@
 /*
- * lcd2004.h module is a part of stm32Basic project.
- *
- * Copyright (c) 2020 vitasam
- *
- * Based on LCD driver:
- * http://web.alfredstate.edu/faculty/weimandn/programming/
- *     lcd/ATmega328/LCD_code_gcc_4d.html
- *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use, copy,
- * modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
- * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+lcd2004.c file is a part of stm32Basic project.
+
+Copyright (c) 2020 vitasam
+
+Based on LCD driver:
+http://web.alfredstate.edu/faculty/weimandn/programming/
+    lcd/ATmega328/LCD_code_gcc_4d.html
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 #include <stdio.h>
 #include <string.h>
 #include "../include/lcd2004.h"
 #include "../include/utility.h"
+
+void lcd2004_setup(void)
+{
+    // Set digital output functions for LCD pins
+    gpio_set_mode(
+        LCD_PORT,
+        GPIO_MODE_OUTPUT_50_MHZ,
+        GPIO_CNF_OUTPUT_PUSHPULL,
+        LCD_E | LCD_RS | LCD_D4 | LCD_D5| LCD_D6 | LCD_D7 | LCD_BACKLIGHT);
+}
+
 
 /** @brief Send a byte of data to the LCD module
  *  (private function).
@@ -43,39 +48,39 @@
  */
 static void lcd2004_write_4(uint8_t theByte) {
     if (theByte & (1 << 7)) {
-        gpio_set(GPIOB, LCD_D7);
+        gpio_set(LCD_PORT, LCD_D7);
     }
     else {
-        gpio_clear(GPIOB, LCD_D7);
+        gpio_clear(LCD_PORT, LCD_D7);
     }
 
     if (theByte & (1 << 6)) {
-        gpio_set(GPIOB, LCD_D6);
+        gpio_set(LCD_PORT, LCD_D6);
     }
     else {
-        gpio_clear(GPIOB, LCD_D6);
+        gpio_clear(LCD_PORT, LCD_D6);
     }
 
     if (theByte & (1 << 5)) {
-        gpio_set(GPIOB, LCD_D5);
+        gpio_set(LCD_PORT, LCD_D5);
     }
     else {
-        gpio_clear(GPIOB, LCD_D5);
+        gpio_clear(LCD_PORT, LCD_D5);
     }
 
     if (theByte & (1 << 4)) {
-        gpio_set(GPIOB, LCD_D4);
+        gpio_set(LCD_PORT, LCD_D4);
     }
     else {
-        gpio_clear(GPIOB, LCD_D4);
+        gpio_clear(LCD_PORT, LCD_D4);
     }
 
     /* Write the data. 'Address set-up time' (40 nS) */
-    gpio_set(GPIOB, LCD_E);
+    gpio_set(LCD_PORT, LCD_E);
 
     /* 'Data set-up time' (80 nS) and 'Enable pulse width' (230 nS) */
     delay_us100(1);
-    gpio_clear(GPIOB, LCD_E);
+    gpio_clear(LCD_PORT, LCD_E);
 
     /* 'Data hold time' (10 nS) and 'Enable cycle time' (500 nS) */
     delay_us100(1);
@@ -88,8 +93,8 @@ static void lcd2004_write_4(uint8_t theByte) {
  *  @return None.
  */
 static void lcd2004_write_instruction_4d(uint8_t theInstruction) {
-    gpio_clear(GPIOB, LCD_RS);
-    gpio_clear(GPIOB, LCD_E); /* Make sure E is initially low */
+    gpio_clear(LCD_PORT, LCD_RS);
+    gpio_clear(LCD_PORT, LCD_E); /* Make sure E is initially low */
     lcd2004_write_4(theInstruction); /* Write the upper 4-bits */
     lcd2004_write_4(theInstruction << 4); /* Write the lower 4-bits */
 }
@@ -122,8 +127,8 @@ void lcd2004_init_4bit_mode() {
     */
 
     /* Set up the RS and E lines for the 'lcd2004_write_4' subroutine. */
-    gpio_clear(GPIOB, LCD_RS);
-    gpio_clear(GPIOB, LCD_E); /* Make sure E is initially low */
+    gpio_clear(LCD_PORT, LCD_RS);
+    gpio_clear(LCD_PORT, LCD_E); /* Make sure E is initially low */
 
     /* Reset the LCD controller */
     lcd2004_write_4(LCD_FUNCTIONRESET); /* First part of reset sequence */
@@ -188,8 +193,8 @@ void lcd2004_init_4bit_mode() {
  *  @return None.
  */
 void lcd2004_write_character_4d(char theCharacter) {
-    gpio_set(GPIOB, LCD_RS);
-    gpio_clear(GPIOB, LCD_E); /* Make sure E is initially low */
+    gpio_set(LCD_PORT, LCD_RS);
+    gpio_clear(LCD_PORT, LCD_E); /* Make sure E is initially low */
     lcd2004_write_4((uint8_t)theCharacter); /* Write the upper 4-bits */
     lcd2004_write_4((uint8_t)theCharacter << 4); /* Write the lower 4-bits */
 }
@@ -261,7 +266,7 @@ void lcd2004_on(void) {
  *  @return None.
  */
 void lcd2004_backlight_off(void) {
-    gpio_clear(GPIOB, LCD_BACKLIGHT);
+    gpio_clear(LCD_PORT, LCD_BACKLIGHT);
 }
 
 /** @brief Set display's backlight ON.
@@ -269,7 +274,7 @@ void lcd2004_backlight_off(void) {
  *  @return None.
  */
 void lcd2004_backlight_on(void) {
-    gpio_set(GPIOB, LCD_BACKLIGHT);
+    gpio_set(LCD_PORT, LCD_BACKLIGHT);
 }
 
 /** @brief Toggle display's backlight.
@@ -277,5 +282,5 @@ void lcd2004_backlight_on(void) {
  *  @return None.
  */
 void lcd2004_backlight_toggle(void) {
-    gpio_toggle(GPIOB, LCD_BACKLIGHT);
+    gpio_toggle(LCD_PORT, LCD_BACKLIGHT);
 }

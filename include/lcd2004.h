@@ -1,36 +1,39 @@
 /*
- * lcd2004.h module is a part of stm32Basic project.
- *
- * Copyright (c) 2020 vitasam
- * 
- * Based on LCD driver:
- * http://web.alfredstate.edu/faculty/weimandn/programming/
- *     lcd/ATmega328/LCD_code_gcc_4d.html
- *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use, copy,
- * modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
- * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+lcd2004.h file is a part of stm32Basic project.
+
+Copyright (c) 2020 vitasam
+
+Based on LCD driver:
+http://web.alfredstate.edu/faculty/weimandn/programming/
+    lcd/ATmega328/LCD_code_gcc_4d.html
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 #ifndef _LCD_2004_H_
 #define _LCD_2004_H_
 
 #include <stdint.h>
+
+/* LCD pins */
+#define LCD_PORT    GPIOB
+#define LCD_E       GPIO10
+#define LCD_RS      GPIO11
+#define LCD_D4      GPIO12
+#define LCD_D5      GPIO13
+#define LCD_D6      GPIO14
+#define LCD_D7      GPIO15
 
 /* LCD instructions */
 #define LCD_CLEAR 0x01 /* Replace all characters with ASCII 'space' */
@@ -42,6 +45,7 @@
 #define LCD_FUNCTIONSET4B 0x28 /* 4-bit data, 2-line display, 5 x 7 font */
 #define LCD_SETCURSOR 0x80 /* Set cursor position */
 
+void lcd2004_setup(void);
 void lcd2004_init_4bit_mode(void);
 void lcd2004_write_character_4d(char theCharacter);
 void lcd2004_write_string_4d(const char *theString);

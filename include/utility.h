@@ -1,15 +1,22 @@
-/*----------------------------------------------------------------------------/
-/ utility.h module is a part of Stm32Basic for stm32 systems.
-/ This is a free software that opened for education, research and commercial
-/ developments under license policy of following terms.
-/
-/ Copyright (C) 2020, Vitasam, all right reserved.
-/
-/ * The Stm32Basic is a free software and there is NO WARRANTY.
-/ * No restriction on use. You can use, modify and redistribute it for
-/   personal, non-profit or commercial products UNDER YOUR RESPONSIBILITY.
-/ * Redistributions of source code must retain the above copyright notice.
-/---------------------------------------------------------------------------*/
+/*
+utility.h file is a part of stm32Basic project.
+
+Copyright (c) 2020 vitasam
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 #ifndef _UTILITY_H_
 #define _UTILITY_H_
 
@@ -38,12 +45,6 @@
 #define I2C_SCL                                 GPIO6
 #define I2C_SDA                                 GPIO7
 
-#define LCD_E                                   GPIO10
-#define LCD_RS                                  GPIO11
-#define LCD_D4                                  GPIO12
-#define LCD_D5                                  GPIO13
-#define LCD_D6                                  GPIO14
-#define LCD_D7                                  GPIO15
 #define LCD_BACKLIGHT                           GPIO1
 #define PS2_DATA_PIN                            GPIO8
 
@@ -94,6 +95,5 @@ void usart_setup(void);
 
 void i2c_setup(void);
 void i2c_write_byte(uint8_t address, uint8_t data);
-void lcd2004_setup(void);
 void disk_timerproc(void);      /* This function must be called in period of 10ms */
 #endif
