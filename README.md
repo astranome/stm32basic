@@ -63,9 +63,9 @@ Assuming that the user has Windows PC, the easiest way to build the firmware and
 
 - C type of comments `/* */` located immediately after the statement (preferably), in order to keep lines as short as possible (old terminals and smartphones friendly). Most text editors have syntax highlighting, therefore it is not necessary to align comments for the better readability.
 - Indentation style: 4 spaces.
-- Curly brackets  are used all the time, even for single statement blocks.
-- An opening curly bracket is located on the same line as a statement.
-- A closing curly bracket should always belong on a separate line.
+- Braces `{ }` are used all the time, even for single statement blocks.
+- An opening brace is located on the same line as a statement.
+- A closing brace should always belong on a separate line.
 - Doxygen type of comments is welcome, but completely optional.
 
 #### Setting up Visual Studio Code Remote development in WSL
