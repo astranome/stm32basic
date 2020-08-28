@@ -551,7 +551,7 @@ bool host_saveSdCard(char *fileName)
             DEBUG_SERIAL_PRINT("%d bytes written", s2);
         }
     }
-	
+    
     // Close the file
     if (rc == FR_OK)
     {

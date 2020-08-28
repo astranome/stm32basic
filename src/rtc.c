@@ -4,7 +4,7 @@ rtc.c file is a part of stm32Basic project.
 Copyright (c) 2020 vitasam
 
 Based on RTC controls for STM32
-Copyright (c) 2009, Martin Thomas 4/2009, 3BSD-license 
+Copyright (c) 2009, Martin Thomas 4/2009, 3BSD-license
 partly based on code from STMircoelectronics, Peter Dannegger, "LaLaDumm"
 
 This library is free software; you can redistribute it and/or

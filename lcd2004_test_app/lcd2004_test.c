@@ -1,10 +1,7 @@
 /*
- * lcd2004_test.c module is a part of stm32Basic project.
+ * lcd2004_test.c file is a part of stm32Basic project.
  *
  * Copyright (c) 2020 vitasam
- *
- * Based on libopencm3 library:
- *     https://github.com/libopencm3/libopencm3
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation

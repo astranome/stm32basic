@@ -21,7 +21,7 @@
 * [ ] Add support for VT100 terminal, so it can output BASIC console to any VT100 compatible terminal
 * [ ] Short statetemenst for saving space of 20-char screen, e.g. PRINT -> PR
 * [ ] Battery for RTC (time/date file attributes, BASIC operators)
-* [ ] 16-Bit I/O Expander with Serial Interface (for 5V)
+* [ ] 16-Bit 5V I/O Expander with Serial Interface
 * [ ] Graphics LCD (e.g. 128 x 64 pixels)
 
 ## GIT branches
