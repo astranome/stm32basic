@@ -40,9 +40,7 @@ int main(void)
     bool in_loop = true;
     clock_setup();
 
-#ifdef SERIAL_TRACES_ENABLED
     usart_setup();
-#endif
 
     comm_puts(gimmick);
     comm_puts(globalVer);
@@ -63,6 +61,8 @@ int main(void)
     lcd2004_set_cursor(0, 1);
     lcd2004_write_string_4d(globalVer);
     lcd2004_set_cursor(0, 2);
+    comm_puts("Press PS/2 keys");
+    comm_puts(newL);
     lcd2004_write_string_4d("Press PS/2 keys");
 
     while(in_loop)

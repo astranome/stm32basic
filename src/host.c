@@ -43,6 +43,7 @@ int curX = 0, curY = 0;
 volatile char flash = 1, redraw = 0;
 char inputMode = 0;
 char inkeyChar = 0;
+DisplayCapability dispCapability;
 #ifdef BUZZER_IN_USE
 char buzPin = 0
 #endif
@@ -51,9 +52,15 @@ char buzPin = 0
 /* bool sd_card_ok = false; TODO */
 #endif
 
-/* Display functions ptrs */
+/* Display API pointers */
 #ifdef LCD2004_IN_USE
 void (*display_init_p)(void) = lcd2004_init;
+void (*display_get_capability_p)(DisplayCapability *dispCapability) = lcd2004_get_capability;
+void (*display_set_cursor_p)(uint8_t col, uint8_t row) = lcd2004_set_cursor;
+void (*display_write_character)(char c) = lcd2004_write_character_4d;
+void (*display_backlight_off_p)(void) = lcd2004_backlight_off;
+void (*display_backlight_on_p)(void) = lcd2004_backlight_on;
+void (*display_backlight_toggle_p)(void) = lcd2004_backlight_toggle;
 #endif
 
 const char bytesFreeStr[] = "bytes free";
@@ -75,7 +82,15 @@ void host_init(int buzzerPin)
 
     i2c_setup();
 
-    // TODO lcd2004_init();
+    display_get_capability_p(&dispCapability);
+
+    DEBUG_SERIAL_PRINT("Display name: %s", dispCapability.displayName);
+    DEBUG_SERIAL_PRINT("Width, pixels: %d", dispCapability.displayWidthPixels);
+    DEBUG_SERIAL_PRINT("Height, pixels: %d", dispCapability.displayHeightPixels);
+    DEBUG_SERIAL_PRINT("Width, symbols: %d", dispCapability.displayWidthSymbols);
+    DEBUG_SERIAL_PRINT("Height, symbols: %d", dispCapability.displayHeightSymbols);
+    DEBUG_SERIAL_PRINT("Has backlight: %d", dispCapability.displayHasBacklight);
+
     display_init_p();
 
     ext_interrupt_setup();
@@ -137,10 +152,12 @@ void host_startupTone()
     {
         for (int j=0; j<50*i; j++)
         {
+/* TODO            
             digitalWrite(buzPin, HIGH);
             delay(3-i);
             digitalWrite(buzPin, LOW);
             delay(3-i);
+ */           
         }
 
         delay(100);
@@ -180,7 +197,7 @@ void host_showBuffer()
     {
         if (lineDirty[y] || (inputMode && y == curY))
         {
-            lcd2004_set_cursor(0, y);
+            display_set_cursor_p(0, y);
 
             for (int x = 0; x < SCREEN_WIDTH; x++)
             {
@@ -195,8 +212,7 @@ void host_showBuffer()
                     c = CURSOR_CHR;
                 }
 
-                lcd2004_write_character_4d(c);
-
+                display_write_character(c);
             }
 
             lineDirty[y] = 0;
@@ -379,7 +395,7 @@ char *host_readLine()
 
             if (c == PS2_F7)
             {
-                lcd2004_backlight_toggle();
+                display_backlight_toggle_p();
             }
 
             if (c >= 32 && c <= 126)

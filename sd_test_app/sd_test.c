@@ -272,6 +272,7 @@ int main(void) {
         comm_puts("================== SD-CARD TEST FAILED\r\n");
     }
 
+    DEBUG_SERIAL_PRINT("Ok\r\n");
     return 0;
 }
 

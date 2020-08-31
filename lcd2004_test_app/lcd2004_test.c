@@ -27,22 +27,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #include "../include/utility.h"
 #include "../include/lcd2004.h"
 
+DisplayCapability dispCapability;
 const char applicationName[] = "LCD tester";
 const char teststr[] = " Stm32Basic";
 
 int main(void) {
     clock_setup();
 
-#ifdef SERIAL_TRACES_ENABLED
     usart_setup();
-#endif
 
-    DEBUG_SERIAL_PRINT(gimmick);
-    DEBUG_SERIAL_PRINT(globalVer);
-    DEBUG_SERIAL_PRINT(newL);
-    DEBUG_SERIAL_PRINT(applicationName);
-    DEBUG_SERIAL_PRINT(newL);
+    comm_puts(gimmick);
+    comm_puts(globalVer);
+    comm_puts(newL);
+    comm_puts(applicationName);
+    comm_puts(newL);
 
+    lcd2004_get_capability(&dispCapability);
     lcd2004_init();
 
     lcd2004_backlight_on();
@@ -50,6 +50,14 @@ int main(void) {
     lcd2004_set_cursor(0, 1);
     lcd2004_write_string_4d(globalVer);
     lcd2004_set_cursor(0, 2);
+
+    DEBUG_SERIAL_PRINT("Display name: %s", dispCapability.displayName);
+    DEBUG_SERIAL_PRINT("Width, pixels: %d", dispCapability.displayWidthPixels);
+    DEBUG_SERIAL_PRINT("Height, pixels: %d", dispCapability.displayHeightPixels);
+    DEBUG_SERIAL_PRINT("Width, symbols: %d", dispCapability.displayWidthSymbols);
+    DEBUG_SERIAL_PRINT("Height, symbols: %d", dispCapability.displayHeightSymbols);
+    DEBUG_SERIAL_PRINT("Has backlight: %d", dispCapability.displayHasBacklight);
+
     delay_us100(SEC_2);
 
     lcd2004_off();

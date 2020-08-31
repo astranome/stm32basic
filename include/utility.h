@@ -27,10 +27,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #include <libopencm3/stm32/timer.h>
 #include <libopencm3/cm3/systick.h>
 #include <libopencm3/stm32/exti.h>
+#include "../include/term_io.h"
 #ifdef SERIAL_TRACES_ENABLED
 #include <libopencm3/stm32/usart.h>
 #endif
-#include "../include/term_io.h"
 
 #define PS2_CLOCK_PORT                          GPIOA
 #define PS2_CLOCK_PIN                           GPIO0
@@ -48,10 +48,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #define I2C_SCL                                 GPIO6
 #define I2C_SDA                                 GPIO7
 
-/* Port C */
-#define LED_GPIO                                GPIO13
+#define BOARD_LED_PORT                          GPIOC
+#define BOARD_LED_GPIO                          GPIO13
 
-/* Misc. */
 #define SPI_FAST                                SPI_CR1_BR_FPCLK_DIV_4 /* 72MHz/4 */
 #define SPI_SLOW                                SPI_CR1_BR_FPCLK_DIV_256 /* 72MHz/256 */
 #define SOCKET_WP_CONNECTED                     0 /* Write-protect socket-switch */
@@ -64,8 +63,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #define GPIO_PORT_SPI_SD                        GPIOA
 #define USARTx                                  USART1
 #define UART_SPEED                              115200
-#define LCD_SCREEN_WIDTH                        20
-#define LCD_SCREEN_HEIGHT                       4
 #define SEC_1                                   10000       /* 1 sec */
 #define SEC_2                                   20000       /* 2 sec */
 #define MS_250                                  2500        /* 250 msec */
@@ -75,6 +72,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #else
 #define DEBUG_SERIAL_PRINT(...) do { } while (false)
 #endif
+
+/* 
+ Display capability structure, any display driver should return via API call.
+ If some of parameter is not applicable, the parameter should be -1. 
+ */
+#define DISPLAY_NAME_LENGTN  16
+typedef struct {
+    int displayWidthPixels; /* Display wifth, pixels */
+    int displayHeightPixels; /* Display height, pixels */
+    int displayWidthSymbols; /* Display wifth, symbols */
+    int displayHeightSymbols; /* Display height, symbols */
+    int displayHasBacklight; /* 1: display has a backligh; 0: does not have */
+    char displayName[DISPLAY_NAME_LENGTN]; /* Display name */
+} DisplayCapability;
 
 extern const char gimmick[];
 extern const char globalVer[];

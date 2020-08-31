@@ -25,16 +25,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #define _LCD_2004_H_
 
 #include <stdint.h>
+#include "../include/utility.h"
 
-/* LCD pins */
-#define LCD_PORT        GPIOB
-#define LCD_E           GPIO10
-#define LCD_RS          GPIO11
-#define LCD_D4          GPIO12
-#define LCD_D5          GPIO13
-#define LCD_D6          GPIO14
-#define LCD_D7          GPIO15
-#define LCD_BACKLIGHT   GPIO1
+#define LCD2004_PORT        GPIOB
+#define LCD2004_E           GPIO10
+#define LCD2004_RS          GPIO11
+#define LCD2004_D4          GPIO12
+#define LCD2004_D5          GPIO13
+#define LCD2004_D6          GPIO14
+#define LCD2004_D7          GPIO15
+#define LCD2004_BACKLIGHT   GPIO1
+
+#define LCD2004_SCREEN_WIDTH    20
+#define LCD2004_SCREEN_HEIGHT   4
 
 /* LCD instructions */
 #define LCD_CLEAR 0x01 /* Replace all characters with ASCII 'space' */
@@ -46,18 +49,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #define LCD_FUNCTIONSET4B 0x28 /* 4-bit data, 2-line display, 5 x 7 font */
 #define LCD_SETCURSOR 0x80 /* Set cursor position */
 
+/* Display driver Host API functions */
 void lcd2004_init(void);
-void lcd2004_init_gpio(void);
-void lcd2004_init_4bit_mode(void);
-void lcd2004_write_character_4d(char theCharacter);
-void lcd2004_write_string_4d(const char *theString);
-void lcd2004_clear(void);
-void lcd2004_home(void);
+void lcd2004_get_capability(DisplayCapability *dispCapability);
 void lcd2004_set_cursor(uint8_t col, uint8_t row);
-void lcd2004_off(void);
-void lcd2004_on(void);
+void lcd2004_write_character_4d(char theCharacter);
 void lcd2004_backlight_off(void);
 void lcd2004_backlight_on(void);
 void lcd2004_backlight_toggle(void);
+
+/* "Private functions" */
+void lcd2004_init_gpio(void);
+void lcd2004_init_4bit_mode(void);
+void lcd2004_write_string_4d(const char *theString);
+void lcd2004_clear(void);
+void lcd2004_home(void);
+void lcd2004_off(void);
+void lcd2004_on(void);
 
 #endif

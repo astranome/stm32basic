@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #include "../chan_fatfs/src/ff.h"
 #include "../chan_fatfs/src/diskio.h"
 
-const char applicationName[] = "Stm32BASIC ";
+const char applicationName[] = "stm32basic ";
 
 uint8_t mem[MEMORY_SIZE];
 uint8_t tokenBuf[TOKEN_BUF_SIZE];

@@ -8,7 +8,7 @@ OBJS += ../src/term_io.o
 
 # Configuration flags
 DEFS += -DSERIAL_TRACES_ENABLED
-#DEFS += -DEXTRA_TRACES_ENABLED
+#DEFS += -DVERBOSE_TRACES
 #DEFS += -DSD_CARD_IN_USE
 
 # Uncomment one of keyboard's layout to be used

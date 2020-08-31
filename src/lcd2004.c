@@ -24,7 +24,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #include <stdio.h>
 #include <string.h>
 #include "../include/lcd2004.h"
-#include "../include/utility.h"
+
+const char displayName[] = "HD44780 20x4";
 
 void lcd2004_init(void) {
     lcd2004_init_gpio();
@@ -33,14 +34,25 @@ void lcd2004_init(void) {
     lcd2004_home();
 }
 
+void lcd2004_get_capability(DisplayCapability *dispCapability) {
+    dispCapability->displayWidthPixels = -1;
+    dispCapability->displayHeightPixels = -1;
+    dispCapability->displayWidthSymbols = LCD2004_SCREEN_WIDTH;
+    dispCapability->displayHeightSymbols = LCD2004_SCREEN_HEIGHT;
+    dispCapability->displayHasBacklight = 1;
+    memset(dispCapability->displayName, 0, sizeof(dispCapability->displayName));
+    int k = (sizeof(displayName) > DISPLAY_NAME_LENGTN) ? DISPLAY_NAME_LENGTN : sizeof(displayName);
+    memcpy(dispCapability->displayName, displayName, k);
+}
+
 void lcd2004_init_gpio(void)
 {
     // Set digital output functions for LCD pins
     gpio_set_mode(
-        LCD_PORT,
+        LCD2004_PORT,
         GPIO_MODE_OUTPUT_50_MHZ,
         GPIO_CNF_OUTPUT_PUSHPULL,
-        LCD_E | LCD_RS | LCD_D4 | LCD_D5| LCD_D6 | LCD_D7 | LCD_BACKLIGHT);
+        LCD2004_E | LCD2004_RS | LCD2004_D4 | LCD2004_D5| LCD2004_D6 | LCD2004_D7 | LCD2004_BACKLIGHT);
 }
 
 
@@ -55,39 +67,39 @@ void lcd2004_init_gpio(void)
  */
 static void lcd2004_write_4(uint8_t theByte) {
     if (theByte & (1 << 7)) {
-        gpio_set(LCD_PORT, LCD_D7);
+        gpio_set(LCD2004_PORT, LCD2004_D7);
     }
     else {
-        gpio_clear(LCD_PORT, LCD_D7);
+        gpio_clear(LCD2004_PORT, LCD2004_D7);
     }
 
     if (theByte & (1 << 6)) {
-        gpio_set(LCD_PORT, LCD_D6);
+        gpio_set(LCD2004_PORT, LCD2004_D6);
     }
     else {
-        gpio_clear(LCD_PORT, LCD_D6);
+        gpio_clear(LCD2004_PORT, LCD2004_D6);
     }
 
     if (theByte & (1 << 5)) {
-        gpio_set(LCD_PORT, LCD_D5);
+        gpio_set(LCD2004_PORT, LCD2004_D5);
     }
     else {
-        gpio_clear(LCD_PORT, LCD_D5);
+        gpio_clear(LCD2004_PORT, LCD2004_D5);
     }
 
     if (theByte & (1 << 4)) {
-        gpio_set(LCD_PORT, LCD_D4);
+        gpio_set(LCD2004_PORT, LCD2004_D4);
     }
     else {
-        gpio_clear(LCD_PORT, LCD_D4);
+        gpio_clear(LCD2004_PORT, LCD2004_D4);
     }
 
     /* Write the data. 'Address set-up time' (40 nS) */
-    gpio_set(LCD_PORT, LCD_E);
+    gpio_set(LCD2004_PORT, LCD2004_E);
 
     /* 'Data set-up time' (80 nS) and 'Enable pulse width' (230 nS) */
     delay_us100(1);
-    gpio_clear(LCD_PORT, LCD_E);
+    gpio_clear(LCD2004_PORT, LCD2004_E);
 
     /* 'Data hold time' (10 nS) and 'Enable cycle time' (500 nS) */
     delay_us100(1);
@@ -100,8 +112,8 @@ static void lcd2004_write_4(uint8_t theByte) {
  *  @return None.
  */
 static void lcd2004_write_instruction_4d(uint8_t theInstruction) {
-    gpio_clear(LCD_PORT, LCD_RS);
-    gpio_clear(LCD_PORT, LCD_E); /* Make sure E is initially low */
+    gpio_clear(LCD2004_PORT, LCD2004_RS);
+    gpio_clear(LCD2004_PORT, LCD2004_E); /* Make sure E is initially low */
     lcd2004_write_4(theInstruction); /* Write the upper 4-bits */
     lcd2004_write_4(theInstruction << 4); /* Write the lower 4-bits */
 }
@@ -134,8 +146,8 @@ void lcd2004_init_4bit_mode() {
     */
 
     /* Set up the RS and E lines for the 'lcd2004_write_4' subroutine. */
-    gpio_clear(LCD_PORT, LCD_RS);
-    gpio_clear(LCD_PORT, LCD_E); /* Make sure E is initially low */
+    gpio_clear(LCD2004_PORT, LCD2004_RS);
+    gpio_clear(LCD2004_PORT, LCD2004_E); /* Make sure E is initially low */
 
     /* Reset the LCD controller */
     lcd2004_write_4(LCD_FUNCTIONRESET); /* First part of reset sequence */
@@ -200,8 +212,8 @@ void lcd2004_init_4bit_mode() {
  *  @return None.
  */
 void lcd2004_write_character_4d(char theCharacter) {
-    gpio_set(LCD_PORT, LCD_RS);
-    gpio_clear(LCD_PORT, LCD_E); /* Make sure E is initially low */
+    gpio_set(LCD2004_PORT, LCD2004_RS);
+    gpio_clear(LCD2004_PORT, LCD2004_E); /* Make sure E is initially low */
     lcd2004_write_4((uint8_t)theCharacter); /* Write the upper 4-bits */
     lcd2004_write_4((uint8_t)theCharacter << 4); /* Write the lower 4-bits */
 }
@@ -273,7 +285,7 @@ void lcd2004_on(void) {
  *  @return None.
  */
 void lcd2004_backlight_off(void) {
-    gpio_clear(LCD_PORT, LCD_BACKLIGHT);
+    gpio_clear(LCD2004_PORT, LCD2004_BACKLIGHT);
 }
 
 /** @brief Set display's backlight ON.
@@ -281,7 +293,7 @@ void lcd2004_backlight_off(void) {
  *  @return None.
  */
 void lcd2004_backlight_on(void) {
-    gpio_set(LCD_PORT, LCD_BACKLIGHT);
+    gpio_set(LCD2004_PORT, LCD2004_BACKLIGHT);
 }
 
 /** @brief Toggle display's backlight.
@@ -289,5 +301,5 @@ void lcd2004_backlight_on(void) {
  *  @return None.
  */
 void lcd2004_backlight_toggle(void) {
-    gpio_toggle(LCD_PORT, LCD_BACKLIGHT);
+    gpio_toggle(LCD2004_PORT, LCD2004_BACKLIGHT);
 }
