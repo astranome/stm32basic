@@ -28,7 +28,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #include "../include/host.h"
 #include "../include/utility.h"
 #include "../include/basic.h"
+#ifdef LCD2004_IN_USE
 #include "../include/lcd2004.h"
+#endif
 #include "../include/term_io.h"
 #include "../include/rtc.h"
 #include "../chan_fatfs/src/ff.h"
@@ -47,6 +49,11 @@ char buzPin = 0
 
 #ifdef SD_CARD_IN_USE
 /* bool sd_card_ok = false; TODO */
+#endif
+
+/* Display functions ptrs */
+#ifdef LCD2004_IN_USE
+void (*display_init_p)(void) = lcd2004_init;
 #endif
 
 const char bytesFreeStr[] = "bytes free";
@@ -68,7 +75,8 @@ void host_init(int buzzerPin)
 
     i2c_setup();
 
-    lcd2004_init();
+    // TODO lcd2004_init();
+    display_init_p();
 
     ext_interrupt_setup();
     misc_gpio_setup();

@@ -16,6 +16,7 @@ LDLIBS += -lm
 
 # Configuration flags
 DEFS += -DSERIAL_TRACES_ENABLED
+DEFS += -DLCD2004_IN_USE
 DEFS += -DSD_CARD_IN_USE
 
 # Uncomment one of keyboard's layout to be used
