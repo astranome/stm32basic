@@ -26,7 +26,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #include "../include/lcd2004.h"
 #include "../include/utility.h"
 
-void lcd2004_setup(void)
+void lcd2004_init(void) {
+    lcd2004_init_gpio();
+    lcd2004_init_4bit_mode();
+    lcd2004_clear();
+    lcd2004_home();
+}
+
+void lcd2004_init_gpio(void)
 {
     // Set digital output functions for LCD pins
     gpio_set_mode(

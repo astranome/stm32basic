@@ -50,11 +50,7 @@ int main(void)
     comm_puts(applicationName);
     comm_puts(newL);
 
-    lcd2004_setup();
-    lcd2004_init_4bit_mode();
-    lcd2004_backlight_on();
-    lcd2004_clear();
-    lcd2004_home();
+    lcd2004_init();
     lcd2004_backlight_on();
 
     ext_interrupt_setup();

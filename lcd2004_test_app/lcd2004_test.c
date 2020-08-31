@@ -43,11 +43,9 @@ int main(void) {
     DEBUG_SERIAL_PRINT(applicationName);
     DEBUG_SERIAL_PRINT(newL);
 
-    lcd2004_setup();
-    lcd2004_init_4bit_mode();
+    lcd2004_init();
+
     lcd2004_backlight_on();
-    lcd2004_clear();
-    lcd2004_home();
     lcd2004_write_string_4d(applicationName);
     lcd2004_set_cursor(0, 1);
     lcd2004_write_string_4d(globalVer);

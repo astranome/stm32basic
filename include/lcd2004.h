@@ -46,7 +46,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #define LCD_FUNCTIONSET4B 0x28 /* 4-bit data, 2-line display, 5 x 7 font */
 #define LCD_SETCURSOR 0x80 /* Set cursor position */
 
-void lcd2004_setup(void);
+void lcd2004_init(void);
+void lcd2004_init_gpio(void);
 void lcd2004_init_4bit_mode(void);
 void lcd2004_write_character_4d(char theCharacter);
 void lcd2004_write_string_4d(const char *theString);

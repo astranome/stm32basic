@@ -68,7 +68,7 @@ int main(void) {
 
     clock_setup();
     usart_setup();
-    lcd2004_setup();
+    lcd2004_init();
 
     comm_puts(gimmick);
     comm_puts(globalVer);
@@ -76,10 +76,7 @@ int main(void) {
     comm_puts(applicationName);
     comm_puts(newL);
 
-    lcd2004_init_4bit_mode();
     lcd2004_backlight_on();
-    lcd2004_clear();
-    lcd2004_home();
     lcd2004_write_string_4d(applicationName);
     lcd2004_set_cursor(0, 1);
     lcd2004_write_string_4d(globalVer);

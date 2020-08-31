@@ -67,11 +67,8 @@ void host_init(int buzzerPin)
 #endif
 
     i2c_setup();
-    lcd2004_setup();
-    lcd2004_init_4bit_mode();
-    lcd2004_clear();
-    lcd2004_home();
-    lcd2004_backlight_off();
+
+    lcd2004_init();
 
     ext_interrupt_setup();
     misc_gpio_setup();
