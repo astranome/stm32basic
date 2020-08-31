@@ -75,7 +75,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 /* 
  Display capability structure, any display driver should return via API call.
- If some of parameter is not applicable, the parameter should be -1. 
+ If some of parameter is not applicable, the parameter should be -1.
  */
 #define DISPLAY_NAME_LENGTN  16
 typedef struct {
