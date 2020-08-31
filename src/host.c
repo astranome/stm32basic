@@ -52,7 +52,7 @@ char buzPin = 0
 /* bool sd_card_ok = false; TODO */
 #endif
 
-/* Display API pointers */
+/* Display Host API pointers */
 #ifdef LCD2004_IN_USE
 void (*display_init_p)(void) = lcd2004_init;
 void (*display_get_capability_p)(DisplayCapability *dispCapability) = lcd2004_get_capability;

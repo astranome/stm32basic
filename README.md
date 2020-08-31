@@ -14,6 +14,7 @@
 ### Backlog
 * [x] Get SD card working (for saving and loading .BAS files)
 * [ ] Update README with OpenOCD functionality
+* [x] Implement Display Host API to simplify adding of new displays
 * [ ] Implement vertical scrolling of BASIC code (from keyboard)
 * [ ] Add buzzer support
 * [ ] Add DIR and DEL commands for file operations
