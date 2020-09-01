@@ -151,7 +151,7 @@ The serial terminal should be set to 115200 bod, 8 bits, 1 stop bit:
 ![](docs/images/lcd_test_comport.png)
 
 ## BASIC Language
-### Collection of BASIC programs for the memory card
+### BASIC programs
 Collection of ready-to-use BASIC [programs](https://github.com/vitasam/stm32basic/tree/development/docs/basic) for the memory card.
 
 ### Language Description
