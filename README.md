@@ -2,8 +2,11 @@
 ![](docs/images/stm32basic_pc.jpg)
 
 ## Retro computer with BASIC interpreter (GCC/libopencm3 toolchain version)
-#### Based on https://github.com/robinhedwards/ArduinoBASIC
+Do you have an old PS/2 keyboard? The one that looks so good that you still feel sorry to throw it away? And one of those cheap  HD44780 displays 20 x 4 or 16 x 2 symbols. And maybe $1.5 "bluepill" board with STM32F103 microcontrollers? 
 
+If so, you can convert it in to an 80's home computer! With BASIC interpreter that supports almost all the usual features, with float and string variables, multi-dimensional arrays, FOR-NEXT, GOSUB-RETURN, etc.
+
+#### Based on https://github.com/robinhedwards/ArduinoBASIC
 ### Technical specs
 * MCU: STM32F103C8T6 (72 MHz, 20 KB RAM, 64 KB Flash), a.k.a. "bluepill"
 * PS/2 keyboard 
@@ -14,6 +17,7 @@
 ### Backlog
 * [x] Get SD card working (for saving and loading .BAS files)
 * [ ] Update README with OpenOCD functionality
+* [ ] BASIC: add ABS() function
 * [x] Implement Display Host API to make it easier to add new displays
 * [ ] Implement vertical scrolling of BASIC code (from keyboard)
 * [ ] Add buzzer support
@@ -122,7 +126,6 @@ Arrange all components on a breadboard according to [schematics](https://github.
 If compilations were successful, then one should have `.hex` binary files available, under each applications folder. Copy them to your Windows machine and use ST-Link utility to program and verify the device.
 
 ### Serial traces
-
 To get serial console traces just enable following compilation flag in a `Makefile`:
 
 `DEFS += -DSERIAL_TRACES_ENABLED`
@@ -132,6 +135,9 @@ The serial terminal should be set to 115200 bod, 8 bits, 1 stop bit:
 ![](docs/images/lcd_test_comport.png)
 
 ## BASIC Language
+### Collection of BASIC programs for the memory card
+TODO
+
 #### based on https://github.com/robinhedwards/ArduinoBASIC
 Variables names can be up to 8 alphanumeric characters but start with a letter e.g. a, bob32
 String variable names must end in $ e.g. a$, bob32$
