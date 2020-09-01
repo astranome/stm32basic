@@ -138,6 +138,7 @@ The serial terminal should be set to 115200 bod, 8 bits, 1 stop bit:
 ### Collection of BASIC programs for the memory card
 Collection of ready-to-use BASIC [programs](https://github.com/vitasam/stm32basic/tree/development/docs/basic) for the memory card.
 
+### Language Description
 #### based on https://github.com/robinhedwards/ArduinoBASIC
 Variables names can be up to 8 alphanumeric characters but start with a letter e.g. a, bob32
 String variable names must end in $ e.g. a$, bob32$
