@@ -1,4 +1,4 @@
-## List of BASIC programs
+## Collection of BASIC programs
 
 | Filename    | Description                                | Notes                                                        |
 | ----------- | ------------------------------------------ | ------------------------------------------------------------ |
