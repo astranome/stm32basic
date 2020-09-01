@@ -2,7 +2,7 @@
 ![](docs/images/stm32basic_pc.jpg)
 
 ## Retro computer with BASIC interpreter (GCC/libopencm3 toolchain version)
-Do you have an old PS/2 keyboard? The one that looks so good that you still feel sorry to throw it away? And one of those cheap  HD44780 displays 20x4 or 16x2 symbols. And maybe $1.5 "bluepill" board with STM32F103 microcontrollers? 
+Do you have an old PS/2 keyboard? The one that looks so good that you still feel sorry to throw it away? And one of those cheap  HD44780 displays 20x4 or 16x2 symbols. And maybe $1.5 "bluepill" board with STM32F103 microcontroller? 
 
 If so, you can convert it in to an 80's home computer! With BASIC interpreter that supports almost all the usual features, with float and string variables, multi-dimensional arrays, FOR-NEXT, GOSUB-RETURN, etc.
 
