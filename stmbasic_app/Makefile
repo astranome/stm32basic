@@ -1,7 +1,7 @@
 BINARY = stm32basic
 
 OBJS = ../src/utility.o
-OBJS += ../src/lcd.o
+OBJS += ../src/lcd2004.o
 OBJS += ../src/host.o
 OBJS += ../src/basic.o
 OBJS += ../src/ps2kbd.o
@@ -16,6 +16,8 @@ LDLIBS += -lm
 
 # Configuration flags
 DEFS += -DSERIAL_TRACES_ENABLED
+#DEFS += -DVERBOSE_TRACES
+DEFS += -DLCD2004_IN_USE
 DEFS += -DSD_CARD_IN_USE
 
 # Uncomment one of keyboard's layout to be used

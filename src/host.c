@@ -1,18 +1,25 @@
-/*----------------------------------------------------------------------------/
-/ Based on Arduino BASIC
-/ https://github.com/robinhedwards/ArduinoBASIC
-/
-/ host.c module is a part of Stm32Basic for stm32 systems.
-/ This is a free software that opened for education, research and commercial
-/ developments under license policy of following terms.
-/
-/ Copyright (C) 2020, Vitasam, all right reserved.
-/
-/ * The Stm32Basic is a free software and there is NO WARRANTY.
-/ * No restriction on use. You can use, modify and redistribute it for
-/   personal, non-profit or commercial products UNDER YOUR RESPONSIBILITY.
-/ * Redistributions of source code must retain the above copyright notice.
-/---------------------------------------------------------------------------*/
+/*
+host.c file is a part of stm32Basic project.
+
+Copyright (c) 2020 vitasam
+
+Based on Arduino BASIC
+https://github.com/robinhedwards/ArduinoBASIC
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
@@ -21,7 +28,9 @@
 #include "../include/host.h"
 #include "../include/utility.h"
 #include "../include/basic.h"
-#include "../include/lcd.h"
+#ifdef LCD2004_IN_USE
+#include "../include/lcd2004.h"
+#endif
 #include "../include/term_io.h"
 #include "../include/rtc.h"
 #include "../chan_fatfs/src/ff.h"
@@ -34,12 +43,24 @@ int curX = 0, curY = 0;
 volatile char flash = 1, redraw = 0;
 char inputMode = 0;
 char inkeyChar = 0;
+DisplayCapability dispCapability;
 #ifdef BUZZER_IN_USE
 char buzPin = 0
 #endif
 
 #ifdef SD_CARD_IN_USE
 /* bool sd_card_ok = false; TODO */
+#endif
+
+/* Display Host API pointers */
+#ifdef LCD2004_IN_USE
+void (*display_init_p)(void) = lcd2004_init;
+void (*display_get_capability_p)(DisplayCapability *dispCapability) = lcd2004_get_capability;
+void (*display_set_cursor_p)(uint8_t col, uint8_t row) = lcd2004_set_cursor;
+void (*display_write_character)(char c) = lcd2004_write_character_4d;
+void (*display_backlight_off_p)(void) = lcd2004_backlight_off;
+void (*display_backlight_on_p)(void) = lcd2004_backlight_on;
+void (*display_backlight_toggle_p)(void) = lcd2004_backlight_toggle;
 #endif
 
 const char bytesFreeStr[] = "bytes free";
@@ -60,17 +81,23 @@ void host_init(int buzzerPin)
 #endif
 
     i2c_setup();
-    lcd_setup();
-    lcd_init_4bit_mode();
-    lcd_clear();
-    lcd_home();
-    lcd_backlight_off();
+
+    display_get_capability_p(&dispCapability);
+
+    DEBUG_SERIAL_PRINT("Display name: %s", dispCapability.displayName);
+    DEBUG_SERIAL_PRINT("Width, pixels: %d", dispCapability.displayWidthPixels);
+    DEBUG_SERIAL_PRINT("Height, pixels: %d", dispCapability.displayHeightPixels);
+    DEBUG_SERIAL_PRINT("Width, symbols: %d", dispCapability.displayWidthSymbols);
+    DEBUG_SERIAL_PRINT("Height, symbols: %d", dispCapability.displayHeightSymbols);
+    DEBUG_SERIAL_PRINT("Has backlight: %d", dispCapability.displayHasBacklight);
+
+    display_init_p();
 
     ext_interrupt_setup();
     misc_gpio_setup();
     kbd_begin();
 
-    DEBUG_PRINT(gimmick);
+    DEBUG_SERIAL_PRINT(gimmick);
 
 #ifdef BUZZER_IN_USE
     if (buzPin)
@@ -125,10 +152,12 @@ void host_startupTone()
     {
         for (int j=0; j<50*i; j++)
         {
+/* TODO            
             digitalWrite(buzPin, HIGH);
             delay(3-i);
             digitalWrite(buzPin, LOW);
             delay(3-i);
+ */           
         }
 
         delay(100);
@@ -168,7 +197,7 @@ void host_showBuffer()
     {
         if (lineDirty[y] || (inputMode && y == curY))
         {
-            lcd_set_cursor(0, y);
+            display_set_cursor_p(0, y);
 
             for (int x = 0; x < SCREEN_WIDTH; x++)
             {
@@ -183,8 +212,7 @@ void host_showBuffer()
                     c = CURSOR_CHR;
                 }
 
-                lcd_write_character_4d(c);
-
+                display_write_character(c);
             }
 
             lineDirty[y] = 0;
@@ -367,7 +395,7 @@ char *host_readLine()
 
             if (c == PS2_F7)
             {
-                lcd_backlight_toggle();
+                display_backlight_toggle_p();
             }
 
             if (c >= 32 && c <= 126)
@@ -491,13 +519,13 @@ bool host_saveSdCard(char *fileName)
 
     if(fileNameLen > 8)
     {
-        DEBUG_PRINT("File name is too long:%d!", fileNameLen);
+        DEBUG_SERIAL_PRINT("File name is too long:%d!", fileNameLen);
         return false;
     }
 
     sprintf(buf, "%s.BAS", fileName);
 
-    DEBUG_PRINT("Save FileName:%s, Len:%d, progLen:%d",
+    DEBUG_SERIAL_PRINT("Save FileName:%s, Len:%d, progLen:%d",
         buf,
         (int)fileNameLen,
         (int)sysPROGEND);
@@ -506,12 +534,12 @@ bool host_saveSdCard(char *fileName)
     rc = f_mount(0, &Fatfs[0]);
     if (rc != FR_OK)
     {
-        DEBUG_PRINT("SD card mount error:%d", rc);
+        DEBUG_SERIAL_PRINT("SD card mount error:%d", rc);
         return false;
     }
     else
     {
-        DEBUG_PRINT("SD card mount OK");
+        DEBUG_SERIAL_PRINT("SD card mount OK");
     }
 
     // Open file for writing
@@ -520,12 +548,12 @@ bool host_saveSdCard(char *fileName)
         rc = f_open(&dataFile, buf, FA_WRITE | FA_CREATE_ALWAYS);
         if (rc != FR_OK)
         {
-            DEBUG_PRINT("File open error:%d", rc);
+            DEBUG_SERIAL_PRINT("File open error:%d", rc);
             ret = false;
         }
         else
         {
-            DEBUG_PRINT("File open OK");
+            DEBUG_SERIAL_PRINT("File open OK");
         }
     }
     
@@ -536,27 +564,27 @@ bool host_saveSdCard(char *fileName)
         rc = f_write(&dataFile, mem, s1, &s2);
         if (rc != FR_OK)
         {
-            DEBUG_PRINT("File write error:%d", rc);
+            DEBUG_SERIAL_PRINT("File write error:%d", rc);
             ret = false;
         }
         else
         {
-            DEBUG_PRINT("%d bytes written", s2);
+            DEBUG_SERIAL_PRINT("%d bytes written", s2);
         }
     }
-	
+    
     // Close the file
     if (rc == FR_OK)
     {
         rc = f_close(&dataFile);
         if (rc != FR_OK)
         {
-            DEBUG_PRINT("File close error:%d", rc);
+            DEBUG_SERIAL_PRINT("File close error:%d", rc);
             ret = false;
         }
         else
         {
-            DEBUG_PRINT("File close OK");
+            DEBUG_SERIAL_PRINT("File close OK");
         }
     }
 
@@ -564,12 +592,12 @@ bool host_saveSdCard(char *fileName)
     rc = f_mount(0, NULL);
     if (rc != FR_OK)
     {
-        DEBUG_PRINT("SD card unmount error:%d", rc);
+        DEBUG_SERIAL_PRINT("SD card unmount error:%d", rc);
         ret = false;
     }
     else
     {
-        DEBUG_PRINT("SD card unmount OK");
+        DEBUG_SERIAL_PRINT("SD card unmount OK");
     }
 
     if(ret)
@@ -593,18 +621,18 @@ bool host_loadSdCard(char *fileName)
 
     sprintf(buf, "%s.BAS", fileName);
 
-    DEBUG_PRINT("Load FileName:%s", buf);
+    DEBUG_SERIAL_PRINT("Load FileName:%s", buf);
 
    // Mount logical drive
     rc = f_mount(0, &Fatfs[0]);
     if (rc != FR_OK)
     {
-        DEBUG_PRINT("SD card mount error:%d", rc);
+        DEBUG_SERIAL_PRINT("SD card mount error:%d", rc);
         return false;
     }
     else
     {
-        DEBUG_PRINT("SD card mount OK");
+        DEBUG_SERIAL_PRINT("SD card mount OK");
     }
 
     // Open file for reading
@@ -613,12 +641,12 @@ bool host_loadSdCard(char *fileName)
         rc = f_open(&dataFile, buf, FA_READ);
         if (rc != FR_OK)
         {
-            DEBUG_PRINT("File open error:%d", rc);
+            DEBUG_SERIAL_PRINT("File open error:%d", rc);
             ret = false;
         }
         else
         {
-            DEBUG_PRINT("File open OK");
+            DEBUG_SERIAL_PRINT("File open OK");
         }
     }
 
@@ -626,18 +654,18 @@ bool host_loadSdCard(char *fileName)
     if (rc == FR_OK)
     {
         fileSize = dataFile.fsize;
-        DEBUG_PRINT("File size:%d", fileSize);
+        DEBUG_SERIAL_PRINT("File size:%d", fileSize);
 
         sysPROGEND = fileSize;
         rc = f_read(&dataFile, mem, fileSize, &cnt);
         if (rc != FR_OK)
         {
-            DEBUG_PRINT("File read error:%d", rc);
+            DEBUG_SERIAL_PRINT("File read error:%d", rc);
             ret = false;
         }
         else
         {
-            DEBUG_PRINT("File read OK, bytes:%d", cnt);
+            DEBUG_SERIAL_PRINT("File read OK, bytes:%d", cnt);
         }
     }
 
@@ -647,12 +675,12 @@ bool host_loadSdCard(char *fileName)
         rc = f_close(&dataFile);
         if (rc != FR_OK)
         {
-            DEBUG_PRINT("File close error:%d", rc);
+            DEBUG_SERIAL_PRINT("File close error:%d", rc);
             ret = false;
         }
         else
         {
-            DEBUG_PRINT("File close OK");
+            DEBUG_SERIAL_PRINT("File close OK");
         }
     }
 
@@ -660,12 +688,12 @@ bool host_loadSdCard(char *fileName)
     rc = f_mount(0, NULL);
     if (rc != FR_OK)
     {
-        DEBUG_PRINT("SD card unmount error:%d", rc);
+        DEBUG_SERIAL_PRINT("SD card unmount error:%d", rc);
         ret = false;
     }
     else
     {
-        DEBUG_PRINT("SD card unmount OK");
+        DEBUG_SERIAL_PRINT("SD card unmount OK");
     }
 
     if(ret)

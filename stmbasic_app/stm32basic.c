@@ -1,29 +1,36 @@
-/*----------------------------------------------------------------------------/
-/ Based on Arduino BASIC
-/ https://github.com/robinhedwards/ArduinoBASIC
-/
-/ stm32basic.c module is a part of Stm32Basic for stm32 systems.
-/ This is a free software that opened for education, research and commercial
-/ developments under license policy of following terms.
-/
-/ Copyright (C) 2020, Vitasam, all right reserved.
-/
-/ * The Stm32Basic is a free software and there is NO WARRANTY.
-/ * No restriction on use. You can use, modify and redistribute it for
-/   personal, non-profit or commercial products UNDER YOUR RESPONSIBILITY.
-/ * Redistributions of source code must retain the above copyright notice.
-/---------------------------------------------------------------------------*/
+/*
+kbd_test.c file is a part of stm32Basic project.
+
+Copyright (c) 2020 vitasam
+
+Based on Arduino BASIC
+https://github.com/robinhedwards/ArduinoBASIC
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
-#include "../include/lcd.h"
+#include "../include/lcd2004.h"
 #include "../include/host.h"
 #include "../include/basic.h"
 #include "../include/utility.h"
 #include "../chan_fatfs/src/ff.h"
 #include "../chan_fatfs/src/diskio.h"
 
-const char applicationName[] = "Stm32BASIC ";
+const char applicationName[] = "stm32basic ";
 
 uint8_t mem[MEMORY_SIZE];
 uint8_t tokenBuf[TOKEN_BUF_SIZE];
@@ -38,13 +45,13 @@ int main(void)
 
     host_outputProgMemString(applicationName);
     host_outputProgMemString(globalVer);
-    DEBUG_PRINT(applicationName);
-    DEBUG_PRINT(globalVer);
+    DEBUG_SERIAL_PRINT(applicationName);
+    DEBUG_SERIAL_PRINT(globalVer);
 
 #ifdef SD_CARD_IN_USE
 #ifdef SERIAL_TRACES_ENABLED
     WORD res = (WORD)disk_initialize(0);
-    DEBUG_PRINT("SD initialization: %s\n", res ? "FAIL" : "OK");
+    DEBUG_SERIAL_PRINT("SD initialization: %s\n", res ? "FAIL" : "OK");
 #else
     disk_initialize(0);
 #endif

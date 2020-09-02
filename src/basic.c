@@ -1,14 +1,25 @@
-/*----------------------------------------------------------------------------/
-/ Based on Arduino BASIC
-/ https://github.com/robinhedwards/ArduinoBASIC
-/
-/ Copyright (C) 2020, Vitasam, all right reserved.
-/
-/ * The Stm32Basic is a free software and there is NO WARRANTY.
-/ * No restriction on use. You can use, modify and redistribute it for
-/   personal, non-profit or commercial products UNDER YOUR RESPONSIBILITY.
-/ * Redistributions of source code must retain the above copyright notice.
-/---------------------------------------------------------------------------*/
+/*
+basic.h file is a part of stm32Basic project.
+
+Copyright (c) 2020 vitasam
+
+Based on Arduino BASIC
+https://github.com/robinhedwards/ArduinoBASIC
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 
 /* ---------------------------------------------------------------------------
  * Basic Interpreter
@@ -112,19 +123,19 @@ const char* const errorTable[] PROGMEM = {
 
 // Token flags
 // bits 1+2 number of arguments
-#define TKN_ARGS_NUM_MASK	0x03
+#define TKN_ARGS_NUM_MASK   0x03
 // bit 3 return type (set if string)
-#define TKN_RET_TYPE_STR	0x04
+#define TKN_RET_TYPE_STR    0x04
 // bits 4-6 argument type (set if string)
-#define TKN_ARG1_TYPE_STR	0x08
-#define TKN_ARG2_TYPE_STR	0x10
-#define TKN_ARG3_TYPE_STR	0x20
+#define TKN_ARG1_TYPE_STR   0x08
+#define TKN_ARG2_TYPE_STR   0x10
+#define TKN_ARG3_TYPE_STR   0x20
 
-#define TKN_ARG_MASK		0x38
-#define TKN_ARG_SHIFT		3
+#define TKN_ARG_MASK        0x38
+#define TKN_ARG_SHIFT       3
 // bits 7,8 formatting
-#define TKN_FMT_POST		0x40
-#define TKN_FMT_PRE		0x80
+#define TKN_FMT_POST        0x40
+#define TKN_FMT_PRE     0x80
 
 
 PROGMEM const TokenTableEntry tokenTable[] = {
@@ -245,7 +256,7 @@ int doProgLine(uint16_t lineNum, unsigned char* tokenPtr, int tokensLength)
     if (*tokenPtr == TOKEN_EOL)
         return 1;
     // we now need to insert the new line at p
-    int bytesNeeded = 4 + tokensLength;	// length, linenum + tokens
+    int bytesNeeded = 4 + tokensLength; // length, linenum + tokens
     if (sysPROGEND + bytesNeeded > sysVARSTART)
         return 0;
     // make room if this isn't the last line
@@ -270,7 +281,7 @@ int doProgLine(uint16_t lineNum, unsigned char* tokenPtr, int tokensLength)
 
 int stackPushNum(float val) {
     if (sysSTACKEND + (int)sizeof(float) > sysVARSTART)
-        return 0;	// out of memory
+        return 0;   // out of memory
     unsigned char *p = &mem[sysSTACKEND];
     *(float *)p = val;
     sysSTACKEND += sizeof(float);
@@ -286,7 +297,7 @@ float stackPopNum(void) {
 int stackPushStr(char *str) {
     int len = 1 + strlen(str);
     if (sysSTACKEND + len + 2 > sysVARSTART)
-        return 0;	// out of memory
+        return 0;   // out of memory
     unsigned char *p = &mem[sysSTACKEND];
     strcpy((char*)p, str);
     p += len;
@@ -336,7 +347,7 @@ void stackLeftOrRightStr(int len, int mode) {
     int strlen = *(uint16_t *)(p-2);
     len++; // include trailing null
     if (len > strlen) len = strlen;
-    if (len == strlen) return;	// nothing to do
+    if (len == strlen) return;  // nothing to do
     sysSTACKEND -= (strlen+2);
     p = &mem[sysSTACKEND];
     if (mode == 0) {
@@ -359,9 +370,9 @@ void stackMidStr(int start, int len) {
     int strlen = *(uint16_t *)(p-2);
     len++; // include trailing null
     if (start > strlen) start = strlen;
-    start--;	// basic strings start at 1
+    start--;    // basic strings start at 1
     if (start + len > strlen) len = strlen - start;
-    if (len == strlen) return;	// nothing to do
+    if (len == strlen) return;  // nothing to do
     sysSTACKEND -= (strlen+2);
     p = &mem[sysSTACKEND];
     // copy the characters
@@ -391,11 +402,11 @@ void stackMidStr(int start, int len) {
 // +--------+-------+-----------------+----------+-------+ . . .+-------+-------------+. . 
 
 // variable type byte
-#define VAR_TYPE_NUM		0x1
-#define VAR_TYPE_FORNEXT	0x2
-#define VAR_TYPE_NUM_ARRAY	0x4
-#define VAR_TYPE_STRING		0x8
-#define VAR_TYPE_STR_ARRAY	0x10
+#define VAR_TYPE_NUM        0x1
+#define VAR_TYPE_FORNEXT    0x2
+#define VAR_TYPE_NUM_ARRAY  0x4
+#define VAR_TYPE_STRING     0x8
+#define VAR_TYPE_STR_ARRAY  0x10
 
 unsigned char *findVariable(char *searchName, int searchMask) {
     unsigned char *p = &mem[sysVARSTART];
@@ -429,20 +440,20 @@ int storeNumVariable(char *name, float val) {
     unsigned char *p = findVariable(name, VAR_TYPE_NUM|VAR_TYPE_FORNEXT);
 
     if (p != NULL)
-    {	// replace the old value
+    {   // replace the old value
         // (could either be VAR_TYPE_NUM or VAR_TYPE_FORNEXT)
-        p += 3;	// len + type;
+        p += 3; // len + type;
         p += nameLen + 1;
         *(float *)p = val;
     }
     else
-    {	// allocate a new variable
-        int bytesNeeded = 3;	// len + flags
-        bytesNeeded += nameLen + 1;	// name
-        bytesNeeded += sizeof(float);	// val
+    {   // allocate a new variable
+        int bytesNeeded = 3;    // len + flags
+        bytesNeeded += nameLen + 1; // name
+        bytesNeeded += sizeof(float);   // val
 
         if (sysVARSTART - bytesNeeded < sysSTACKEND)
-            return 0;	// out of memory
+            return 0;   // out of memory
         sysVARSTART -= bytesNeeded;
 
         p = &mem[sysVARSTART];
@@ -458,9 +469,9 @@ int storeNumVariable(char *name, float val) {
 
 int storeForNextVariable(char *name, float start, float step, float end, uint16_t lineNum, uint16_t stmtNum) {
     int nameLen = strlen(name);
-    int bytesNeeded = 3;	// len + flags
-    bytesNeeded += nameLen + 1;	// name
-    bytesNeeded += 3 * sizeof(float);	// vals
+    int bytesNeeded = 3;    // len + flags
+    bytesNeeded += nameLen + 1; // name
+    bytesNeeded += 3 * sizeof(float);   // vals
     bytesNeeded += 2 * sizeof(uint16_t);
 
     // unlike simple numeric variables, these are reallocated if they already exist
@@ -470,12 +481,12 @@ int storeForNextVariable(char *name, float start, float step, float end, uint16_
         // check there will actually be room for the new value
         uint16_t oldVarLen = *(uint16_t*)p;
         if (sysVARSTART - (bytesNeeded - oldVarLen) < sysSTACKEND)
-            return 0;	// not enough memory
+            return 0;   // not enough memory
         deleteVariableAt(p);
     }
 
     if (sysVARSTART - bytesNeeded < sysSTACKEND)
-        return 0;	// out of memory
+        return 0;   // out of memory
     sysVARSTART -= bytesNeeded;
 
     p = &mem[sysVARSTART];
@@ -499,9 +510,9 @@ int storeForNextVariable(char *name, float start, float step, float end, uint16_
 int storeStrVariable(char *name, char *val) {
     int nameLen = strlen(name);
     int valLen = strlen(val);
-    int bytesNeeded = 3;	// len + type
-    bytesNeeded += nameLen + 1;	// name
-    bytesNeeded += valLen + 1;	// val
+    int bytesNeeded = 3;    // len + type
+    bytesNeeded += nameLen + 1; // name
+    bytesNeeded += valLen + 1;  // val
 
     // strings and arrays are re-allocated if they already exist
     unsigned char *p = findVariable(name, VAR_TYPE_STRING);
@@ -509,12 +520,12 @@ int storeStrVariable(char *name, char *val) {
         // check there will actually be room for the new value
         uint16_t oldVarLen = *(uint16_t*)p;
         if (sysVARSTART - (bytesNeeded - oldVarLen) < sysSTACKEND)
-            return 0;	// not enough memory
+            return 0;   // not enough memory
         deleteVariableAt(p);
     }
 
     if (sysVARSTART - bytesNeeded < sysSTACKEND)
-        return 0;	// out of memory
+        return 0;   // out of memory
     sysVARSTART -= bytesNeeded;
 
     p = &mem[sysVARSTART];
@@ -530,14 +541,14 @@ int storeStrVariable(char *name, char *val) {
 int createArray(char *name, int isString) {
     // dimensions and number of dimensions on the calculator stack
     int nameLen = strlen(name);
-    int bytesNeeded = 3;	// len + flags
-    bytesNeeded += nameLen + 1;	// name
-    bytesNeeded += 2;		// num dims
+    int bytesNeeded = 3;    // len + flags
+    bytesNeeded += nameLen + 1; // name
+    bytesNeeded += 2;       // num dims
     int numElements = 1;
     int i = 0;
     int numDims = (int)stackPopNum();
     // keep the current stack position, since we'll need to pop these values again
-    int oldSTACKEND = sysSTACKEND;	
+    int oldSTACKEND = sysSTACKEND;  
     for (i=0; i<numDims; i++) {
         int dim = (int)stackPopNum();
         numElements *= dim;
@@ -549,12 +560,12 @@ int createArray(char *name, int isString) {
         // check there will actually be room for the new value
         uint16_t oldVarLen = *(uint16_t*)p;
         if (sysVARSTART - (bytesNeeded - oldVarLen) < sysSTACKEND)
-            return 0;	// not enough memory
+            return 0;   // not enough memory
         deleteVariableAt(p);
     }
 
     if (sysVARSTART - bytesNeeded < sysSTACKEND)
-        return 0;	// out of memory
+        return 0;   // out of memory
     sysVARSTART -= bytesNeeded;
 
     p = &mem[sysVARSTART];
@@ -625,7 +636,7 @@ int setStrArrayElem(char *name) {
     int newValLen = strlen(newValPtr);
 
     unsigned char *p = findVariable(name, VAR_TYPE_STR_ARRAY);
-    unsigned char *p1 = p;	// so we can correct the length when done
+    unsigned char *p1 = p;  // so we can correct the length when done
     if (p == NULL)
         return ERROR_VARIABLE_NOT_FOUND;
 
@@ -645,7 +656,7 @@ int setStrArrayElem(char *name) {
     int bytesNeeded = newValLen - oldValLen;
     // check if we've got enough room for the new value
     if (sysVARSTART - bytesNeeded < oldSTACKEND)
-        return 0;	// out of memory
+        return 0;   // out of memory
     // correct the length of the variable
     *(uint16_t*)p1 += bytesNeeded;
     memmove(&mem[sysVARSTART - bytesNeeded], &mem[sysVARSTART], p - &mem[sysVARSTART]);
@@ -746,7 +757,7 @@ ForNextData lookupForNextVariable(char *name) {
 int gosubStackPush(int lineNum,int stmtNum) {
     int bytesNeeded = 2 * sizeof(uint16_t);
     if (sysVARSTART - bytesNeeded < sysSTACKEND)
-        return 0;	// out of memory
+        return 0;   // out of memory
     // shift the variable table
     memmove(&mem[sysVARSTART]-bytesNeeded, &mem[sysVARSTART], sysVAREND-sysVARSTART);
     sysVARSTART -= bytesNeeded;
@@ -931,7 +942,7 @@ int tokenize(unsigned char *input, unsigned char *output, int outputSize)
  * PARSER / INTERPRETER
  * **************************************************************************/
 
-static char executeMode;	// 0 = syntax check only, 1 = execute
+static char executeMode;    // 0 = syntax check only, 1 = execute
 uint16_t lineNumber, stmtNumber;
 // stmt number is 0 for the first statement, then increases after each command seperator (:)
 // Note that IF a=1 THEN PRINT "x": print "y" is considered to be only 2 statements
@@ -976,10 +987,10 @@ int getNextToken(void)
 }
 
 // value (int) returned from parseXXXXX
-#define ERROR_MASK						0x0FFF
-#define TYPE_MASK						0xF000
-#define TYPE_NUMBER						0x0000
-#define TYPE_STRING						0x1000
+#define ERROR_MASK                      0x0FFF
+#define TYPE_MASK                       0xF000
+#define TYPE_NUMBER                     0x0000
+#define TYPE_STRING                     0x1000
 
 #define IS_TYPE_NUM(x) ((x & TYPE_MASK) == TYPE_NUMBER)
 #define IS_TYPE_STR(x) ((x & TYPE_MASK) == TYPE_STRING)
@@ -1002,7 +1013,7 @@ int parseSubscriptExpr(void) {
     while(1) {
         numDims++;
         int val = expectNumber();
-        if (val) return val;	// error
+        if (val) return val;    // error
         if (curToken == TOKEN_RBRACKET)
             break;
         else if (curToken == TOKEN_COMMA)
@@ -1128,7 +1139,7 @@ int parseFnCallExpr(void) {
         }
     }
     if (curToken != TOKEN_RBRACKET) return ERROR_EXPR_MISSING_BRACKET;
-    getNextToken();	// eat )
+    getNextToken(); // eat )
     return ret;
 }
 
@@ -1138,7 +1149,7 @@ int parseIdentifierExpr(void) {
     if (executeMode)
         strcpy(ident, identVal);
     int isStringIdentifier = isStrIdent;
-    getNextToken();	// eat ident
+    getNextToken(); // eat ident
     if (curToken == TOKEN_LBRACKET) {
         // array access
         int val = parseSubscriptExpr();
@@ -1199,7 +1210,7 @@ int parse_RND(void) {
     getNextToken();
     if (executeMode && !stackPushNum((float)rand()/(float)RAND_MAX))
         return ERROR_OUT_OF_MEMORY;
-    return TYPE_NUMBER;	
+    return TYPE_NUMBER; 
 }
 
 int parse_INKEY(void) {
@@ -1211,7 +1222,7 @@ int parse_INKEY(void) {
         if (!stackPushStr(str))
             return ERROR_OUT_OF_MEMORY;
     }
-    return TYPE_STRING;	
+    return TYPE_STRING; 
 }
 
 int parseUnaryNumExp(void)
@@ -1237,18 +1248,18 @@ int parseUnaryNumExp(void)
 /// primary
 int parsePrimary() {
     switch (curToken) {
-    case TOKEN_IDENT:	
+    case TOKEN_IDENT:   
         return parseIdentifierExpr();
     case TOKEN_NUMBER:
     case TOKEN_INTEGER:
         return parseNumberExpr();
-    case TOKEN_STRING:	
+    case TOKEN_STRING:  
         return parseStringExpr();
     case TOKEN_LBRACKET:
         return parseParenExpr();
 
         // "psuedo-identifiers"
-    case TOKEN_RND:	
+    case TOKEN_RND: 
         return parse_RND();
     case TOKEN_INKEY:
         return parse_INKEY();
@@ -1312,7 +1323,7 @@ int parseBinOpRHS(int ExprPrec, int lhsVal) {
         }
 
         if (IS_TYPE_NUM(lhsVal) && IS_TYPE_NUM(rhsVal))
-        {	// Number operations
+        {   // Number operations
             float r = 0, l = 0;
             if (executeMode) {
                 r = stackPopNum();
@@ -1367,7 +1378,7 @@ int parseBinOpRHS(int ExprPrec, int lhsVal) {
                 return ERROR_UNEXPECTED_TOKEN;
         }
         else if (IS_TYPE_STR(lhsVal) && IS_TYPE_STR(rhsVal))
-        {	// String operations
+        {   // String operations
             if (BinOp == TOKEN_PLUS) {
                 if (executeMode)
                     stackAdd2Strs();
@@ -1415,7 +1426,7 @@ int parse_RUN(void) {
     uint16_t startLine = 1;
     if (curToken != TOKEN_EOL) {
         int val = expectNumber();
-        if (val) return val;	// error
+        if (val) return val;    // error
         if (executeMode) {
             startLine = (uint16_t)stackPopNum();
             if (startLine <= 0)
@@ -1434,7 +1445,7 @@ int parse_RUN(void) {
 int parse_GOTO(void) {
     getNextToken();
     int val = expectNumber();
-    if (val) return val;	// error
+    if (val) return val;    // error
     if (executeMode) {
         uint16_t startLine = (uint16_t)stackPopNum();
         if (startLine <= 0)
@@ -1447,7 +1458,7 @@ int parse_GOTO(void) {
 int parse_PAUSE(void) {
     getNextToken();
     int val = expectNumber();
-    if (val) return val;	// error
+    if (val) return val;    // error
     if (executeMode) {
         long ms = (long)stackPopNum();
         if (ms < 0)
@@ -1462,14 +1473,14 @@ int parse_LIST(void) {
     uint16_t first = 0, last = 0;
     if (curToken != TOKEN_EOL && curToken != TOKEN_CMD_SEP) {
         int val = expectNumber();
-        if (val) return val;	// error
+        if (val) return val;    // error
         if (executeMode)
             first = (uint16_t)stackPopNum();
     }
     if (curToken == TOKEN_COMMA) {
         getNextToken();
         int val = expectNumber();
-        if (val) return val;	// error
+        if (val) return val;    // error
         if (executeMode)
             last = (uint16_t)stackPopNum();
     }
@@ -1513,12 +1524,12 @@ int parseTwoIntCmd(void) {
     int op = curToken;
     getNextToken();
     int val = expectNumber();
-    if (val) return val;	// error
+    if (val) return val;    // error
     if (curToken != TOKEN_COMMA)
         return ERROR_UNEXPECTED_TOKEN;
     getNextToken();
     val = expectNumber();
-    if (val) return val;	// error
+    if (val) return val;    // error
     if (executeMode) {
         int second = (int)stackPopNum();
         int first = (int)stackPopNum();
@@ -1546,7 +1557,7 @@ int parseAssignment(bool inputStmt) {
         strcpy(ident, identVal);
     int isStringIdentifier = isStrIdent;
     int isArray = 0;
-    getNextToken();	// eat ident
+    getNextToken(); // eat ident
     if (curToken == TOKEN_LBRACKET) {
         // array element being set
         val = parseSubscriptExpr();
@@ -1578,7 +1589,7 @@ int parseAssignment(bool inputStmt) {
     }
     // type checking and actual assignment
     if (!isStringIdentifier)
-    {	// numeric variable
+    {   // numeric variable
         if (!IS_TYPE_NUM(val)) return ERROR_EXPR_EXPECTED_NUM;
         if (executeMode) {
             if (isArray) {
@@ -1591,7 +1602,7 @@ int parseAssignment(bool inputStmt) {
         }
     }
     else
-    {	// string variable
+    {   // string variable
         if (!IS_TYPE_STR(val)) return ERROR_EXPR_EXPECTED_STR;
         if (executeMode) {
             if (isArray) {
@@ -1611,9 +1622,9 @@ int parseAssignment(bool inputStmt) {
 }
 
 int parse_IF(void) {
-    getNextToken();	// eat if
+    getNextToken(); // eat if
     int val = expectNumber();
-    if (val) return val;	// error
+    if (val) return val;    // error
     if (curToken != TOKEN_THEN)
         return ERROR_MISSING_THEN;
     getNextToken();
@@ -1630,16 +1641,16 @@ int parse_FOR(void) {
     float start = 0;
     float end = 0;
     float step = 1.0f;
-    getNextToken();	// eat for
+    getNextToken(); // eat for
     if (curToken != TOKEN_IDENT || isStrIdent) return ERROR_UNEXPECTED_TOKEN;
     if (executeMode)
         strcpy(ident, identVal);
-    getNextToken();	// eat ident
+    getNextToken(); // eat ident
     if (curToken != TOKEN_EQUALS) return ERROR_UNEXPECTED_TOKEN;
     getNextToken(); // eat =
     // parse START
     int val = expectNumber();
-    if (val) return val;	// error
+    if (val) return val;    // error
     if (executeMode)
         start = stackPopNum();
     // parse TO
@@ -1647,14 +1658,14 @@ int parse_FOR(void) {
     getNextToken(); // eat TO
     // parse END
     val = expectNumber();
-    if (val) return val;	// error
+    if (val) return val;    // error
     if (executeMode)
         end = stackPopNum();
     // parse optional STEP
     if (curToken == TOKEN_STEP) {
         getNextToken(); // eat STEP
         val = expectNumber();
-        if (val) return val;	// error
+        if (val) return val;    // error
         if (executeMode)
             step = stackPopNum();
     }
@@ -1665,7 +1676,7 @@ int parse_FOR(void) {
 }
 
 int parse_NEXT(void) {
-    getNextToken();	// eat next
+    getNextToken(); // eat next
     if (curToken != TOKEN_IDENT || isStrIdent) return ERROR_UNEXPECTED_TOKEN;
     if (executeMode) {
         ForNextData data = lookupForNextVariable(identVal);
@@ -1680,14 +1691,14 @@ int parse_NEXT(void) {
             jumpStmtNumber = data.stmtNumber+1;
         }
     }
-    getNextToken();	// eat ident
+    getNextToken(); // eat ident
     return 0;
 }
 
 int parse_GOSUB(void) {
-    getNextToken();	// eat gosub
+    getNextToken(); // eat gosub
     int val = expectNumber();
-    if (val) return val;	// error
+    if (val) return val;    // error
     if (executeMode) {
         uint16_t startLine = (uint16_t)stackPopNum();
         if (startLine <= 0)
@@ -1768,7 +1779,7 @@ int parseLoadSaveCmd(void) {
 
 int parseSimpleCmd(void) {
     int op = curToken;
-    getNextToken();	// eat op
+    getNextToken(); // eat op
     if (executeMode) {
         switch (op) {
             case TOKEN_NEW:
@@ -1810,12 +1821,12 @@ int parseSimpleCmd(void) {
 
 int parse_DIM(void) {
     char ident[MAX_IDENT_LEN+1];
-    getNextToken();	// eat DIM
+    getNextToken(); // eat DIM
     if (curToken != TOKEN_IDENT) return ERROR_UNEXPECTED_TOKEN;
     if (executeMode)
         strcpy(ident, identVal);
     int isStringIdentifier = isStrIdent;
-    getNextToken();	// eat ident
+    getNextToken(); // eat ident
     int val = parseSubscriptExpr();
     if (val) return val;
     if (executeMode && !createArray(ident, isStringIdentifier ? 1 : 0))
@@ -1835,7 +1846,7 @@ int parseStmts(void)
         if (curToken == TOKEN_EOL)
             break;
         if (executeMode)
-            sysSTACKEND = sysSTACKSTART = sysPROGEND;	// clear calculator stack
+            sysSTACKEND = sysSTACKSTART = sysPROGEND;   // clear calculator stack
         int needCmdSep = 1;
         switch (curToken) {
         case TOKEN_PRINT: ret = parse_PRINT(); break;
@@ -1922,7 +1933,7 @@ int processInput(unsigned char *tokenBuf) {
 
     executeMode = 0;
     targetStmtNumber = 0;
-    int ret = parseStmts();	// syntax check
+    int ret = parseStmts(); // syntax check
     if (ret != ERROR_NONE)
         return ret;
 
@@ -1934,7 +1945,7 @@ int processInput(unsigned char *tokenBuf) {
         // we start off executing from the input buffer
         tokenBuffer = tokenBuf;
         executeMode = 1;
-        lineNumber = 0;	// buffer
+        lineNumber = 0; // buffer
         unsigned char *p = NULL;
 
         while (1) {
@@ -1955,7 +1966,7 @@ int processInput(unsigned char *tokenBuf) {
 
             // are we processing the input buffer?
             if (!lineNumber && !jumpLineNumber && !jumpStmtNumber)
-                break;	// if no control flow jumps, then just exit
+                break;  // if no control flow jumps, then just exit
 
             // are we RETURNing to the input buffer?
             if (lineNumber && !jumpLineNumber && jumpStmtNumber)
@@ -1977,7 +1988,7 @@ int processInput(unsigned char *tokenBuf) {
                 }
                 // end of program?
                 if (p == &mem[sysPROGEND])
-                    break;	// end of program
+                    break;  // end of program
 
                 lineNumber = *(uint16_t*)(p+2);
                 tokenBuffer = p+4;

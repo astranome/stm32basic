@@ -1,19 +1,26 @@
-/*----------------------------------------------------------------------------/
-/ Based on RTC controls for STM32
-/ Copyright (c) 2009, Martin Thomas 4/2009, 3BSD-license 
-/ partly based on code from STMircoelectronics, Peter Dannegger, "LaLaDumm"
-/
-/ rtc.c module is a part of Stm32Basic for stm32 systems.
-/ This is a free software that opened for education, research and commercial
-/ developments under license policy of following terms.
-/
-/ Copyright (C) 2020, Vitasam, all right reserved.
-/
-/ * The Stm32Basic is a free software and there is NO WARRANTY.
-/ * No restriction on use. You can use, modify and redistribute it for
-/   personal, non-profit or commercial products UNDER YOUR RESPONSIBILITY.
-/ * Redistributions of source code must retain the above copyright notice.
-/---------------------------------------------------------------------------*/
+/*
+rtc.c file is a part of stm32Basic project.
+
+Copyright (c) 2020 vitasam
+
+Based on RTC controls for STM32
+Copyright (c) 2009, Martin Thomas 4/2009, 3BSD-license
+partly based on code from STMircoelectronics, Peter Dannegger, "LaLaDumm"
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 #include <stdint.h>
 #include <stdbool.h>
 #include <libopencm3/stm32/rtc.h>

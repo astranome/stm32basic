@@ -1,18 +1,22 @@
-/*----------------------------------------------------------------------------/
-/ Based on libopencm3 library
-/ https://github.com/libopencm3/libopencm3
-/
-/ kbd_test.c module is a part of Stm32Basic for stm32 systems.
-/ This is a free software that opened for education, research and commercial
-/ developments under license policy of following terms.
-/
-/ Copyright (C) 2020, Vitasam, all right reserved.
-/
-/ * The Stm32Basic is a free software and there is NO WARRANTY.
-/ * No restriction on use. You can use, modify and redistribute it for
-/   personal, non-profit or commercial products UNDER YOUR RESPONSIBILITY.
-/ * Redistributions of source code must retain the above copyright notice.
-/---------------------------------------------------------------------------*/
+/*
+kbd_test.c file is a part of stm32Basic project.
+
+Copyright (c) 2020 vitasam
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 #include <stdio.h>
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
@@ -23,7 +27,7 @@
 
 #include "../include/utility.h"
 #include "../include/ps2kbd.h"
-#include "../include/lcd.h"
+#include "../include/lcd2004.h"
 
 const char applicationName[] = "PS/2 KBD tester";
 
@@ -36,9 +40,7 @@ int main(void)
     bool in_loop = true;
     clock_setup();
 
-#ifdef SERIAL_TRACES_ENABLED
     usart_setup();
-#endif
 
     comm_puts(gimmick);
     comm_puts(globalVer);
@@ -46,38 +48,36 @@ int main(void)
     comm_puts(applicationName);
     comm_puts(newL);
 
-    lcd_setup();
-    lcd_init_4bit_mode();
-    lcd_backlight_on();
-    lcd_clear();
-    lcd_home();
-    lcd_backlight_on();
-    
+    lcd2004_init();
+    lcd2004_backlight_on();
+
     ext_interrupt_setup();
     misc_gpio_setup();
     kbd_begin();
-    
-    lcd_clear();
-    lcd_home();
-    lcd_write_string_4d(applicationName);
-    lcd_set_cursor(0, 1);
-    lcd_write_string_4d(globalVer);
-    lcd_set_cursor(0, 2);
-    lcd_write_string_4d("Press PS/2 keys");
-    
+
+    lcd2004_clear();
+    lcd2004_home();
+    lcd2004_write_string_4d(applicationName);
+    lcd2004_set_cursor(0, 1);
+    lcd2004_write_string_4d(globalVer);
+    lcd2004_set_cursor(0, 2);
+    comm_puts("Press PS/2 keys");
+    comm_puts(newL);
+    lcd2004_write_string_4d("Press PS/2 keys");
+
     while(in_loop)
     {
         if (kbd_available())
         {
             /* Read the next key */
             t = kbd_read();
-            
+
             if(t >= 0)
             {
                 c = (char)t;
 
-                lcd_clear();
-                lcd_home();
+                lcd2004_clear();
+                lcd2004_home();
 
                 /* Check for some of the special keys */
                 if (c == PS2_ENTER)
@@ -134,7 +134,7 @@ int main(void)
                 }
                 else
                 {
-                    dump_keyboard_data(c, "[]");
+                    dump_keyboard_data(c, " ");
                 }
             }
         }
@@ -149,13 +149,13 @@ void dump_keyboard_data(char c, char *s)
 
     if (c > 31 && c < 127)
     {
-        sprintf (buf, "%d:%c,%s", c, c, s);
+        sprintf (buf, "%d:%c %s", c, c, s);
     }
     else
     {
         sprintf (buf, "%d:%s", c, s);
     }
-    
-    lcd_write_string_4d(buf);
-    DEBUG_PRINT(buf);
+
+    lcd2004_write_string_4d(buf);
+    DEBUG_SERIAL_PRINT(buf);
 }

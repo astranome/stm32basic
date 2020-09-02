@@ -1,19 +1,26 @@
-/*----------------------------------------------------------------------------/
-/ Based on 'Demo for ChaN's FAT-module on STMicroelectronics STM32
-/ microcontroller' by Martin Thomas, Kaiserslautern,
-/ Germany <mthomas(at)rhrk.uni-kl.de>
-/
-/ term_io.h module is a part of Stm32Basic for stm32 systems.
-/ This is a free software that opened for education, research and commercial
-/ developments under license policy of following terms.
-/
-/ Copyright (C) 2020, Vitasam, all right reserved.
-/
-/ * The Stm32Basic is a free software and there is NO WARRANTY.
-/ * No restriction on use. You can use, modify and redistribute it for
-/   personal, non-profit or commercial products UNDER YOUR RESPONSIBILITY.
-/ * Redistributions of source code must retain the above copyright notice.
-/---------------------------------------------------------------------------*/
+/*
+term_io.h file is a part of stm32Basic project.
+
+Copyright (c) 2020 vitasam
+
+Based on 'Demo for ChaN's FAT-module on STMicroelectronics STM32
+microcontroller' by Martin Thomas, Kaiserslautern,
+Germany <mthomas(at)rhrk.uni-kl.de>
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 #ifndef TERM_IO_H_
 #define TERM_IO_H_
 

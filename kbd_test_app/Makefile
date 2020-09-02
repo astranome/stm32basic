@@ -2,13 +2,13 @@ BINARY = kbd_test
 
 OBJS = ../src/utility.o
 OBJS += ../src/ps2kbd.o
-OBJS += ../src/lcd.o
+OBJS += ../src/lcd2004.o
 OBJS += ../src/comm.o
 OBJS += ../src/term_io.o
 
 # Configuration flags
 DEFS += -DSERIAL_TRACES_ENABLED
-#DEFS += -DEXTRA_TRACES_ENABLED
+#DEFS += -DVERBOSE_TRACES
 #DEFS += -DSD_CARD_IN_USE
 
 # Uncomment one of keyboard's layout to be used

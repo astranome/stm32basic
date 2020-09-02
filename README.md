@@ -1,9 +1,12 @@
 # STM32Basic
-![](docs/images/stm32basic_pc.jpg)
+![stm32basic_v1](docs/images/stm32basic_v1.gif)
 
 ## Retro computer with BASIC interpreter (GCC/libopencm3 toolchain version)
-#### Based on https://github.com/robinhedwards/ArduinoBASIC
+Do you have an old PS/2 keyboard? The one that looks so good that you still feel sorry to throw it away? And one of those cheap  HD44780 displays 20x4 or 16x2 symbols. And maybe $1.5 "bluepill" board with STM32F103 microcontroller? 
 
+If so, you can convert it in to an 80's home computer! With BASIC interpreter that supports almost all the usual features, with float and string variables, multi-dimensional arrays, FOR-NEXT, GOSUB-RETURN, etc.
+
+#### Based on https://github.com/robinhedwards/ArduinoBASIC
 ### Technical specs
 * MCU: STM32F103C8T6 (72 MHz, 20 KB RAM, 64 KB Flash), a.k.a. "bluepill"
 * PS/2 keyboard 
@@ -14,6 +17,8 @@
 ### Backlog
 * [x] Get SD card working (for saving and loading .BAS files)
 * [ ] Update README with OpenOCD functionality
+* [ ] BASIC: add ABS() function
+* [x] Implement Display Host API to make it easier to add new displays
 * [ ] Implement vertical scrolling of BASIC code (from keyboard)
 * [ ] Add buzzer support
 * [ ] Add DIR and DEL commands for file operations
@@ -21,14 +26,22 @@
 * [ ] Add support for VT100 terminal, so it can output BASIC console to any VT100 compatible terminal
 * [ ] Short statetemenst for saving space of 20-char screen, e.g. PRINT -> PR
 * [ ] Battery for RTC (time/date file attributes, BASIC operators)
+* [ ] 16-Bit 5V I/O Expander with Serial Interface
 * [ ] Graphics LCD (e.g. 128 x 64 pixels)
 
+## GIT branches
+
+- **master** - main "production" branch for releases
+- **development** - R&D branch
+- **dso138_port** - "unofficial" port of stm32basic to DSO138 oscilloscope platform
+
 ## Prerequisites
+
 1: STM32F103C8T6 (72 MHz, 20 KB RAM, 64 KB Flash), a.k.a. "bluepill" board. It can also work on more powerfull devices, e.g. STM32F103RET6.
 
 2: A PS/2 Keyboard. See http://playground.arduino.cc/Main/PS2Keyboard for wiring details.
 
-3: Any of standard HD44780 LCDs 20 x 4 symbols.
+3: Any of standard HD44780 LCDs 20x4 (or 16x2) symbols.
 
 4: Breadboard + wires.
 
@@ -49,7 +62,19 @@ Assuming that the user has Windows PC, the easiest way to build the firmware and
 
 3: Use any of Ubuntu based hosts machines for making a firmware. E.g. use Windows Subsystem for Linux (WSL) on a Windows 10 or Raspberry Pi as a standalone build machine.
 
+*I especially like the last option because I (as probably many DIYers) do have Raspberri Pi lying around idle, and this is a good chance to convert it in to something useful*. 
+
+### C coding style
+
+- C type of comments `/* */` located immediately after the statement (preferably), in order to keep lines as short as possible (old terminals and smartphones friendly). Most text editors have syntax highlighting, therefore it is not necessary to align comments for the better readability.
+- Indentation style: 4 spaces.
+- Braces `{ }` are used all the time, even for single statement blocks.
+- An opening brace is located on the same line as a statement.
+- A closing brace should always belong on a separate line.
+- Doxygen type of comments is welcome, but completely optional.
+
 #### Setting up Visual Studio Code Remote development in WSL
+
 In case of Windows PC the most convenient way to work with source files in WSL is to use Visual Studio Code Remote, please follow a [Tutorial](https://code.visualstudio.com/remote-tutorials/wsl/getting-started). 
 
 ### Setting up Linux environment and build applications
@@ -65,7 +90,7 @@ In case of Windows PC the most convenient way to work with source files in WSL i
 
 `./get_libopencm3.sh`
 
-**Note**: building `libopencm3` library on a Raspberry Pi can take a significant amount of time (e.g. up to 30 minutes).
+**Note**: building `libopencm3` library on a Raspberry Pi can take a significant amount of time (e.g. up to 20 minutes).
 
 * Build keyboard hardware test
 
@@ -101,7 +126,6 @@ Arrange all components on a breadboard according to [schematics](https://github.
 If compilations were successful, then one should have `.hex` binary files available, under each applications folder. Copy them to your Windows machine and use ST-Link utility to program and verify the device.
 
 ### Serial traces
-
 To get serial console traces just enable following compilation flag in a `Makefile`:
 
 `DEFS += -DSERIAL_TRACES_ENABLED`
@@ -111,7 +135,15 @@ The serial terminal should be set to 115200 bod, 8 bits, 1 stop bit:
 ![](docs/images/lcd_test_comport.png)
 
 ## BASIC Language
-#### based on https://github.com/robinhedwards/ArduinoBASIC
+### BASIC programs
+Collection of ready-to-use BASIC [programs](https://github.com/vitasam/stm32basic/tree/development/docs/basic) for the memory card. Copy file to the card and load the program, e.g.:
+
+```
+LOAD "NQUEENS"
+```
+
+### Language Description
+##### (based on https://github.com/robinhedwards/ArduinoBASIC)
 Variables names can be up to 8 alphanumeric characters but start with a letter e.g. a, bob32
 String variable names must end in $ e.g. a$, bob32$
 Case is ignored (for all identifiers). BOB32 is the same as Bob32. print is the same as PRINT
