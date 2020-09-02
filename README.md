@@ -1,5 +1,5 @@
 # STM32Basic
-![](docs/images/stm32basic_pc.jpg)
+![stm32basic_v1](docs/images/stm32basic_v1.gif)
 
 ## Retro computer with BASIC interpreter (GCC/libopencm3 toolchain version)
 Do you have an old PS/2 keyboard? The one that looks so good that you still feel sorry to throw it away? And one of those cheap  HD44780 displays 20x4 or 16x2 symbols. And maybe $1.5 "bluepill" board with STM32F103 microcontroller? 
@@ -136,7 +136,11 @@ The serial terminal should be set to 115200 bod, 8 bits, 1 stop bit:
 
 ## BASIC Language
 ### BASIC programs
-Collection of ready-to-use BASIC [programs](https://github.com/vitasam/stm32basic/tree/development/docs/basic) for the memory card.
+Collection of ready-to-use BASIC [programs](https://github.com/vitasam/stm32basic/tree/development/docs/basic) for the memory card. Copy file to the card and load the program, e.g.:
+
+```
+LOAD "NQUEENS"
+```
 
 ### Language Description
 ##### (based on https://github.com/robinhedwards/ArduinoBASIC)
