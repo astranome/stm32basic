@@ -45,22 +45,6 @@ If so, you can convert it in to an 80's home computer! With BASIC interpreter th
 
 4: Breadboard + wires.
 
-
-
-        
-
-
-  
-    
-  # STM32Basic
-
-![](docs/images/stm32basic_pc.jpg)
-
-
-
-## Retro computer with BASIC interpreter (GCC/libopencm3 toolchain version)
-
-Do you have an old PS/2 keyboard? The one that looks so good that you still feel sorry to throw it away? And one of those cheap  HD44780 displays 20x4 or 16x2 symbols. And maybe $1.5 
 5: ST-link v2 USB adapter.
 
 6: USB-to-COM adapter.
