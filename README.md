@@ -65,7 +65,6 @@ Assuming that the user has Windows PC, the easiest way to build the firmware and
 *I especially like the last option because I (as probably many DIYers) do have Raspberri Pi lying around idle, and this is a good chance to convert it in to something useful*. 
 
 ### C coding style
-
 - C type of comments `/* */` located immediately after the statement (preferably), in order to keep lines as short as possible (old terminals and smartphones friendly). Most text editors have syntax highlighting, therefore it is not necessary to align comments for the better readability.
 - Indentation style: 4 spaces.
 - Braces `{ }` are used all the time, even for single statement blocks.
@@ -74,7 +73,6 @@ Assuming that the user has Windows PC, the easiest way to build the firmware and
 - Doxygen type of comments is welcome, but completely optional.
 
 #### Setting up Visual Studio Code Remote development in WSL
-
 In case of Windows PC the most convenient way to work with source files in WSL is to use Visual Studio Code Remote, please follow a [Tutorial](https://code.visualstudio.com/remote-tutorials/wsl/getting-started). 
 
 ### Setting up Linux environment and build applications
@@ -142,7 +140,7 @@ Collection of ready-to-use BASIC [programs](https://github.com/vitasam/stm32basi
 LOAD "NQUEENS"
 ```
 
-NQUEENS.BAS is a progam used for Calculator Speed [Benchmark](https://www.hpmuseum.org/cgi-sys/cgiwrap/hpmuseum/articles.cgi?read=700) (so called N-Queens Problem). The stm32basic is quite fast for measuring it visually with just one loop. It is better to run e.g. 100 lops and then divide the time by 100. One can modify the code on NQUEENS.BAS as following:
+NQUEENS.BAS is a progam used for Calculator Speed [Benchmark](https://www.hpmuseum.org/cgi-sys/cgiwrap/hpmuseum/articles.cgi?read=700) (so called N-Queens Problem). The stm32basic is quite fast for measuring it visually with just one loop. It is better to run e.g. 100 loops and then divide the time by 100. One can modify the code on NQUEENS.BAS as following:
 ```
 45 <press Enter> <- delete line 45 DIM A(9)
 12 DIM A(9)
