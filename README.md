@@ -149,7 +149,7 @@ NQUEENS.BAS is a progam used for Calculator Speed [Benchmark](https://www.hpmuse
 15 FOR X=0 to 100
 205 NEXT
 ```
-Running such modifyed program takes about 69 sec on my system, it gives 0.69 sec. In the above Benchmark list the stm32basic comes between those models:
+Running of such modified program takes about 69 sec on my system, it gives 0.69 sec. In the above Benchmark list the stm32basic comes between those models:
 ```
  -       0.770     ClassPad 300+     CPLua 0.8 / Bytecode / Fast Mode x1.4 (29.5->59 MHz)
  -       0.673     FX-9860GII-2      C.Basic 2.37 / Integer Mode
