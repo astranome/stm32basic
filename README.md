@@ -27,7 +27,7 @@ If so, you can convert it in to an 80's home computer! With BASIC interpreter th
 * [ ] Short statetemenst for saving space of 20-char screen, e.g. PRINT -> PR
 * [ ] Battery for RTC (time/date file attributes, BASIC operators)
 * [ ] 16-Bit 5V I/O Expander with Serial Interface
-* [ ] Graphics LCD (e.g. 128 x 64 pixels)
+* [ ] Graphics LCD (e.g. TFT 320 x 240 pixels)
 
 ## GIT branches
 
