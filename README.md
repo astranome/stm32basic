@@ -142,6 +142,19 @@ Collection of ready-to-use BASIC [programs](https://github.com/vitasam/stm32basi
 LOAD "NQUEENS"
 ```
 
+NQUEENS.BAS is a progam used for Calculator Speed [Benchmark](https://www.hpmuseum.org/cgi-sys/cgiwrap/hpmuseum/articles.cgi?read=700) using the N-Queens Problem. The stm32basic is quite fast for measuring it visually with just one loop. It is better to run e.g. 100 lops and then divide the time by 100. One can modify the code on NQUEENS.BAS as following:
+```
+45 <press Enter> <- delete line 45 DIM A(9)
+12 DIM A(9)
+15 FOR X=0 to 100
+205 NEXT
+```
+Running such modifyed program takes about 69 sec on my system, it gives 0.69 sec. In the above Benchmark list the stm32basic comes between those models:
+```
+ -       0.770     ClassPad 300+     CPLua 0.8 / Bytecode / Fast Mode x1.4 (29.5->59 MHz)
+ -       0.673     FX-9860GII-2      C.Basic 2.37 / Integer Mode
+```
+
 ### Language Description
 ##### (based on https://github.com/robinhedwards/ArduinoBASIC)
 Variables names can be up to 8 alphanumeric characters but start with a letter e.g. a, bob32
