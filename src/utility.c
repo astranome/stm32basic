@@ -37,6 +37,9 @@ void clock_setup(void) {
     rcc_clock_setup_in_hse_8mhz_out_72mhz(); /* 72 MHz */
     rcc_periph_clock_enable(RCC_GPIOA);
     rcc_periph_clock_enable(RCC_GPIOB);
+#ifdef DSO138_PLATFORM
+    rcc_periph_clock_enable(RCC_GPIOC);
+#endif
 
 #ifdef SERIAL_TRACES_ENABLED
     rcc_periph_clock_enable(RCC_USART1);

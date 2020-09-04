@@ -1,34 +1,56 @@
 /*
-MIT License
+tft320240.c file is a part of stm32Basic project.
 
-Copyright (c) 2020 Avra Mitra
+Copyright (c) 2020 vitasam
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Based on TFT driver:
+https://github.com/abhra0897/stm32f1_ili9341_parallel
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #include <stdlib.h>
-#include <ili9341_stm32_parallel8.h>
+#include "../include/tft320240.h"
 
 //TFT width and height default global variables
 uint16_t ili_tftwidth = 320;
 uint16_t ili_tftheight = 240;
 
+const char displayName[] = "ILI9341 320x240";
 
+void tft320240_init(void) {
+	ili_init();
+
+#ifdef USER_DEFAULT_PLATFORM
+	ili_rotate_display(1);
+#elif DSO138_PLATFORM
+    ili_rotate_display(1);
+#endif
+
+	ili_fill_screen(ILI_COLOR_BLACK);
+}
+
+void tft320240_get_capability(DisplayCapability *dispCapability) {
+    dispCapability->displayWidthPixels = ili_tftwidth;
+    dispCapability->displayHeightPixels = ili_tftheight;
+    dispCapability->displayWidthSymbols = ili_tftwidth / 16;
+    dispCapability->displayHeightSymbols = ili_tftheight / 16;
+    dispCapability->displayHasBacklight = 1;
+    memset(dispCapability->displayName, 0, sizeof(dispCapability->displayName));
+    int k = (sizeof(displayName) > DISPLAY_NAME_LENGTN) ? DISPLAY_NAME_LENGTN : sizeof(displayName);
+    memcpy(dispCapability->displayName, displayName, k);
+}
 
 /**
  * Set an area for drawing on the display with start row,col and end row,col.

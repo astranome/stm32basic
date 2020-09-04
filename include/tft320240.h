@@ -1,33 +1,33 @@
 /*
-MIT License
+tft320240.h file is a part of stm32Basic project.
 
-Copyright (c) 2020 Avra Mitra
+Copyright (c) 2020 vitasam
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Based on TFT driver:
+https://github.com/abhra0897/stm32f1_ili9341_parallel
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 #include "bitmap_typedefs.h"
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/rcc.h>
+#include "../include/utility.h"
 
-#ifndef INC_ILI9341_STM32_PARALLEL8_H_
-#define INC_ILI9341_STM32_PARALLEL8_H_
+#ifndef _TFT320240_H
+#define _TFT320240_H
 
 #define UNUSED(x) (void)(x)
 
@@ -323,6 +323,8 @@ AFIO_MAPR_SWJ_CFG_JTAG_OFF_SW_OFF: JTAG-DP disabled and SW-DP disabled
 /*
 * function prototypes
 */
+void tft320240_init(void);
+void tft320240_get_capability(DisplayCapability *dispCapability);
 
 /*
  * Inline function to send 8 bit command to the display
@@ -509,5 +511,4 @@ void ili_draw_bitmap(uint16_t x, uint16_t y, const tImage *bitmap);
  */
 void ili_draw_pixel(uint16_t x, uint16_t y, uint16_t color);
 
-//------------------------------------------------------------------------
-#endif /* INC_ILI9341_STM32_PARALLEL8_H_ */
+#endif /* _TFT320240_H */
