@@ -6,6 +6,8 @@ Do you have an old PS/2 keyboard? The one that looks so good that you still feel
 
 If so, you can convert it in to an 80's home computer! With BASIC interpreter that supports almost all the usual features, with float and string variables, multi-dimensional arrays, FOR-NEXT, GOSUB-RETURN, etc.
 
+#### See more in the [gallery](https://github.com/vitasam/stm32basic/tree/development/docs/gallery)
+
 #### Based on https://github.com/robinhedwards/ArduinoBASIC
 ### Technical specs
 * MCU: STM32F103C8T6 (72 MHz, 20 KB RAM, 64 KB Flash), a.k.a. "bluepill"
@@ -56,7 +58,7 @@ If so, you can convert it in to an 80's home computer! With BASIC interpreter th
 ## Getting Started
 Assuming that the user has Windows PC, the easiest way to build the firmware and flash it in to the stm32 board is as following:
 
-1: Install [STM32 ST-LINK utility](https://www.st.com/en/development-tools/stsw-link004.html) on a Windows PC.
+1: Install STM32 ST-LINK [utility](https://www.st.com/en/development-tools/stsw-link004.html) on a Windows PC.
 
 2: Connect ST-Link adapter to stm32 board and verify that the MCU is visible from there.
 
