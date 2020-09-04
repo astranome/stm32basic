@@ -17,6 +17,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
+#include <stdio.h>
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 
@@ -29,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 DisplayCapability dispCapability;
 const char applicationName[] = "TFT 320x240 tester";
-const char teststr[] = " stm32basic";
+const char teststr[] = "stm32basic";
 
 int main(void) {
     clock_setup();
@@ -45,13 +46,6 @@ int main(void) {
     tft320240_get_capability(&dispCapability);
     tft320240_init();
 
-/*
-    lcd2004_backlight_on();
-    lcd2004_write_string_4d(applicationName);
-    lcd2004_set_cursor(0, 1);
-    lcd2004_write_string_4d(globalVer);
-    lcd2004_set_cursor(0, 2);
-
     DEBUG_SERIAL_PRINT("Display name: %s", dispCapability.displayName);
     DEBUG_SERIAL_PRINT("Width, pixels: %d", dispCapability.displayWidthPixels);
     DEBUG_SERIAL_PRINT("Height, pixels: %d", dispCapability.displayHeightPixels);
@@ -60,19 +54,18 @@ int main(void) {
     DEBUG_SERIAL_PRINT("Has backlight: %d", dispCapability.displayHasBacklight);
 
     delay_us100(SEC_2);
+    DEBUG_SERIAL_PRINT("=== Test of TFT cursor");
 
-    lcd2004_off();
-    DEBUG_SERIAL_PRINT("=== LCD off");
-    delay_us100(SEC_2);
+    char testBuf[24];
+    int i;
+    for (i = 0; i < 15; i++) {
+        sprintf(testBuf, "Curs:%d,%d %s", i, i + 10, teststr);
+        DEBUG_SERIAL_PRINT("%s", testBuf);
+        tft320240_set_cursor(i, i + 10);
+        tft8bit_write_string(testBuf);
+    }
 
-    lcd2004_on();
-    DEBUG_SERIAL_PRINT("=== LCD on");
-    delay_us100(SEC_2);
-    lcd2004_clear();
-    lcd2004_home();
-    
-    DEBUG_SERIAL_PRINT("=== Test of LCD cursor:");
-
+/*
     lcd2004_set_cursor(0, 0);
     lcd2004_write_string_4d("@0,0");
     lcd2004_write_string_4d(teststr);

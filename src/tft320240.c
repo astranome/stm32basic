@@ -21,11 +21,17 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #include <stdlib.h>
+#include <string.h>
 #include "../include/tft320240.h"
+#include "../include/font_microsoft_16.h"
 
 //TFT width and height default global variables
 uint16_t ili_tftwidth = 320;
 uint16_t ili_tftheight = 240;
+
+#define TFT320240_CURSOR_COEFF	14
+volatile uint16_t current_cursor_col = 0;
+volatile uint16_t current_cursor_row = 0;
 
 const char displayName[] = "ILI9341 320x240";
 
@@ -51,6 +57,39 @@ void tft320240_get_capability(DisplayCapability *dispCapability) {
     int k = (sizeof(displayName) > DISPLAY_NAME_LENGTN) ? DISPLAY_NAME_LENGTN : sizeof(displayName);
     memcpy(dispCapability->displayName, displayName, k);
 }
+
+void tft320240_set_cursor(uint8_t col, uint8_t row) {
+	current_cursor_col = col * TFT320240_CURSOR_COEFF;
+	current_cursor_row = row * TFT320240_CURSOR_COEFF;
+
+	if (current_cursor_col >= ili_tftwidth) {
+		current_cursor_col = ili_tftwidth - 1;
+	}
+
+	if (current_cursor_row >= ili_tftheight) {
+		current_cursor_col = ili_tftheight - 1;
+	}
+}
+
+void tft8bit_write_character(char c) {
+	char buf[2];
+	uint16_t x = current_cursor_col;
+	uint16_t y = current_cursor_row;
+
+	buf[0] = c;
+	buf[1] = 0;
+	
+    ili_draw_string(x, y, buf, ILI_COLOR_GREEN, &font_microsoft_16);
+}
+
+void tft8bit_write_string(const char* s) {
+    char c;
+    while ( ( c = *s++) != '\0' )
+    {
+        tft8bit_write_character(c);
+    }
+}
+
 
 /**
  * Set an area for drawing on the display with start row,col and end row,col.
@@ -667,7 +706,7 @@ void ili_rotate_display(uint8_t rotation)
 /**
  * Initialize the display driver
  */
-void ili_init()
+void ili_init(void)
 {
 	// Set gpio clock
 	CONFIG_GPIO_CLOCK();

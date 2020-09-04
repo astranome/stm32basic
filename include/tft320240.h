@@ -325,6 +325,9 @@ AFIO_MAPR_SWJ_CFG_JTAG_OFF_SW_OFF: JTAG-DP disabled and SW-DP disabled
 */
 void tft320240_init(void);
 void tft320240_get_capability(DisplayCapability *dispCapability);
+void tft320240_set_cursor(uint8_t col, uint8_t row);
+void tft8bit_write_character(char c);
+void tft8bit_write_string(const char* s);
 
 /*
  * Inline function to send 8 bit command to the display
@@ -432,7 +435,7 @@ void ili_rotate_display(uint8_t rotation);
 /**
  * Initialize the display driver
  */
-void ili_init();
+void ili_init(void);
 
 /**
  * Fills a rectangular area with `color`.
