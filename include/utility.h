@@ -70,7 +70,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #ifdef SERIAL_TRACES_ENABLED
 #define DEBUG_SERIAL_PRINT(...) do{xprintf(__VA_ARGS__ ); xprintf("\t\n");} while(false)
 #else
-#define DEBUG_SERIAL_PRINT(...) do { } while (false)
+#define DEBUG_SERIAL_PRINT(...)
 #endif
 
 /* 
