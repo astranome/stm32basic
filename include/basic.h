@@ -94,9 +94,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #define TOKEN_ABS               66
 #define TOKEN_SQR               67
 #define TOKEN_SIN               68
+#define TOKEN_COS               69
 
 #define FIRST_IDENT_TOKEN       23
-#define LAST_IDENT_TOKEN        68
+#define LAST_IDENT_TOKEN        69
 
 #define FIRST_NON_ALPHA_TOKEN    8
 #define LAST_NON_ALPHA_TOKEN    22

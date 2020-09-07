@@ -22,7 +22,7 @@ If so, you can convert it in to an 80's home computer! With BASIC interpreter th
 * [x] BASIC: add ABS() function
 * [x] BASIC: add SQR() function
 * [x] BASIC: add SIN() function
-* [ ] BASIC: add COS() function
+* [x] BASIC: add COS() function
 * [ ] BASIC: add TAN() function
 * [x] Implement Display Host API to make it easier to add new displays
 * [ ] Add buzzer support
@@ -223,6 +223,7 @@ INT(number) e.g. INT(1.5)-> 1
 ABS(number) e.g. ABS(-4.5)-> 4.1
 SQR(number) e.g. SQR(534)-> 23.10844
 SIN(number) e.g. SIN(45)-> 0.850904
+COS(number) e.g. COS(45)-> 0.525322
 STR$(number) e.g. STR$(2) -> "2"
 LEFT$(string,n)
 RIGHT$(string,n)
