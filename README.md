@@ -19,7 +19,11 @@ If so, you can convert it in to an 80's home computer! With BASIC interpreter th
 ### Backlog
 * [x] Get SD card working (for saving and loading .BAS files)
 * [ ] Update README with OpenOCD functionality
-* [ ] BASIC: add ABS() function
+* [x] BASIC: add ABS() function
+* [ ] BASIC: add SQR() function
+* [ ] BASIC: add SIN() function
+* [ ] BASIC: add COS() function
+* [ ] BASIC: add TAN() function
 * [x] Implement Display Host API to make it easier to add new displays
 * [ ] Add buzzer support
 * [ ] Add DIR and DEL commands for file operations

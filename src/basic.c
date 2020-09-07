@@ -155,7 +155,7 @@ PROGMEM const TokenTableEntry tokenTable[] = {
     {"RIGHT$",2|TKN_ARG1_TYPE_STR|TKN_RET_TYPE_STR}, {"MID$",3|TKN_ARG1_TYPE_STR|TKN_RET_TYPE_STR}, {"CLS",TKN_FMT_POST}, {"PAUSE",TKN_FMT_POST},
     {"POSITION", TKN_FMT_POST},  {"PIN",TKN_FMT_POST}, {"PINMODE", TKN_FMT_POST}, {"INKEY$", 0},
     {"SAVE", TKN_FMT_POST}, {"LOAD", TKN_FMT_POST}, {"PINREAD",1}, {"ANALOGRD",1},
-    {"DIR", TKN_FMT_POST}, {"DELETE", TKN_FMT_POST}
+    {"DIR", TKN_FMT_POST}, {"DELETE", TKN_FMT_POST}, {"ABS",1}
 };
 
 
@@ -1062,6 +1062,10 @@ int parseFnCallExpr(void) {
         case TOKEN_INT:
             stackPushNum((float)floor(stackPopNum()));
             break;
+        case TOKEN_ABS:
+            DEBUG_SERIAL_PRINT("TOKEN_ABS");
+            stackPushNum((float)fabs(stackPopNum()));
+            break;
         case TOKEN_STR:
             {
                 char buf[16];
@@ -1279,6 +1283,7 @@ int parsePrimary() {
     case TOKEN_MID: 
     case TOKEN_PINREAD:
     case TOKEN_ANALOGRD:
+    case TOKEN_ABS:
         return parseFnCallExpr();
 
     default:
