@@ -29,11 +29,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 DisplayCapability dispCapability;
 const char applicationName[] = "LCD tester";
-const char teststr[] = " Stm32Basic";
+const char teststr[] = " stm32basic";
 
 int main(void) {
     clock_setup();
-
     usart_setup();
 
     comm_puts(gimmick);

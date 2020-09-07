@@ -79,8 +79,6 @@ void host_init(int buzzerPin)
     host_sleep(100);
 #endif
 
-    i2c_setup();
-
     display_get_capability_p(&dispCapability);
 
     DEBUG_SERIAL_PRINT("Display name: %s", dispCapability.displayName);
