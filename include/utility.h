@@ -70,7 +70,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #ifdef SERIAL_TRACES_ENABLED
 #define DEBUG_SERIAL_PRINT(...) do{xprintf(__VA_ARGS__ ); xprintf("\t\n");} while(false)
 #else
-#define DEBUG_SERIAL_PRINT(...) do { } while (false)
+#define DEBUG_SERIAL_PRINT(...)
 #endif
 
 /* 
@@ -84,6 +84,7 @@ typedef struct {
     int displayWidthSymbols; /* Display wifth, symbols */
     int displayHeightSymbols; /* Display height, symbols */
     int displayHasBacklight; /* 1: display has a backligh; 0: does not have */
+    int displayIsMonochome; /* 1: display is monochrome; 0: display supports colors */
     char displayName[DISPLAY_NAME_LENGTN]; /* Display name */
 } DisplayCapability;
 

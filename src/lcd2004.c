@@ -40,6 +40,7 @@ void lcd2004_get_capability(DisplayCapability *dispCapability) {
     dispCapability->displayWidthSymbols = LCD2004_SCREEN_WIDTH;
     dispCapability->displayHeightSymbols = LCD2004_SCREEN_HEIGHT;
     dispCapability->displayHasBacklight = 1;
+    dispCapability->displayIsMonochome = 1;
     memset(dispCapability->displayName, 0, sizeof(dispCapability->displayName));
     int k = (sizeof(displayName) > DISPLAY_NAME_LENGTN) ? DISPLAY_NAME_LENGTN : sizeof(displayName);
     memcpy(dispCapability->displayName, displayName, k);

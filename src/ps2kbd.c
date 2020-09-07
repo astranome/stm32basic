@@ -476,10 +476,6 @@ static char get_iso8859_code(void)
             return 0;
         }
 
-#ifdef VERBOSE_TRACES
-        DEBUG_SERIAL_PRINT("Scan code:%d", s);
-#endif
-
         if (s == 0xF0)
         {
             state |= BREAK;

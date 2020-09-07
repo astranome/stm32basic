@@ -6,6 +6,8 @@ Do you have an old PS/2 keyboard? The one that looks so good that you still feel
 
 If so, you can convert it in to an 80's home computer! With BASIC interpreter that supports almost all the usual features, with float and string variables, multi-dimensional arrays, FOR-NEXT, GOSUB-RETURN, etc.
 
+#### See more in the [gallery](https://github.com/vitasam/stm32basic/tree/development/docs/gallery)
+
 #### Based on https://github.com/robinhedwards/ArduinoBASIC
 ### Technical specs
 * MCU: STM32F103C8T6 (72 MHz, 20 KB RAM, 64 KB Flash), a.k.a. "bluepill"
@@ -17,11 +19,16 @@ If so, you can convert it in to an 80's home computer! With BASIC interpreter th
 ### Backlog
 * [x] Get SD card working (for saving and loading .BAS files)
 * [ ] Update README with OpenOCD functionality
-* [ ] BASIC: add ABS() function
+* [x] BASIC: add ABS() function
+* [x] BASIC: add SQR() function
+* [x] BASIC: add SIN() function
+* [x] BASIC: add COS() function
+* [x] BASIC: add TAN() function
 * [x] Implement Display Host API to make it easier to add new displays
 * [ ] Add buzzer support
 * [ ] Add DIR and DEL commands for file operations
 * [ ] Writing and reading of GPIO from BASIC
+* [ ] Implement sctipt (e.g. Python) to convert .BAS files to .TXT and vice versa on a PC
 * [ ] Add support for VT100 terminal, so it can output BASIC console to any VT100 compatible terminal
 * [ ] Short statetemenst for saving space of 20-char screen, e.g. PRINT -> PR
 * [ ] Battery for RTC (time/date file attributes, BASIC operators)
@@ -55,7 +62,7 @@ If so, you can convert it in to an 80's home computer! With BASIC interpreter th
 ## Getting Started
 Assuming that the user has Windows PC, the easiest way to build the firmware and flash it in to the stm32 board is as following:
 
-1: Install [STM32 ST-LINK utility](https://www.st.com/en/development-tools/stsw-link004.html) on a Windows PC.
+1: Install STM32 ST-LINK [utility](https://www.st.com/en/development-tools/stsw-link004.html) on a Windows PC.
 
 2: Connect ST-Link adapter to stm32 board and verify that the MCU is visible from there.
 
@@ -143,13 +150,13 @@ NQUEENS.BAS is a progam used for Calculator Speed [Benchmark](https://www.hpmuse
 ```
 45 <press Enter> <- delete line 45 DIM A(9)
 12 DIM A(9)
-15 FOR X=0 to 100
+15 FOR X=0 TO 100
 205 NEXT X
 ```
-Running of such modified program takes about 69 sec on my system, it gives 0.69 sec. In the above Benchmark list the stm32basic comes between those models:
+Running of such modified program takes about 56 sec on my system, it gives 0.56 sec. In the above Benchmark list the stm32basic comes between those models:
 ```
- -       0.770     ClassPad 300+     CPLua 0.8 / Bytecode / Fast Mode x1.4 (29.5->59 MHz)
- -       0.673     FX-9860GII-2      C.Basic 2.37 / Integer Mode
+ -       0.586     PB-2000C          DL-Pascal ROM Card 1.2 / Native Compiler / Turbo x2.2
+ -       0.550     HP-41CL           Mcode / Turbo20 Mode x19.6
 ```
 
 ### Language Description
@@ -213,6 +220,11 @@ Functions
 LEN(string) e.g. PRINT LEN("Hello") -> 5
 VAL(string) e.g. PRINT VAL("1+2")
 INT(number) e.g. INT(1.5)-> 1
+ABS(number) e.g. ABS(-4.5)-> 4.1
+SQR(number) e.g. SQR(534)-> 23.10844
+SIN(number) e.g. SIN(45)-> 0.850904
+COS(number) e.g. COS(45)-> 0.525322
+TAN(number) e.g. TAN(45)-> 1.619775
 STR$(number) e.g. STR$(2) -> "2"
 LEFT$(string,n)
 RIGHT$(string,n)

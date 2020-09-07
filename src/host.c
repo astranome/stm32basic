@@ -36,10 +36,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #include "../chan_fatfs/src/ff.h"
 #include "../chan_fatfs/src/diskio.h"
 
-/* Global variables */
-char screenBuffer[SCREEN_WIDTH * SCREEN_HEIGHT];
+char screenBuffer[SCREEN_WIDTH * SCREEN_HEIGHT]; /* Main screen buffer */
 char lineDirty[SCREEN_HEIGHT];
-int curX = 0, curY = 0;
+int curX = 0, curY = 0;  /* Current cursor position */
 volatile char flash = 1, redraw = 0;
 char inputMode = 0;
 char inkeyChar = 0;
@@ -79,8 +78,6 @@ void host_init(int buzzerPin)
     usart_setup();
     host_sleep(100);
 #endif
-
-    i2c_setup();
 
     display_get_capability_p(&dispCapability);
 
@@ -220,9 +217,21 @@ void host_showBuffer()
     }
 }
 
-void scroll_buffer(void)
-{
+void scroll_buffer(void) {
+/*
+            Screen   Buffer   20 chars   x   4   lines
+   |---------------|---------------|---------------|---------------|
+                   |///////////////////////////////////////////////|
+   ----------------------------------------------------------------|
+a) |///////////////////////////////////////////////| <---
+   ------------------------------------------------|---------------|
+b)                                                 |.....spaces....|
+                                                   ----------------|
+*/
+    /* a) */
     memcpy(screenBuffer, screenBuffer + SCREEN_WIDTH, SCREEN_WIDTH * (SCREEN_HEIGHT - 1));
+
+    /* b) */
     memset(screenBuffer + SCREEN_WIDTH * (SCREEN_HEIGHT - 1), 32, SCREEN_WIDTH);
     memset(lineDirty, 1, SCREEN_HEIGHT);
     curY--;
@@ -378,6 +387,9 @@ char *host_readLine()
     int startPos = curY*SCREEN_WIDTH+curX;
     int pos = startPos;
     char c = 0;
+#ifdef SERIAL_TRACES_ENABLED
+    char buff[48];
+#endif
 
     bool done = false;
     while (!done)
@@ -387,7 +399,6 @@ char *host_readLine()
 #ifdef BUZZER_IN_USE
             host_click();
 #endif
-
             // read the next key
             lineDirty[pos / SCREEN_WIDTH] = 1;
 
@@ -395,6 +406,7 @@ char *host_readLine()
 
             if (c == PS2_F7)
             {
+                DEBUG_SERIAL_PRINT("F7 pressed");
                 display_backlight_toggle_p();
             }
 
@@ -404,11 +416,24 @@ char *host_readLine()
             }
             else if (c == PS2_BACKSPACE && pos > startPos)
             {
+#ifdef SERIAL_TRACES_ENABLED
+                sprintf(buff, "BACKSPACE, pos:%d, startPos:%d", pos, startPos);
+                DEBUG_SERIAL_PRINT(buff);
+#endif
                 screenBuffer[--pos] = 0;
             }
             else if (c == PS2_ENTER)
             {
+                DEBUG_SERIAL_PRINT("Enter pressed");
                 done = true;
+            }
+            else if (c == PS2_UPARROW)
+            {
+                // TODO: scroll buffer if arrow-up pressed
+#ifdef SERIAL_TRACES_ENABLED
+                sprintf(buff, "Up Arrow, pos:%d, startPos:%d", pos, startPos);
+                DEBUG_SERIAL_PRINT(buff);
+#endif
             }
 
             curX = pos % SCREEN_WIDTH;

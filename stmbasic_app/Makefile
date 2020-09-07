@@ -14,8 +14,8 @@ OBJS += ../src/sd_spi.o
 
 LDLIBS += -lm
 
-# Configuration flags
-DEFS += -DSERIAL_TRACES_ENABLED
+# Configuration flags (when traces flags are enabled, the code may not fit in to stm32f103 ROM)
+#DEFS += -DSERIAL_TRACES_ENABLED
 #DEFS += -DVERBOSE_TRACES
 DEFS += -DLCD2004_IN_USE
 DEFS += -DSD_CARD_IN_USE
