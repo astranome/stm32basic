@@ -20,6 +20,7 @@ LDLIBS += -lm
 #DEFS += -DLCD2004_IN_USE
 DEFS += -DDSO138_PLATFORM
 DEFS += -DSD_CARD_IN_USE
+DEFS += -DCURSOR_AUTO_INCREMENT
 
 # Uncomment one of keyboard's layout to be used
 DEFS += -DKEYBOARD_US

@@ -80,6 +80,14 @@ void tft320240_write_character(char c) {
 		0,
 		&font_fixedsys_mono_10,
 		0);
+
+#ifdef CURSOR_AUTO_INCREMENT
+	current_cursor_col++;
+
+	if (current_cursor_col >= ili_tftwidth) {
+		current_cursor_col = ili_tftwidth - 1;
+	}
+#endif
 }
 
 void tft320240_write_string(char *str, uint16_t color) {
