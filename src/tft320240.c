@@ -30,6 +30,9 @@ uint16_t ili_tftheight = 240;
 
 volatile uint16_t current_cursor_col = 0;
 volatile uint16_t current_cursor_row = 0;
+#ifdef CURSOR_AUTO_INCREMENT	
+volatile uint16_t current_cursor_col_in_chars = 0;		// TODO: refactoring
+#endif
 
 const char displayName[] = "ILI9341 320x240";
 
@@ -59,6 +62,10 @@ void tft320240_get_capability(DisplayCapability *dispCapability) {
 }
 
 void tft320240_set_cursor(uint8_t col, uint8_t row) {
+#ifdef CURSOR_AUTO_INCREMENT	
+	current_cursor_col_in_chars = col;
+#endif
+
 	current_cursor_col = col * TFT320240_CURSOR_COEFF_X;
 	current_cursor_row = row * TFT320240_CURSOR_COEFF_Y;
 
@@ -82,7 +89,8 @@ void tft320240_write_character(char c) {
 		0);
 
 #ifdef CURSOR_AUTO_INCREMENT
-	current_cursor_col++;
+	current_cursor_col_in_chars++;
+	current_cursor_col = current_cursor_col_in_chars * TFT320240_CURSOR_COEFF_X;
 
 	if (current_cursor_col >= ili_tftwidth) {
 		current_cursor_col = ili_tftwidth - 1;
