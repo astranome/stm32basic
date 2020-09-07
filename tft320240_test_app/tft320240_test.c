@@ -30,7 +30,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 DisplayCapability dispCapability;
 const char applicationName[] = "TFT 320x240 tester";
-const char teststr[] = "stm32basic";
 
 int main(void) {
     clock_setup();
@@ -56,56 +55,22 @@ int main(void) {
     delay_us100(SEC_2);
     DEBUG_SERIAL_PRINT("=== Test of TFT cursor");
 
-    char testBuf[24];
-    int i;
-    for (i = 0; i < 15; i++) {
-        sprintf(testBuf, "Curs:%d,%d %s", i, i + 10, teststr);
-        DEBUG_SERIAL_PRINT("%s", testBuf);
-        tft320240_set_cursor(i, i + 10);
-        tft8bit_write_string(testBuf);
-    }
+    char testBuf[48];
+	int i, k;
+	
+    for (i = 0; i < 19; i++) {
+		sprintf(testBuf, "Cursor:%d,%d", i, i);
+		tft320240_set_cursor(i, i);
+		char c = testBuf[0];
+		k = 0;
+		do
+		{
+			tft320240_set_cursor(i + k, i);
+			tft320240_write_character(c);
+			k++;
+		} while ((c = testBuf[k]) != '\0');
+	}
 
-/*
-    lcd2004_set_cursor(0, 0);
-    lcd2004_write_string_4d("@0,0");
-    lcd2004_write_string_4d(teststr);
-    DEBUG_SERIAL_PRINT("@0,0");
-    DEBUG_SERIAL_PRINT(teststr);
-    delay_us100(SEC_2); 
-
-    lcd2004_set_cursor(1, 1);
-    lcd2004_write_string_4d("@1,1");
-    lcd2004_write_string_4d(teststr);
-    DEBUG_SERIAL_PRINT("@1,1");
-    DEBUG_SERIAL_PRINT(teststr);
-    delay_us100(SEC_2); 
-
-    lcd2004_set_cursor(2, 2);
-    lcd2004_write_string_4d("@2,2");
-    lcd2004_write_string_4d(teststr);
-    DEBUG_SERIAL_PRINT("@2,2");
-    DEBUG_SERIAL_PRINT(teststr);
-    delay_us100(SEC_2); 
-
-    lcd2004_set_cursor(3, 3);
-    lcd2004_write_string_4d("@3,3");
-    lcd2004_write_string_4d(teststr);
-    DEBUG_SERIAL_PRINT("@3,3");
-    DEBUG_SERIAL_PRINT(teststr);
-    delay_us100(SEC_2);
-    
-    DEBUG_SERIAL_PRINT("=== LCD backlight ON");
-    lcd2004_backlight_on();
-    delay_us100(SEC_2);
-    
-    lcd2004_backlight_off();
-    DEBUG_SERIAL_PRINT("=== LCD backlight OFF");
-    delay_us100(SEC_2); 
-
-    lcd2004_backlight_on();     
-    DEBUG_SERIAL_PRINT("=== LCD backlight ON");
-    delay_us100(SEC_2); 
- */   
     DEBUG_SERIAL_PRINT("Ok\r\n");
     return 0;
 }
