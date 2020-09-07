@@ -28,6 +28,7 @@ If so, you can convert it in to an 80's home computer! With BASIC interpreter th
 * [ ] Add buzzer support
 * [ ] Add DIR and DEL commands for file operations
 * [ ] Writing and reading of GPIO from BASIC
+* [ ] Implement sctipt (e.g. Python) to convert .BAS files to .TXT and vice versa on a PC
 * [ ] Add support for VT100 terminal, so it can output BASIC console to any VT100 compatible terminal
 * [ ] Short statetemenst for saving space of 20-char screen, e.g. PRINT -> PR
 * [ ] Battery for RTC (time/date file attributes, BASIC operators)
