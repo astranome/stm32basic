@@ -57,6 +57,7 @@ int main(void) {
     DEBUG_SERIAL_PRINT("Width, symbols: %d", dispCapability.displayWidthSymbols);
     DEBUG_SERIAL_PRINT("Height, symbols: %d", dispCapability.displayHeightSymbols);
     DEBUG_SERIAL_PRINT("Has backlight: %d", dispCapability.displayHasBacklight);
+    DEBUG_SERIAL_PRINT("Is monochrome: %d", dispCapability.displayIsMonochome);
 
     delay_us100(SEC_2);
 

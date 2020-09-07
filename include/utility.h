@@ -84,6 +84,7 @@ typedef struct {
     int displayWidthSymbols; /* Display wifth, symbols */
     int displayHeightSymbols; /* Display height, symbols */
     int displayHasBacklight; /* 1: display has a backligh; 0: does not have */
+    int displayIsMonochome; /* 1: display is monochrome; 0: display supports colors */
     char displayName[DISPLAY_NAME_LENGTN]; /* Display name */
 } DisplayCapability;
 

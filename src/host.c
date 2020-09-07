@@ -395,6 +395,7 @@ char *host_readLine()
 
             if (c == PS2_F7)
             {
+                DEBUG_SERIAL_PRINT("F7 pressed");
                 display_backlight_toggle_p();
             }
 
@@ -413,6 +414,15 @@ char *host_readLine()
 
             curX = pos % SCREEN_WIDTH;
             curY = pos / SCREEN_WIDTH;
+
+            // TODO: scroll buffer if arrow-up pressed
+            if (c == PS2_UPARROW)
+            {
+                DEBUG_SERIAL_PRINT("Up Arrow pressed");
+                
+
+
+            }
 
             // scroll if we need to
             if (curY == SCREEN_HEIGHT)
