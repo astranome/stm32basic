@@ -71,6 +71,58 @@ int main(void) {
 		} while ((c = testBuf[k]) != '\0');
 	}
 
+    delay_us100(SEC_2);
+    DEBUG_SERIAL_PRINT("=== Test of Screen Size");
+
+    tft320240_init();
+
+    int xpos = 0;
+	for (i = 0; i < 10; i++) {
+		tft320240_set_cursor(xpos, 0);
+		xpos++;
+		tft320240_write_character(i + '0');
+	}
+
+	for (i = 0; i < 10; i++) {
+		tft320240_set_cursor(xpos, 0);
+		xpos++;
+		tft320240_write_character(i + '0');
+	}
+
+	for (i = 0; i < 10; i++) {
+		tft320240_set_cursor(xpos, 0);
+		xpos++;
+		tft320240_write_character(i + '0');
+	}
+
+	for (i = 0; i < 10; i++) {
+		tft320240_set_cursor(xpos, 0);
+		xpos++;
+		tft320240_write_character(i + '0');
+	}
+
+	int ypos = 0;
+	for (i = 0; i < 10; i++) {
+		tft320240_set_cursor(0, ypos);
+		ypos++;
+		tft320240_write_character(i + '0');
+	}
+
+	for (i = 0; i < 10; i++) {
+		tft320240_set_cursor(0, ypos);
+		ypos++;
+		tft320240_write_character(i + '0');
+	}
+
+	sprintf(testBuf, "Screen width: %d symbols", xpos);
+	tft320240_set_cursor(8, 9);
+	tft320240_write_string(testBuf, ILI_COLOR_RED);
+
+	sprintf(testBuf, "Screen height:%d symbols", ypos);
+	tft320240_set_cursor(8, 10);
+	tft320240_write_string(testBuf, ILI_COLOR_RED);
+
+    delay_us100(SEC_2);
     DEBUG_SERIAL_PRINT("Ok\r\n");
     return 0;
 }

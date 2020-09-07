@@ -75,10 +75,19 @@ void tft320240_write_character(char c) {
 		current_cursor_col,
 		current_cursor_row,
 		c,
-		ILI_COLOR_GREEN,
+		ILI_COLOR_GREEN,  // TODO add color as a parameter
 		0,
 		&font_fixedsys_mono_10,
 		0);
+}
+
+void tft320240_write_string(char *str, uint16_t color) {
+	ili_draw_string(
+		current_cursor_col,
+		current_cursor_row,
+		str,
+		color,
+		&font_fixedsys_mono_10);
 }
 /**************** Host Display API functions END *****************/
 

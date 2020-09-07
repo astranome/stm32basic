@@ -364,6 +364,7 @@ void tft320240_init(void);
 void tft320240_get_capability(DisplayCapability *dispCapability);
 void tft320240_set_cursor(uint8_t col, uint8_t row);
 void tft320240_write_character(char c);
+void tft320240_write_string(char *str, uint16_t color);
 
 /**
  * Set an area for drawing on the display with start row,col and end row,col.
