@@ -63,7 +63,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
 // TODO
-// ABS, SIN, COS, EXP etc
+// EXP etc
 // DATA, READ, RESTORE
 
 #include <stdio.h>
@@ -155,7 +155,7 @@ PROGMEM const TokenTableEntry tokenTable[] = {
     {"RIGHT$",2|TKN_ARG1_TYPE_STR|TKN_RET_TYPE_STR}, {"MID$",3|TKN_ARG1_TYPE_STR|TKN_RET_TYPE_STR}, {"CLS",TKN_FMT_POST}, {"PAUSE",TKN_FMT_POST},
     {"POSITION", TKN_FMT_POST},  {"PIN",TKN_FMT_POST}, {"PINMODE", TKN_FMT_POST}, {"INKEY$", 0},
     {"SAVE", TKN_FMT_POST}, {"LOAD", TKN_FMT_POST}, {"PINREAD",1}, {"ANALOGRD",1},
-    {"DIR", TKN_FMT_POST}, {"DELETE", TKN_FMT_POST}, {"ABS",1}, {"SQR",1}, {"SIN",1}, {"COS",1}
+    {"DIR", TKN_FMT_POST}, {"DELETE", TKN_FMT_POST}, {"ABS",1}, {"SQR",1}, {"SIN",1}, {"COS",1}, {"TAN",1}
 };
 
 
@@ -1078,6 +1078,10 @@ int parseFnCallExpr(void) {
             DEBUG_SERIAL_PRINT("TOKEN_COS");
             stackPushNum((float)cos(stackPopNum()));
             break;
+        case TOKEN_TAN:
+            DEBUG_SERIAL_PRINT("TOKEN_TAN");
+            stackPushNum((float)tan(stackPopNum()));
+            break;
         case TOKEN_STR:
             {
                 char buf[16];
@@ -1299,6 +1303,7 @@ int parsePrimary() {
     case TOKEN_SQR:
     case TOKEN_SIN:
     case TOKEN_COS:
+    case TOKEN_TAN:
         return parseFnCallExpr();
 
     default:
