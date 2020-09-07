@@ -21,7 +21,6 @@ If so, you can convert it in to an 80's home computer! With BASIC interpreter th
 * [ ] Update README with OpenOCD functionality
 * [ ] BASIC: add ABS() function
 * [x] Implement Display Host API to make it easier to add new displays
-* [ ] Implement vertical scrolling of BASIC code (from keyboard)
 * [ ] Add buzzer support
 * [ ] Add DIR and DEL commands for file operations
 * [ ] Writing and reading of GPIO from BASIC

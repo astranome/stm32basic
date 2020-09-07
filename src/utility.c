@@ -30,7 +30,7 @@ const char gimmick[] =
 "/____/\\__/_/ /_/ /_/____/____/_____/\\__,_/____/_/\\___/\r\n";
 #endif
 
-const char globalVer[] = "ver.0.8.1";
+const char globalVer[] = "v.0.8.2";
 const char newL[] = "\r\n";
 
 void clock_setup(void) {
