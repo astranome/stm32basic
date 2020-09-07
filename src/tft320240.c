@@ -34,7 +34,8 @@ volatile uint16_t current_cursor_row = 0;
 const char displayName[] = "ILI9341 320x240";
 
 /**************** Host Display API functions START *****************/
-void tft320240_init(void) {
+void tft320240_init(void)
+{
 	ili_init();
 
 #ifdef USER_DEFAULT_PLATFORM

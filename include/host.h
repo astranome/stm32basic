@@ -33,8 +33,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #define pgm_read_byte_near(x)                   (*(x))
 #define PROGMEM
 
+#ifdef LCD2004_IN_USE
 #define SCREEN_WIDTH                            20
 #define SCREEN_HEIGHT                           4
+#elif DSO138_PLATFORM
+#define SCREEN_WIDTH                            40
+#define SCREEN_HEIGHT                           20
+#endif
 
 #ifdef FLASHING_CURSOR_IN_USE
 #define CURSOR_CHR                              255

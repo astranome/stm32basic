@@ -30,6 +30,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #include "../include/basic.h"
 #ifdef LCD2004_IN_USE
 #include "../include/lcd2004.h"
+#elif DSO138_PLATFORM
+#include "../include/tft320240.h"
 #endif
 #include "../include/term_io.h"
 #include "../include/rtc.h"
@@ -61,6 +63,11 @@ void (*display_write_character)(char c) = lcd2004_write_character_4d;
 void (*display_backlight_off_p)(void) = lcd2004_backlight_off;
 void (*display_backlight_on_p)(void) = lcd2004_backlight_on;
 void (*display_backlight_toggle_p)(void) = lcd2004_backlight_toggle;
+#elif DSO138_PLATFORM
+void (*display_init_p)(void) = tft320240_init;
+void (*display_get_capability_p)(DisplayCapability *dispCapability) = tft320240_get_capability;
+void (*display_set_cursor_p)(uint8_t col, uint8_t row) = tft320240_set_cursor;
+void (*display_write_character)(char c) = tft320240_write_character;
 #endif
 
 const char bytesFreeStr[] = "bytes free";
@@ -395,7 +402,9 @@ char *host_readLine()
 
             if (c == PS2_F7)
             {
+#ifdef LCD2004_IN_USE
                 display_backlight_toggle_p();
+#endif
             }
 
             if (c >= 32 && c <= 126)
