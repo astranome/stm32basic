@@ -20,7 +20,7 @@ If so, you can convert it in to an 80's home computer! With BASIC interpreter th
 * [x] Get SD card working (for saving and loading .BAS files)
 * [ ] Update README with OpenOCD functionality
 * [x] BASIC: add ABS() function
-* [ ] BASIC: add SQR() function
+* [x] BASIC: add SQR() function
 * [ ] BASIC: add SIN() function
 * [ ] BASIC: add COS() function
 * [ ] BASIC: add TAN() function
@@ -221,6 +221,7 @@ LEN(string) e.g. PRINT LEN("Hello") -> 5
 VAL(string) e.g. PRINT VAL("1+2")
 INT(number) e.g. INT(1.5)-> 1
 ABS(number) e.g. ABS(-4.5)-> 4.1
+SQR(number) e.g. SQR(534)-> 23.10844
 STR$(number) e.g. STR$(2) -> "2"
 LEFT$(string,n)
 RIGHT$(string,n)
