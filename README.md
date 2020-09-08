@@ -33,12 +33,13 @@ If so, you can convert it in to an 80's home computer! With BASIC interpreter th
 * [ ] Short statetemenst for saving space of 20-char screen, e.g. PRINT -> PR
 * [ ] Battery for RTC (time/date file attributes, BASIC operators)
 * [ ] 16-Bit 5V I/O Expander with Serial Interface
-* [ ] Graphics LCD (e.g. TFT 320 x 240 pixels)
+* [ ] Migrate to STM32F103RET6 with TFT 320x240 display (stm32basic HW 2.0)
 
 ## GIT branches
 
 - **master** - main "production" branch for releases
 - **development** - R&D branch
+- **stm32basic_hw20** - R&D branch for stm32basic HW 2.0 platform
 - **dso138_port** - "unofficial" port of stm32basic to DSO138 oscilloscope platform
 
 ## Prerequisites

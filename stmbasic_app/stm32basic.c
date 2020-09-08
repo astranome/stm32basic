@@ -1,5 +1,5 @@
 /*
-kbd_test.c file is a part of stm32Basic project.
+stm32basic.c file is a part of stm32Basic project.
 
 Copyright (c) 2020 vitasam
 
@@ -32,13 +32,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 const char applicationName[] = "stm32basic HW 1.0";
 
+/* BASIC buffers */
 uint8_t mem[MEMORY_SIZE];
 uint8_t tokenBuf[TOKEN_BUF_SIZE];
 
-int main(void)
-{
-    uint8_t in_loop = 1;
-
+int main(void) {
     reset();
     host_init(BUZZER_PIN);
     host_cls();
@@ -62,36 +60,35 @@ int main(void)
     host_outputFreeMem(sysVARSTART - sysPROGEND);
     host_showBuffer();
 
+    uint8_t in_loop = 1;
+
+    /* The main loop */
     while(in_loop)
     {
         int ret = ERROR_NONE;
 
-        // Get a line from the user
+        /* Get a line from user input */
         char *input = host_readLine();
 
-        // Special editor commands
-        if (input[0] == '?' && input[1] == 0)
-        {
+        /* Process special editor commands, if any */
+        if (input[0] == '?' && input[1] == 0) {
             host_outputFreeMem(sysVARSTART - sysPROGEND);
             host_showBuffer();
             continue;
         }
 
-        // Otherwise tokenize
+        /* ... otherwise tokenize */
         ret = tokenize((unsigned char*)input, tokenBuf, TOKEN_BUF_SIZE);
 
-        // Execute the token buffer
-        if (ret == ERROR_NONE)
-        {
+        /* Execute the token buffer */
+        if (ret == ERROR_NONE) {
             host_newLine();
             ret = processInput(tokenBuf);
         }
 
-        if (ret != ERROR_NONE)
-        {
+        if (ret != ERROR_NONE) {
             host_newLine();
-            if (lineNumber != 0)
-            {
+            if (lineNumber != 0) {
                 host_outputInt(lineNumber);
                 host_outputChar('-');
             }
