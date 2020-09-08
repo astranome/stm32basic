@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #include "../chan_fatfs/src/ff.h"
 #include "../chan_fatfs/src/diskio.h"
 
-const char applicationName[] = "stm32basic ";
+const char applicationName[] = "stm32basic DSO";
 
 uint8_t mem[MEMORY_SIZE];
 uint8_t tokenBuf[TOKEN_BUF_SIZE];
@@ -44,6 +44,7 @@ int main(void)
     host_cls();
 
     host_outputProgMemString(applicationName);
+    host_moveCursor(0, 1);
     host_outputProgMemString(globalVer);
     DEBUG_SERIAL_PRINT(applicationName);
     DEBUG_SERIAL_PRINT(globalVer);
