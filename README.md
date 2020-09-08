@@ -1,5 +1,7 @@
-# stm32basic
-![stm32basic_v1](docs/images/stm32basic_v1.gif)
+# stm32basic 
+![stm32basic_v2](docs/images/stm32basic_v2_cr.jpg)
+
+# Under Construction
 
 ## Retro computer with BASIC interpreter (GCC/libopencm3 toolchain version)
 Do you have an old PS/2 keyboard? The one that looks so good that you still feel sorry to throw it away? And one of those cheap  HD44780 displays 20x4 or 16x2 symbols. And maybe $1.5 "bluepill" board with STM32F103 microcontroller? 

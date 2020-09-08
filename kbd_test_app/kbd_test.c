@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #include "../include/ps2kbd.h"
 #include "../include/lcd2004.h"
 
-const char applicationName[] = "KBD tester HW 1.0";
+const char applicationName[] = "KBD tester HW 2.0";
 
 void dump_keyboard_data(char c, char *s);
 

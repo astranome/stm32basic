@@ -17,8 +17,8 @@ LDLIBS += -lm
 # Configuration flags
 #   Note: when traces flags are enabled, the code may not fit in to STM32F103C8T6 ROM,
 # so, if traces are needed for debugging purpose, disable SD_CARD_IN_USE flag first
-#DEFS += -DSERIAL_TRACES_ENABLED
-#DEFS += -DVERBOSE_TRACES
+DEFS += -DSERIAL_TRACES_ENABLED
+DEFS += -DVERBOSE_TRACES
 DEFS += -DLCD2004_IN_USE
 DEFS += -DSD_CARD_IN_USE
 
@@ -31,6 +31,6 @@ DEFS += -DKEYBOARD_US
 #DEFS += -DKEYBOARD_UK
 
 OPENCM3_DIR=../libopencm3
-LDSCRIPT = $(OPENCM3_DIR)/lib/stm32/f1/stm32f103x8.ld
+LDSCRIPT = $(OPENCM3_DIR)/lib/stm32/f1/stm32f103xe.ld
 
 include ../libopencm3.target.mk

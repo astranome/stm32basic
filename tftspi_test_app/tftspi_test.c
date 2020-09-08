@@ -1,5 +1,5 @@
 /*
-lcd2004_test.c file is a part of stm32Basic project.
+tftspi_test.c file is a part of stm32Basic project.
 
 Copyright (c) 2020 vitasam
 
@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #include "../include/lcd2004.h"
 
 DisplayCapability dispCapability;
-const char applicationName[] = "LCD tester HW 1.0";
+const char applicationName[] = "TFT tester HW 2.0";
 const char teststr[] = " stm32basic";
 
 int main(void) {
@@ -41,6 +41,7 @@ int main(void) {
     comm_puts(applicationName);
     comm_puts(newL);
 
+/*
     lcd2004_get_capability(&dispCapability);
     lcd2004_init();
 
@@ -111,7 +112,7 @@ int main(void) {
     lcd2004_backlight_on();     
     DEBUG_SERIAL_PRINT("=== LCD backlight ON");
     delay_us100(SEC_2); 
-    
+*/    
     DEBUG_SERIAL_PRINT("Ok\r\n");
     return 0;
 }
