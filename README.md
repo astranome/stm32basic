@@ -183,8 +183,9 @@ Only the addition operator is supported on strings (plus the functions below).
 
 Commands
 ```
+? shows the amount of free memory
 PRINT <expr>;<expr>... e.g. PRINT "A=";a
-LET variable = <expr> e.g. LET A$="Hello".
+LET variable = <expr> e.g. LET A$="Hello"
 variable = <expr> e.g. A=5
 LIST [start],[end] e.g. LIST or LIST 10,100
 RUN [lineNumber]

@@ -2159,12 +2159,18 @@ int parse_GOSUB(void) {
    SAVE, SAVE+ or SAVE "x"
    DELETE "x" */
 int parseLoadSaveCmd(void) {
+#ifndef SD_CARD_IN_USE
+    return ERROR_BAD_PARAMETER;
+#endif
     int op = curToken;
-    char autoexec = 0, gotFileName = 0;
+    /* TODO char autoexec = 0; */
+
+    char gotFileName = 0;
+
     getNextToken();
     if (op == TOKEN_SAVE && curToken == TOKEN_PLUS) {
         getNextToken();
-        autoexec = 1;
+        /* TODO autoexec = 1; */
     }
     else if (curToken != TOKEN_EOL && curToken != TOKEN_CMD_SEP) {
         int val = parseExpression();
@@ -2208,11 +2214,13 @@ int parseLoadSaveCmd(void) {
         }
         else {
             if (op == TOKEN_SAVE) {
-                host_saveProgram(autoexec);
+                /* TODO host_saveProgram(autoexec); */
+                return ERROR_BAD_PARAMETER;
             }
             else if (op == TOKEN_LOAD) {
-                reset();
-                host_loadProgram();
+              /* TODO  reset();
+                host_loadProgram(); */
+               return ERROR_BAD_PARAMETER; 
             }
             else {
                 return ERROR_UNEXPECTED_CMD;

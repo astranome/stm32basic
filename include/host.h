@@ -69,8 +69,8 @@ char *host_readLine(void);
 char host_getKey(void);
 uint8_t host_ESCPressed(void);
 void host_outputFreeMem(unsigned int val);
-void host_saveProgram(uint8_t autoexec);
-void host_loadProgram(void);
+/* TODO void host_saveProgram(uint8_t autoexec);
+void host_loadProgram(void); */
 
 #ifdef SD_CARD_IN_USE
 bool host_saveSdCard(char *fileName);

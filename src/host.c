@@ -508,28 +508,26 @@ void host_outputFreeMem(unsigned int val)
     host_outputProgMemString(bytesFreeStr);
 }
 
+/* TODO
 void host_saveProgram(uint8_t autoexec)
 {
     autoexec = autoexec;
-#if 0 /* TODO */
     EEPROM.write(0, autoexec ? MAGIC_AUTORUN_NUMBER : 0x00);
     EEPROM.write(1, sysPROGEND & 0xFF);
     EEPROM.write(2, (sysPROGEND >> 8) & 0xFF);
 
     for (int i = 0; i < sysPROGEND; i++)
         EEPROM.write(3 + i, mem[i]);
-#endif
 }
 
 void host_loadProgram()
 {
-#if 0 /* TODO */
     sysPROGEND = EEPROM.read(1) | (EEPROM.read(2) << 8);
 
     for (int i=0; i<sysPROGEND; i++)
         mem[i] = EEPROM.read(i+3);
-#endif
 }
+*/
 
 #ifdef SD_CARD_IN_USE
 bool host_saveSdCard(char *fileName)
