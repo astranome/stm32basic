@@ -74,7 +74,7 @@ int main(void)
         {
             host_outputFreeMem(sysVARSTART - sysPROGEND);
             host_showBuffer();
-            return 0;
+            continue;
         }
 
         // Otherwise tokenize
