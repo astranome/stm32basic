@@ -62,9 +62,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * ---------------------------------------------------------------------------
  */
 
-// TODO
-// EXP etc
-// DATA, READ, RESTORE
+/*
+TODO
+EXP etc
+DATA, READ, RESTORE
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -110,7 +112,7 @@ const char string_22[] PROGMEM = "Bad string index";
 const char string_23[] PROGMEM = "Error in VAL input";
 const char string_24[] PROGMEM = "Bad parameter";
 
-//PROGMEM const char *errorTable[] = {
+/* TODO PROGMEM const char *errorTable[] = { */
 const char* const errorTable[] PROGMEM = {
     string_0, string_1, string_2, string_3,
     string_4, string_5, string_6, string_7,
@@ -121,23 +123,26 @@ const char* const errorTable[] PROGMEM = {
     string_24
 };
 
-// Token flags
-// bits 1+2 number of arguments
-#define TKN_ARGS_NUM_MASK   0x03
-// bit 3 return type (set if string)
-#define TKN_RET_TYPE_STR    0x04
-// bits 4-6 argument type (set if string)
-#define TKN_ARG1_TYPE_STR   0x08
-#define TKN_ARG2_TYPE_STR   0x10
-#define TKN_ARG3_TYPE_STR   0x20
+/************************* Token flags *************************/
+/* Bits 1 + 2 number of arguments */
+#define TKN_ARGS_NUM_MASK       0x03
 
-#define TKN_ARG_MASK        0x38
-#define TKN_ARG_SHIFT       3
-// bits 7,8 formatting
-#define TKN_FMT_POST        0x40
-#define TKN_FMT_PRE     0x80
+/* Bit 3 return type (set if string) */
+#define TKN_RET_TYPE_STR        0x04
 
+/* Bits 4 - 6 argument type (set if string) */
+#define TKN_ARG1_TYPE_STR       0x08
+#define TKN_ARG2_TYPE_STR       0x10
+#define TKN_ARG3_TYPE_STR       0x20
 
+#define TKN_ARG_MASK            0x38
+#define TKN_ARG_SHIFT           3
+
+/* Bits 7, 8 formatting */
+#define TKN_FMT_POST            0x40
+#define TKN_FMT_PRE             0x80
+
+/************************* Tokens *************************/
 PROGMEM const TokenTableEntry tokenTable[] = {
     {0, 0}, {0, 0}, {0, 0}, {0, 0},
     {0, 0}, {0, 0}, {0, 0}, {0, 0},
@@ -147,17 +152,16 @@ PROGMEM const TokenTableEntry tokenTable[] = {
     {":",TKN_FMT_POST}, {";",0}, {",",0}, {"AND",TKN_FMT_PRE|TKN_FMT_POST},
     {"OR",TKN_FMT_PRE|TKN_FMT_POST}, {"NOT",TKN_FMT_POST}, {"PRINT",TKN_FMT_POST}, {"LET",TKN_FMT_POST},
     {"LIST",TKN_FMT_POST}, {"RUN",TKN_FMT_POST}, {"GOTO",TKN_FMT_POST}, {"REM",TKN_FMT_POST},
-    {"STOP",TKN_FMT_POST}, {"INPUT",TKN_FMT_POST},  {"CONT",TKN_FMT_POST}, {"IF",TKN_FMT_POST},
+    {"STOP",TKN_FMT_POST}, {"INPUT",TKN_FMT_POST}, {"CONT",TKN_FMT_POST}, {"IF",TKN_FMT_POST},
     {"THEN",TKN_FMT_PRE|TKN_FMT_POST}, {"LEN",1|TKN_ARG1_TYPE_STR}, {"VAL",1|TKN_ARG1_TYPE_STR}, {"RND",0},
     {"INT",1}, {"STR$", 1|TKN_RET_TYPE_STR}, {"FOR",TKN_FMT_POST}, {"TO",TKN_FMT_PRE|TKN_FMT_POST},
     {"STEP",TKN_FMT_PRE|TKN_FMT_POST}, {"NEXT", TKN_FMT_POST}, {"MOD",TKN_FMT_PRE|TKN_FMT_POST}, {"NEW",TKN_FMT_POST},
     {"GOSUB",TKN_FMT_POST}, {"RETURN",TKN_FMT_POST}, {"DIM", TKN_FMT_POST}, {"LEFT$",2|TKN_ARG1_TYPE_STR|TKN_RET_TYPE_STR},
-    {"RIGHT$",2|TKN_ARG1_TYPE_STR|TKN_RET_TYPE_STR}, {"MID$",3|TKN_ARG1_TYPE_STR|TKN_RET_TYPE_STR}, {"CLS",TKN_FMT_POST}, {"PAUSE",TKN_FMT_POST},
-    {"POSITION", TKN_FMT_POST},  {"PIN",TKN_FMT_POST}, {"PINMODE", TKN_FMT_POST}, {"INKEY$", 0},
-    {"SAVE", TKN_FMT_POST}, {"LOAD", TKN_FMT_POST}, {"PINREAD",1}, {"ANALOGRD",1},
-    {"DIR", TKN_FMT_POST}, {"DELETE", TKN_FMT_POST}, {"ABS",1}, {"SQR",1}, {"SIN",1}, {"COS",1}, {"TAN",1}
+    {"RIGHT$",2|TKN_ARG1_TYPE_STR|TKN_RET_TYPE_STR}, {"MID$",3|TKN_ARG1_TYPE_STR|TKN_RET_TYPE_STR}, {"CLS",TKN_FMT_POST},
+    {"PAUSE",TKN_FMT_POST}, {"POSITION", TKN_FMT_POST}, {"PIN",TKN_FMT_POST}, {"PINMODE", TKN_FMT_POST}, {"INKEY$", 0},
+    {"SAVE", TKN_FMT_POST}, {"LOAD", TKN_FMT_POST}, {"PINREAD",1}, {"ANALOGRD",1}, {"DIR", TKN_FMT_POST},
+    {"DELETE", TKN_FMT_POST}, {"ABS",1}, {"SQR",1}, {"SIN",1}, {"COS",1}, {"TAN",1}
 };
-
 
 /* **************************************************************************
  * PROGRAM FUNCTIONS
@@ -199,13 +203,18 @@ void printTokens(unsigned char *p) {
         }
         else {
             uint8_t fmt = pgm_read_byte_near(&tokenTable[*p].format);
-            if (fmt & TKN_FMT_PRE)
+            if (fmt & TKN_FMT_PRE) {
                 host_outputChar(' ');
+            }
+
             host_outputString((char *)pgm_read_word(&tokenTable[*p].token));
-            if (fmt & TKN_FMT_POST)
+            if (fmt & TKN_FMT_POST) {
                 host_outputChar(' ');
-            if (*p==TOKEN_REM)
+            }
+            
+            if (*p==TOKEN_REM) {
                 modeREM = 1;
+            }
             p++;
         }
     }
@@ -221,6 +230,7 @@ void listProg(uint16_t first, uint16_t last) {
             printTokens(p+4);
             host_newLine();
         }
+
         p+= *(uint16_t *)p;
     }
 }
@@ -229,8 +239,9 @@ unsigned char *findProgLine(uint16_t targetLineNumber) {
     unsigned char *p = &mem[0];
     while (p < &mem[sysPROGEND]) {
         uint16_t lineNum = *(uint16_t*)(p+2);
-        if (lineNum >= targetLineNumber)
+        if (lineNum >= targetLineNumber) {
             break;
+        }
         p+= *(uint16_t *)p;
     }
     return p;
@@ -242,26 +253,35 @@ void deleteProgLine(unsigned char *p) {
     memmove(p, p+lineLen, &mem[sysPROGEND] - p);
 }
 
-int doProgLine(uint16_t lineNum, unsigned char* tokenPtr, int tokensLength)
-{
-    // find line of the at or immediately after the number
+int doProgLine(uint16_t lineNum, unsigned char* tokenPtr, int tokensLength) {
+    /* Find line of the at or immediately after the number */
     unsigned char *p = findProgLine(lineNum);
     uint16_t foundLine = 0;
-    if (p < &mem[sysPROGEND])
-        foundLine = *(uint16_t*)(p+2);
-    // if there's a line matching this one - delete it
-    if (foundLine == lineNum)
+    if (p < &mem[sysPROGEND]) {
+        foundLine = *(uint16_t*)(p + 2);
+    }
+
+    /* If there's a line matching this one - delete it */
+    if (foundLine == lineNum) {
         deleteProgLine(p);
-    // now check to see if this is an empty line, if so don't insert it
-    if (*tokenPtr == TOKEN_EOL)
+    }
+
+    /* Now check to see if this is an empty line, if so don't insert it */
+    if (*tokenPtr == TOKEN_EOL) {
         return 1;
-    // we now need to insert the new line at p
-    int bytesNeeded = 4 + tokensLength; // length, linenum + tokens
-    if (sysPROGEND + bytesNeeded > sysVARSTART)
+    }
+
+    /* We now need to insert the new line at p */
+    int bytesNeeded = 4 + tokensLength; /* length, linenum + tokens */
+    if (sysPROGEND + bytesNeeded > sysVARSTART) {
         return 0;
-    // make room if this isn't the last line
-    if (foundLine)
+    }
+
+    /* Make room if this isn't the last line */
+    if (foundLine) {
         memmove(p + bytesNeeded, p, &mem[sysPROGEND] - p);
+    }
+
     *(uint16_t *)p = bytesNeeded; 
     p += 2;
     *(uint16_t *)p = lineNum; 
@@ -274,14 +294,16 @@ int doProgLine(uint16_t lineNum, unsigned char* tokenPtr, int tokensLength)
 /* **************************************************************************
  * CALCULATOR STACK FUNCTIONS
  * **************************************************************************/
-
-// Calculator stack starts at the start of memory after the program
-// and grows towards the end
-// contains either floats or null-terminated strings with the length on the end
-
+/*
+   Calculator stack starts at the start of memory after the program
+   and grows towards the end
+   contains either floats or null-terminated strings with the length on the end
+*/
 int stackPushNum(float val) {
-    if (sysSTACKEND + (int)sizeof(float) > sysVARSTART)
-        return 0;   // out of memory
+    if (sysSTACKEND + (int)sizeof(float) > sysVARSTART) {
+        return 0;   /* Out of memory */
+    }
+
     unsigned char *p = &mem[sysSTACKEND];
     *(float *)p = val;
     sysSTACKEND += sizeof(float);
@@ -296,8 +318,10 @@ float stackPopNum(void) {
 
 int stackPushStr(char *str) {
     int len = 1 + strlen(str);
-    if (sysSTACKEND + len + 2 > sysVARSTART)
-        return 0;   // out of memory
+    if (sysSTACKEND + len + 2 > sysVARSTART) {
+        return 0;   /* Out of memory */
+    }
+
     unsigned char *p = &mem[sysSTACKEND];
     strcpy((char*)p, str);
     p += len;
@@ -307,78 +331,98 @@ int stackPushStr(char *str) {
 }
 
 char *stackGetStr(void) {
-    // returns string without popping it
+    /* Returns string without popping it */
     unsigned char *p = &mem[sysSTACKEND];
-    int len = *(uint16_t *)(p-2);
-    return (char *)(p-len-2);
+    int len = *(uint16_t *)(p - 2);
+    return (char *)(p - len - 2);
 }
 
 char *stackPopStr(void) {
     unsigned char *p = &mem[sysSTACKEND];
-    int len = *(uint16_t *)(p-2);
-    sysSTACKEND -= (len+2);
+    int len = *(uint16_t *)(p - 2);
+    sysSTACKEND -= (len + 2);
     return (char *)&mem[sysSTACKEND];
 }
 
 void stackAdd2Strs(void) {
-    // equivalent to popping 2 strings, concatenating them and pushing the result
+    /* Equivalent to popping 2 strings, concatenating them and pushing the result */
     unsigned char *p = &mem[sysSTACKEND];
-    int str2len = *(uint16_t *)(p-2);
-    sysSTACKEND -= (str2len+2);
+    int str2len = *(uint16_t *)(p - 2);
+    sysSTACKEND -= (str2len + 2);
     char *str2 = (char*)&mem[sysSTACKEND];
     p = &mem[sysSTACKEND];
-    int str1len = *(uint16_t *)(p-2);
-    sysSTACKEND -= (str1len+2);
+    int str1len = *(uint16_t *)(p - 2);
+    sysSTACKEND -= (str1len + 2);
     char *str1 = (char*)&mem[sysSTACKEND];
     p = &mem[sysSTACKEND];
-    // shift the second string up (overwriting the null terminator of the first string)
+
+    /* Shift the second string up (overwriting the null terminator of the first string) */
     memmove(str1 + str1len - 1, str2, str2len);
-    // write the length and update stackend
+
+    /* Write the length and update stackend */
     int newLen = str1len + str2len - 1;
     p += newLen;
     *(uint16_t *)p = newLen;
     sysSTACKEND += newLen + 2;
 }
 
-// mode 0 = LEFT$, 1 = RIGHT$
+/* mode 0 = LEFT$, 1 = RIGHT$ */
 void stackLeftOrRightStr(int len, int mode) {
-    // equivalent to popping the current string, doing the operation then pushing it again
+    /* Equivalent to popping the current string, doing the operation then pushing it again */
     unsigned char *p = &mem[sysSTACKEND];
-    int strlen = *(uint16_t *)(p-2);
-    len++; // include trailing null
-    if (len > strlen) len = strlen;
-    if (len == strlen) return;  // nothing to do
-    sysSTACKEND -= (strlen+2);
+    int strlen = *(uint16_t *)(p - 2);
+    len++; /* Include trailing null */
+    if (len > strlen) {
+        len = strlen;
+    }
+
+    if (len == strlen) {
+        return;  /* Nothing to do */
+    }
+
+    sysSTACKEND -= (strlen + 2);
     p = &mem[sysSTACKEND];
     if (mode == 0) {
-        // truncate the string on the stack
-        *(p+len-1) = 0;
+        /* Truncate the string on the stack */
+        *(p + len - 1) = 0;
     }
     else {
-        // copy the rightmost characters
+        /* Copy the rightmost characters */
         memmove(p, p + strlen - len, len);
     }
-    // write the length and update stackend
+
+    /* Write the length and update stackend */
     p += len;
     *(uint16_t *)p = len;
     sysSTACKEND += len + 2;
 }
 
 void stackMidStr(int start, int len) {
-    // equivalent to popping the current string, doing the operation then pushing it again
+    /* Equivalent to popping the current string, doing the operation then pushing it again */
     unsigned char *p = &mem[sysSTACKEND];
-    int strlen = *(uint16_t *)(p-2);
-    len++; // include trailing null
-    if (start > strlen) start = strlen;
-    start--;    // basic strings start at 1
-    if (start + len > strlen) len = strlen - start;
-    if (len == strlen) return;  // nothing to do
-    sysSTACKEND -= (strlen+2);
+    int strlen = *(uint16_t *)(p - 2);
+    len++; /* Include trailing null */
+    if (start > strlen) {
+        start = strlen;
+    }
+
+    start--;    /* Basic strings start at 1 */
+    if (start + len > strlen) {
+        len = strlen - start;
+    }
+
+    if (len == strlen) {
+        return;  /* Nothing to do */
+    }
+
+    sysSTACKEND -= (strlen + 2);
     p = &mem[sysSTACKEND];
-    // copy the characters
-    memmove(p, p + start, len-1);
-    *(p+len-1) = 0;
-    // write the length and update stackend
+
+    /* Copy the characters */
+    memmove(p, p + start, len - 1);
+    *(p + len - 1) = 0;
+
+    /* Write the length and update stackend */
     p += len;
     *(uint16_t *)p = len;
     sysSTACKEND += len + 2;
@@ -387,37 +431,39 @@ void stackMidStr(int start, int len) {
 /* **************************************************************************
  * VARIABLE TABLE FUNCTIONS
  * **************************************************************************/
+/*
+   Variable table starts at the end of memory and grows towards the start
+   Simple variable
+   table +--------+-------+-----------------+-----------------+ . . .
+    <--- | len    | type  | name            | value           |
+   grows | 2bytes | 1byte | null terminated | float/string    | 
+         +--------+-------+-----------------+-----------------+ . . .
+  
+   Array
+   +--------+-------+-----------------+----------+-------+ . . .+-------+-------------+. . 
+   | len    | type  | name            | num dims | dim1  |      | dimN  | elem(1,..1) |
+   | 2bytes | 1byte | null terminated | 2bytes   | 2bytes|      | 2bytes| float       |
+   +--------+-------+-----------------+----------+-------+ . . .+-------+-------------+. . 
+*/
 
-// Variable table starts at the end of memory and grows towards the start
-// Simple variable
-// table +--------+-------+-----------------+-----------------+ . . .
-//  <--- | len    | type  | name            | value           |
-// grows | 2bytes | 1byte | null terminated | float/string    | 
-//       +--------+-------+-----------------+-----------------+ . . .
-//
-// Array
-// +--------+-------+-----------------+----------+-------+ . . .+-------+-------------+. . 
-// | len    | type  | name            | num dims | dim1  |      | dimN  | elem(1,..1) |
-// | 2bytes | 1byte | null terminated | 2bytes   | 2bytes|      | 2bytes| float       |
-// +--------+-------+-----------------+----------+-------+ . . .+-------+-------------+. . 
-
-// variable type byte
-#define VAR_TYPE_NUM        0x1
-#define VAR_TYPE_FORNEXT    0x2
-#define VAR_TYPE_NUM_ARRAY  0x4
-#define VAR_TYPE_STRING     0x8
-#define VAR_TYPE_STR_ARRAY  0x10
+/* Variable type byte */
+#define VAR_TYPE_NUM            0x1
+#define VAR_TYPE_FORNEXT        0x2
+#define VAR_TYPE_NUM_ARRAY      0x4
+#define VAR_TYPE_STRING         0x8
+#define VAR_TYPE_STR_ARRAY      0x10
 
 unsigned char *findVariable(char *searchName, int searchMask) {
     unsigned char *p = &mem[sysVARSTART];
     while (p < &mem[sysVAREND]) {
-        int type = *(p+2);
+        int type = *(p + 2);
         if (type & searchMask) {
             unsigned char *name = p+3;
-            if (strcasecmp((char*)name, searchName) == 0)
+            if (strcasecmp((char*)name, searchName) == 0) {
                 return p;
+            }
         }
-        p+= *(uint16_t *)p;
+        p += *(uint16_t *)p;
     }
     return NULL;
 }
@@ -432,30 +478,29 @@ void deleteVariableAt(unsigned char *pos) {
     sysVARSTART += len;
 }
 
-// todo - consistently return errors rather than 1 or 0?
-
+/* TODO: consistently return errors rather than 1 or 0? */
 int storeNumVariable(char *name, float val) {
-    // these can be modified in place
+    /* These can be modified in place */
     int nameLen = strlen(name);
     unsigned char *p = findVariable(name, VAR_TYPE_NUM|VAR_TYPE_FORNEXT);
 
-    if (p != NULL)
-    {   // replace the old value
-        // (could either be VAR_TYPE_NUM or VAR_TYPE_FORNEXT)
-        p += 3; // len + type;
+    if (p != NULL) {   
+        /* Replace the old value (could either be VAR_TYPE_NUM or VAR_TYPE_FORNEXT) */
+        p += 3; /* len + type; */
         p += nameLen + 1;
         *(float *)p = val;
     }
-    else
-    {   // allocate a new variable
-        int bytesNeeded = 3;    // len + flags
-        bytesNeeded += nameLen + 1; // name
-        bytesNeeded += sizeof(float);   // val
+    else {   
+        /* Allocate a new variable */
+        int bytesNeeded = 3;  /* len + flags */
+        bytesNeeded += nameLen + 1;     /* name */
+        bytesNeeded += sizeof(float);   /* val */
 
-        if (sysVARSTART - bytesNeeded < sysSTACKEND)
-            return 0;   // out of memory
+        if (sysVARSTART - bytesNeeded < sysSTACKEND) {
+            return 0;   /* Out of memory */
+        }
+
         sysVARSTART -= bytesNeeded;
-
         p = &mem[sysVARSTART];
         *(uint16_t *)p = bytesNeeded; 
         p += 2;
@@ -469,24 +514,28 @@ int storeNumVariable(char *name, float val) {
 
 int storeForNextVariable(char *name, float start, float step, float end, uint16_t lineNum, uint16_t stmtNum) {
     int nameLen = strlen(name);
-    int bytesNeeded = 3;    // len + flags
-    bytesNeeded += nameLen + 1; // name
-    bytesNeeded += 3 * sizeof(float);   // vals
+    int bytesNeeded = 3;                /* len + flags */
+    bytesNeeded += nameLen + 1;         /* name */
+    bytesNeeded += 3 * sizeof(float);   /* vals */
     bytesNeeded += 2 * sizeof(uint16_t);
 
-    // unlike simple numeric variables, these are reallocated if they already exist
-    // since the existing value might be a simple variable or a for/next variable
+    /* Unlike simple numeric variables, these are reallocated if they already exist
+       since the existing value might be a simple variable or a for/next variable */
     unsigned char *p = findVariable(name, VAR_TYPE_NUM|VAR_TYPE_FORNEXT);
     if (p != NULL) {
-        // check there will actually be room for the new value
+        /* Check there will actually be room for the new value */
         uint16_t oldVarLen = *(uint16_t*)p;
-        if (sysVARSTART - (bytesNeeded - oldVarLen) < sysSTACKEND)
-            return 0;   // not enough memory
+        if (sysVARSTART - (bytesNeeded - oldVarLen) < sysSTACKEND) {
+            return 0;   /* Not enough memory */
+        }
+
         deleteVariableAt(p);
     }
 
-    if (sysVARSTART - bytesNeeded < sysSTACKEND)
-        return 0;   // out of memory
+    if (sysVARSTART - bytesNeeded < sysSTACKEND) {
+        return 0;   /* Out of memory */
+    }
+
     sysVARSTART -= bytesNeeded;
 
     p = &mem[sysVARSTART];
@@ -510,22 +559,26 @@ int storeForNextVariable(char *name, float start, float step, float end, uint16_
 int storeStrVariable(char *name, char *val) {
     int nameLen = strlen(name);
     int valLen = strlen(val);
-    int bytesNeeded = 3;    // len + type
-    bytesNeeded += nameLen + 1; // name
-    bytesNeeded += valLen + 1;  // val
+    int bytesNeeded = 3;        /* len + type */
+    bytesNeeded += nameLen + 1; /* name */
+    bytesNeeded += valLen + 1;  /* val */
 
-    // strings and arrays are re-allocated if they already exist
+    /* Strings and arrays are re-allocated if they already exist */
     unsigned char *p = findVariable(name, VAR_TYPE_STRING);
     if (p != NULL) {
-        // check there will actually be room for the new value
+        /* Check there will actually be room for the new value */
         uint16_t oldVarLen = *(uint16_t*)p;
-        if (sysVARSTART - (bytesNeeded - oldVarLen) < sysSTACKEND)
-            return 0;   // not enough memory
+        if (sysVARSTART - (bytesNeeded - oldVarLen) < sysSTACKEND) {
+            return 0;   /* Not enough memory */
+        }
+
         deleteVariableAt(p);
     }
 
-    if (sysVARSTART - bytesNeeded < sysSTACKEND)
-        return 0;   // out of memory
+    if (sysVARSTART - bytesNeeded < sysSTACKEND) {
+        return 0;   /* Out of memory */
+    }
+
     sysVARSTART -= bytesNeeded;
 
     p = &mem[sysVARSTART];
@@ -539,33 +592,40 @@ int storeStrVariable(char *name, char *val) {
 }
 
 int createArray(char *name, int isString) {
-    // dimensions and number of dimensions on the calculator stack
+    /* Dimensions and number of dimensions on the calculator stack */
     int nameLen = strlen(name);
-    int bytesNeeded = 3;    // len + flags
-    bytesNeeded += nameLen + 1; // name
-    bytesNeeded += 2;       // num dims
+    int bytesNeeded = 3;        /* len + flags */
+    bytesNeeded += nameLen + 1; /* name */
+    bytesNeeded += 2;           /* num dims */
     int numElements = 1;
     int i = 0;
     int numDims = (int)stackPopNum();
-    // keep the current stack position, since we'll need to pop these values again
+
+    /* keep the current stack position, since we'll need to pop these values again */
     int oldSTACKEND = sysSTACKEND;  
     for (i=0; i<numDims; i++) {
         int dim = (int)stackPopNum();
         numElements *= dim;
     }
+
     bytesNeeded += 2 * numDims + (isString ? 1 : sizeof(float)) * numElements;
-    // strings and arrays are re-allocated if they already exist
+    
+    /* Strings and arrays are re-allocated if they already exist */
     unsigned char *p = findVariable(name, (isString ? VAR_TYPE_STR_ARRAY : VAR_TYPE_NUM_ARRAY));
     if (p != NULL) {
-        // check there will actually be room for the new value
+        /* Check there will actually be room for the new value */
         uint16_t oldVarLen = *(uint16_t*)p;
-        if (sysVARSTART - (bytesNeeded - oldVarLen) < sysSTACKEND)
-            return 0;   // not enough memory
+        if (sysVARSTART - (bytesNeeded - oldVarLen) < sysSTACKEND) {
+            return 0;   /* Not enough memory */
+        }
+
         deleteVariableAt(p);
     }
 
-    if (sysVARSTART - bytesNeeded < sysSTACKEND)
-        return 0;   // out of memory
+    if (sysVARSTART - bytesNeeded < sysSTACKEND) {
+        return 0;   /* Out of memory */
+    }
+
     sysVARSTART -= bytesNeeded;
 
     p = &mem[sysVARSTART];
@@ -582,27 +642,32 @@ int createArray(char *name, int isString) {
         *(uint16_t *)p = dim; 
         p += 2;
     }
+
     memset(p, 0, numElements * (isString ? 1 : sizeof(float)));
     return 1;
 }
 
 int _getArrayElemOffset(unsigned char **p, int *pOffset) {
-    // check for correct dimensionality
+    /* Check for correct dimensionality */
     int numArrayDims = *(uint16_t*)*p; 
-    *p+=2;
+    *p += 2;
     int numDimsGiven = (int)stackPopNum();
-    if (numArrayDims != numDimsGiven)
+    if (numArrayDims != numDimsGiven) {
         return ERROR_WRONG_ARRAY_DIMENSIONS;
-    // now lookup the element
+    }
+
+    /* Now lookup the element */
     int offset = 0;
     int base = 1;
-    for (int i=0; i<numArrayDims; i++) {
+    for (int i = 0; i < numArrayDims; i++) {
         int index = (int)stackPopNum();
         int arrayDim = *(uint16_t*)*p; 
-        *p+=2;
-        if (index < 1 || index > arrayDim)
+        *p += 2;
+        if (index < 1 || index > arrayDim) {
             return ERROR_ARRAY_SUBSCRIPT_OUT_RANGE;
-        offset += base * (index-1);
+        }
+
+        offset += base * (index - 1);
         base *= arrayDim;
     }
     *pOffset = offset;
@@ -610,64 +675,77 @@ int _getArrayElemOffset(unsigned char **p, int *pOffset) {
 }
 
 int setNumArrayElem(char *name, float val) {
-    // each index and number of dimensions on the calculator stack
+    /* Each index and number of dimensions on the calculator stack */
     unsigned char *p = findVariable(name, VAR_TYPE_NUM_ARRAY);
-    if (p == NULL)
+    if (p == NULL) {
         return ERROR_VARIABLE_NOT_FOUND;
+    }
+
     p += 3 + strlen(name) + 1;
     
     int offset;
     int ret = _getArrayElemOffset(&p, &offset);
-    if (ret) return ret;
-    
+    if (ret) {
+        return ret;
+    }
+
     p += sizeof(float)*offset;
     *(float *)p = val;
     return ERROR_NONE;
 }
 
 int setStrArrayElem(char *name) {
-    // string is top of the stack
-    // each index and number of dimensions on the calculator stack
+    /* string is top of the stack each index and number of dimensions
+       on the calculator stack */
 
-    // keep the current stack position, since we can't overwrite the value string
+    /* Keep the current stack position, since we can't overwrite the value string */
     int oldSTACKEND = sysSTACKEND;
-    // how long is the new value?
+
+    /* How long is the new value? */
     char *newValPtr = stackPopStr();
     int newValLen = strlen(newValPtr);
 
     unsigned char *p = findVariable(name, VAR_TYPE_STR_ARRAY);
-    unsigned char *p1 = p;  // so we can correct the length when done
-    if (p == NULL)
+    unsigned char *p1 = p;  /* So we can correct the length when done */
+    if (p == NULL) {
         return ERROR_VARIABLE_NOT_FOUND;
+    }
 
     p += 3 + strlen(name) + 1;
     
     int offset;
     int ret = _getArrayElemOffset(&p, &offset);
-    if (ret) return ret;
-    
-    // find the correct element by skipping over null terminators
+    if (ret) {
+        return ret;
+    }
+
+    /* Find the correct element by skipping over null terminators */
     int i = 0;
     while (i < offset) {
         if (*p == 0) i++;
         p++;
     }
+
     int oldValLen = strlen((char*)p);
     int bytesNeeded = newValLen - oldValLen;
-    // check if we've got enough room for the new value
-    if (sysVARSTART - bytesNeeded < oldSTACKEND)
-        return 0;   // out of memory
+    
+    /* Check if we've got enough room for the new value */
+    if (sysVARSTART - bytesNeeded < oldSTACKEND) {
+        return 0;   /* Out of memory */
+    }
+
     // correct the length of the variable
     *(uint16_t*)p1 += bytesNeeded;
     memmove(&mem[sysVARSTART - bytesNeeded], &mem[sysVARSTART], p - &mem[sysVARSTART]);
-    // copy in the new value
+
+    /* Copy in the new value */
     strcpy((char*)(p - bytesNeeded), newValPtr);
     sysVARSTART -= bytesNeeded;
     return ERROR_NONE;
 }
 
 float lookupNumArrayElem(char *name, int *error) {
-    // each index and number of dimensions on the calculator stack
+    /* Each index and number of dimensions on the calculator stack */
     unsigned char *p = findVariable(name, VAR_TYPE_NUM_ARRAY);
     if (p == NULL) {
         *error = ERROR_VARIABLE_NOT_FOUND;
@@ -686,7 +764,7 @@ float lookupNumArrayElem(char *name, int *error) {
 }
 
 char *lookupStrArrayElem(char *name, int *error) {
-    // each index and number of dimensions on the calculator stack
+    /* Each index and number of dimensions on the calculator stack */
     unsigned char *p = findVariable(name, VAR_TYPE_STR_ARRAY);
     if (p == NULL) {
         *error = ERROR_VARIABLE_NOT_FOUND;
@@ -700,7 +778,8 @@ char *lookupStrArrayElem(char *name, int *error) {
         *error = ret;
         return NULL;
     }
-    // find the correct element by skipping over null terminators
+
+    /* Find the correct element by skipping over null terminators */
     int i = 0;
     while (i < offset) {
         if (*p == 0) i++;
@@ -730,10 +809,12 @@ char *lookupStrVariable(char *name) {
 ForNextData lookupForNextVariable(char *name) {
     ForNextData ret;
     unsigned char *p = findVariable(name, VAR_TYPE_NUM|VAR_TYPE_FORNEXT);
-    if (p == NULL)
+    if (p == NULL) {
         ret.val = FLT_MAX;
-    else if (*(p+2) != VAR_TYPE_FORNEXT)
+    }
+    else if (*(p + 2) != VAR_TYPE_FORNEXT) {
         ret.step = FLT_MAX;
+    }
     else {
         p += 3 + strlen(name) + 1;
         ret.val = *(float *)p; 
@@ -746,23 +827,27 @@ ForNextData lookupForNextVariable(char *name) {
         p += sizeof(uint16_t);
         ret.stmtNumber = *(uint16_t *)p;
     }
+
     return ret;
 }
 
 /* **************************************************************************
  * GOSUB STACK
  * **************************************************************************/
-// gosub stack (if used) is after the variables
-//int gosubStackPush(int lineNumber,int stmtNumber) { TODO
+/* gosub stack (if used) is after the variables
+   int gosubStackPush(int lineNumber,int stmtNumber) { TODO */
 int gosubStackPush(int lineNum,int stmtNum) {
     int bytesNeeded = 2 * sizeof(uint16_t);
-    if (sysVARSTART - bytesNeeded < sysSTACKEND)
-        return 0;   // out of memory
-    // shift the variable table
-    memmove(&mem[sysVARSTART]-bytesNeeded, &mem[sysVARSTART], sysVAREND-sysVARSTART);
+    if (sysVARSTART - bytesNeeded < sysSTACKEND) {
+        return 0;   /* Out of memory */
+    }
+
+    /* Shift the variable table */
+    memmove(&mem[sysVARSTART] - bytesNeeded, &mem[sysVARSTART], sysVAREND - sysVARSTART);
     sysVARSTART -= bytesNeeded;
     sysVAREND -= bytesNeeded;
-    // push the return address
+
+    /* Push the return address */
     sysGOSUBSTART = sysVAREND;
     uint16_t *p = (uint16_t*)&mem[sysGOSUBSTART];
     *p++ = (uint16_t)lineNum;
@@ -770,19 +855,23 @@ int gosubStackPush(int lineNum,int stmtNum) {
     return 1;
 }
 
-//int gosubStackPop(int *lineNumber, int *stmtNumber) {  TODO
+/* int gosubStackPop(int *lineNumber, int *stmtNumber) {  TODO */
 int gosubStackPop(int *lineNum, int *stmtNum) {
-    if (sysGOSUBSTART == sysGOSUBEND)
+    if (sysGOSUBSTART == sysGOSUBEND) {
         return 0;
+    }
+
     uint16_t *p = (uint16_t*)&mem[sysGOSUBSTART];
-// TODO   *lineNumber = (int)*p++;
-//    *stmtNumber = (int)*p;
+
+    /* TODO   *lineNumber = (int)*p++;
+      *stmtNumber = (int)*p; */
     *lineNum = (int)*p++;
     *stmtNum = (int)*p;
 
     int bytesFreed = 2 * sizeof(uint16_t);
-    // shift the variable table
-    memmove(&mem[sysVARSTART]+bytesFreed, &mem[sysVARSTART], sysVAREND-sysVARSTART);
+  
+    /* Shift the variable table */
+    memmove(&mem[sysVARSTART] + bytesFreed, &mem[sysVARSTART], sysVAREND - sysVARSTART);
     sysVARSTART += bytesFreed;
     sysVAREND += bytesFreed;
     sysGOSUBSTART = sysVAREND;
@@ -796,126 +885,176 @@ int gosubStackPop(int *lineNum, int *stmtNum) {
 static unsigned char *tokenIn, *tokenOut;
 static int tokenOutLeft;
 
-// nextToken returns -1 for end of input, 0 for success, +ve number = error code
-int nextToken(void)
-{
-    // Skip any whitespace.
-    while (isspace(*tokenIn))
+/* nextToken returns -1 for end of input, 0 for success, +ve number = error code */
+int nextToken(void) {
+    /* Skip any whitespace */
+    while (isspace(*tokenIn)) {
         tokenIn++;
-    // check for end of line
+    }
+
+    /* Check for end of line */
     if (*tokenIn == 0) {
         *tokenOut++ = TOKEN_EOL;
         tokenOutLeft--;
         return -1;
     }
-    // Number: [0-9.]+
-    // TODO - handle 1e4 etc
-    if (isdigit(*tokenIn) || *tokenIn == '.') {   // Number: [0-9.]+
+
+    /* Number: [0-9.]+
+       TODO - handle 1e4 etc */
+    if (isdigit(*tokenIn) || *tokenIn == '.') {  /* Number: [0-9.]+ */
         int gotDecimal = 0;
         char numStr[MAX_NUMBER_LEN+1];
         int numLen = 0;
         do {
-            if (numLen == MAX_NUMBER_LEN) return ERROR_LEXER_BAD_NUM;
+            if (numLen == MAX_NUMBER_LEN) {
+                return ERROR_LEXER_BAD_NUM;
+            }
+
             if (*tokenIn == '.') {
-                if (gotDecimal) return ERROR_LEXER_BAD_NUM;
-                else gotDecimal = 1;
+                if (gotDecimal) {
+                    return ERROR_LEXER_BAD_NUM;
+                }
+                else {
+                    gotDecimal = 1;
+                }
             }
             numStr[numLen++] = *tokenIn++;
         } 
         while (isdigit(*tokenIn) || *tokenIn == '.');
 
         numStr[numLen] = 0;
-        if (tokenOutLeft <= 5) return ERROR_LEXER_TOO_LONG;
+        if (tokenOutLeft <= 5) {
+            return ERROR_LEXER_TOO_LONG;
+        }
+
         tokenOutLeft -= 5;
         if (!gotDecimal) {
             long val = strtol(numStr, 0, 10);
-            if (val == LONG_MAX || val == LONG_MIN)
+            if (val == LONG_MAX || val == LONG_MIN) {
                 gotDecimal = true;
+            }
             else {
                 *tokenOut++ = TOKEN_INTEGER;
                 *(long*)tokenOut = (long)val;
                 tokenOut += sizeof(long);
             }
         }
-        if (gotDecimal)
-        {
+
+        if (gotDecimal) {
             *tokenOut++ = TOKEN_NUMBER;
             *(float*)tokenOut = (float)strtod(numStr, 0);
             tokenOut += sizeof(float);
         }
         return 0;
     }
-    // identifier: [a-zA-Z][a-zA-Z0-9]*[$]
+
+    /* identifier: [a-zA-Z][a-zA-Z0-9]*[$] */
     if (isalpha(*tokenIn)) {
-        char identStr[MAX_IDENT_LEN+1];
+        char identStr[MAX_IDENT_LEN + 1];
         int identLen = 0;
-        identStr[identLen++] = *tokenIn++; // copy first char
+        identStr[identLen++] = *tokenIn++; /* Copy first char */
         while (isalnum(*tokenIn) || *tokenIn=='$') {
-            if (identLen < MAX_IDENT_LEN)
+            if (identLen < MAX_IDENT_LEN) {
                 identStr[identLen++] = *tokenIn;
+            }
+
             tokenIn++;
         }
+
         identStr[identLen] = 0;
-        // check to see if this is a keyword
+        
+        /* Check to see if this is a keyword */
         for (int i = FIRST_IDENT_TOKEN; i <= LAST_IDENT_TOKEN; i++) {
             if (strcasecmp(identStr, (char *)pgm_read_word(&tokenTable[i].token)) == 0) {
-                if (tokenOutLeft <= 1) return ERROR_LEXER_TOO_LONG;
+                if (tokenOutLeft <= 1) {
+                    return ERROR_LEXER_TOO_LONG;
+                }
+
                 tokenOutLeft--;
                 *tokenOut++ = i;
-                // special case for REM
+                
+                /* Special case for REM */
                 if (i == TOKEN_REM) {
                     *tokenOut++ = TOKEN_STRING;
-                    // skip whitespace
-                    while (isspace(*tokenIn))
+
+                    /* Skip whitespace */
+                    while (isspace(*tokenIn)) {
                         tokenIn++;
-                    // copy the comment
+                    }
+
+                    /* Copy the comment */
                     while (*tokenIn) {
                         *tokenOut++ = *tokenIn++;
                     }
+
                     *tokenOut++ = 0;
                 }
                 return 0;
             }
         }
-        // no matching keyword - this must be an identifier
-        // $ is only allowed at the end
+
+        /* no matching keyword - this must be an identifier
+           $ is only allowed at the end */
         char *dollarPos = strchr(identStr, '$');
-        if  (dollarPos && dollarPos!= &identStr[0] + identLen - 1) return ERROR_LEXER_UNEXPECTED_INPUT;
-        if (tokenOutLeft <= 1+identLen) return ERROR_LEXER_TOO_LONG;
-        tokenOutLeft -= 1+identLen;
+        if  (dollarPos && dollarPos!= &identStr[0] + identLen - 1) {
+            return ERROR_LEXER_UNEXPECTED_INPUT;
+        }
+
+        if (tokenOutLeft <= 1+identLen) {
+            return ERROR_LEXER_TOO_LONG;
+        }
+
+        tokenOutLeft -= 1 + identLen;
         *tokenOut++ = TOKEN_IDENT;
         strcpy((char*)tokenOut, identStr);
         tokenOut[identLen-1] |= 0x80;
         tokenOut += identLen;
         return 0;
     }
-    // string
+
+    /* String */
     if (*tokenIn=='\"') {
         *tokenOut++ = TOKEN_STRING;
         tokenOutLeft--;
-        if (tokenOutLeft <= 1) return ERROR_LEXER_TOO_LONG;
+        if (tokenOutLeft <= 1) {
+            return ERROR_LEXER_TOO_LONG;
+        }
+
         tokenIn++;
         while (*tokenIn) {
-            if (*tokenIn == '\"' && *(tokenIn+1) != '\"')
+            if (*tokenIn == '\"' && *(tokenIn+1) != '\"') {
                 break;
-            else if (*tokenIn == '\"')
+            }
+            else if (*tokenIn == '\"') {
                 tokenIn++;
+            }
+            
             *tokenOut++ = *tokenIn++;
             tokenOutLeft--;
-            if (tokenOutLeft <= 1) return ERROR_LEXER_TOO_LONG;
+            if (tokenOutLeft <= 1) {
+                return ERROR_LEXER_TOO_LONG;
+            }
         }
-        if (!*tokenIn) return ERROR_LEXER_UNTERMINATED_STRING;
+
+        if (!*tokenIn) {
+            return ERROR_LEXER_UNTERMINATED_STRING;
+        }
+
         tokenIn++;
         *tokenOut++ = 0;
         tokenOutLeft--;
         return 0;
     }
-    // handle non-alpha tokens e.g. =
-    for (int i=LAST_NON_ALPHA_TOKEN; i>=FIRST_NON_ALPHA_TOKEN; i--) {
-        // do this "backwards" so we match >= correctly, not as > then =
+
+    /* Handle non-alpha tokens e.g. = */
+    for (int i = LAST_NON_ALPHA_TOKEN; i >= FIRST_NON_ALPHA_TOKEN; i--) {
+        /* Do this "backwards" so we match >= correctly, not as > then = */
         int len = strlen((char *)pgm_read_word(&tokenTable[i].token));
         if (strncmp((char *)pgm_read_word(&tokenTable[i].token), (char*)tokenIn, len) == 0) {
-            if (tokenOutLeft <= 1) return ERROR_LEXER_TOO_LONG;
+            if (tokenOutLeft <= 1) {
+                return ERROR_LEXER_TOO_LONG;
+            }
+
             *tokenOut++ = i;
             tokenOutLeft--;
             tokenIn += len;
@@ -933,7 +1072,9 @@ int tokenize(unsigned char *input, unsigned char *output, int outputSize)
     int ret;
     while (1) {
         ret = nextToken();
-        if (ret) break;
+        if (ret) {
+            break;
+        }
     }
     return (ret > 0) ? ret : 0;
 }
@@ -942,10 +1083,11 @@ int tokenize(unsigned char *input, unsigned char *output, int outputSize)
  * PARSER / INTERPRETER
  * **************************************************************************/
 
-static char executeMode;    // 0 = syntax check only, 1 = execute
+static char executeMode;    /* 0 = syntax check only, 1 = execute */
 uint16_t lineNumber, stmtNumber;
-// stmt number is 0 for the first statement, then increases after each command seperator (:)
-// Note that IF a=1 THEN PRINT "x": print "y" is considered to be only 2 statements
+
+/* stmt number is 0 for the first statement, then increases after each command seperator (:)
+   Note that IF a=1 THEN PRINT "x": print "y" is considered to be only 2 statements */
 static uint16_t jumpLineNumber, jumpStmtNumber;
 static uint16_t stopLineNumber, stopStmtNumber;
 static char breakCurrentLine;
@@ -956,17 +1098,18 @@ static char identVal[MAX_IDENT_LEN+1];
 static char isStrIdent;
 static float numVal;
 static char *strVal;
-// TODO remove static long numIntVal;
+/* TODO remove static long numIntVal; */
 
-int getNextToken(void)
-{
+int getNextToken(void) {
     prevToken = tokenBuffer;
     curToken = *tokenBuffer++;
     if (curToken == TOKEN_IDENT) {
         int i=0;
-        while (*tokenBuffer < 0x80)
+        while (*tokenBuffer < 0x80) {
             identVal[i++] = *tokenBuffer++;
-        identVal[i] = (*tokenBuffer++)-0x80;
+        }
+
+        identVal[i] = (*tokenBuffer++) - 0x80;
         isStrIdent = (identVal[i++] == '$');
         identVal[i++] = '\0';
     }
@@ -975,7 +1118,7 @@ int getNextToken(void)
         tokenBuffer += sizeof(float);
     }
     else if (curToken == TOKEN_INTEGER) {
-        // these are really just for line numbers
+        /* These are really just for line numbers */
         numVal = (float)(*(long*)tokenBuffer);
         tokenBuffer += sizeof(long);
     }
@@ -983,10 +1126,11 @@ int getNextToken(void)
         strVal = (char*)tokenBuffer;
         tokenBuffer += 1 + strlen(strVal);
     }
+
     return curToken;
 }
 
-// value (int) returned from parseXXXXX
+/* Value (int) returned from parseXXXXX */
 #define ERROR_MASK                      0x0FFF
 #define TYPE_MASK                       0xF000
 #define TYPE_NUMBER                     0x0000
@@ -995,45 +1139,62 @@ int getNextToken(void)
 #define IS_TYPE_NUM(x) ((x & TYPE_MASK) == TYPE_NUMBER)
 #define IS_TYPE_STR(x) ((x & TYPE_MASK) == TYPE_STRING)
 
-// parse a number
-int parseNumberExpr(void)
-{
-    if (executeMode && !stackPushNum(numVal))
+/* Parse a number */
+int parseNumberExpr(void) {
+    if (executeMode && !stackPushNum(numVal)) {
         return ERROR_OUT_OF_MEMORY;
-    getNextToken(); // consume the number
+    }
+
+    getNextToken(); /* Consume the number */
     return TYPE_NUMBER;
 }
 
-// parse (x1,....xn) e.g. DIM a(10,20)
+/* Parse (x1,....xn) e.g. DIM a(10,20) */
 int parseSubscriptExpr(void) {
-    // stacks x1, .. xn followed by n
+    /* Stacks x1, .. xn followed by n */
     int numDims = 0;
-    if (curToken != TOKEN_LBRACKET) return ERROR_EXPR_MISSING_BRACKET;
+    if (curToken != TOKEN_LBRACKET) {
+        return ERROR_EXPR_MISSING_BRACKET;
+    }
+
     getNextToken();
     while(1) {
         numDims++;
         int val = expectNumber();
-        if (val) return val;    // error
-        if (curToken == TOKEN_RBRACKET)
+        if (val) {
+            return val;    /* error */
+        }
+
+        if (curToken == TOKEN_RBRACKET) {
             break;
-        else if (curToken == TOKEN_COMMA)
+        }
+        else if (curToken == TOKEN_COMMA) {
             getNextToken();
-        else
+        }
+        else {
             return ERROR_EXPR_MISSING_BRACKET;
+        }
     }
-    getNextToken(); // eat )
-    if (executeMode && !stackPushNum(numDims))
+
+    getNextToken(); /* eat ) */
+    if (executeMode && !stackPushNum(numDims)) {
         return ERROR_OUT_OF_MEMORY;
+    }
+
     return 0;
 }
 
-// parse a function call e.g. LEN(a$)
+/* Parse a function call e.g. LEN(a$) */
 int parseFnCallExpr(void) {
     int op = curToken;
     int fnSpec = pgm_read_byte_near(&tokenTable[curToken].format);
     getNextToken();
-    // get the required arguments and types from the token table
-    if (curToken != TOKEN_LBRACKET) return ERROR_EXPR_MISSING_BRACKET;
+
+    /* Get the required arguments and types from the token table */
+    if (curToken != TOKEN_LBRACKET) {
+        return ERROR_EXPR_MISSING_BRACKET;
+    }
+
     getNextToken();
 
     int reqdArgs = fnSpec & TKN_ARGS_NUM_MASK;
@@ -1042,20 +1203,29 @@ int parseFnCallExpr(void) {
     for (int i=0; i<reqdArgs; i++) {
         int val = parseExpression();
         if (val & ERROR_MASK) return val;
-        // check we've got the right type
-        if (!(argTypes & 1) && !IS_TYPE_NUM(val))
+
+        /* Check we've got the right type */
+        if (!(argTypes & 1) && !IS_TYPE_NUM(val)) {
             return ERROR_EXPR_EXPECTED_NUM;
-        if ((argTypes & 1) && !IS_TYPE_STR(val))
+        }
+
+        if ((argTypes & 1) && !IS_TYPE_STR(val)) {
             return ERROR_EXPR_EXPECTED_STR;
+        }
+
         argTypes >>= 1;
-        // if this isn't the last argument, eat the ,
+
+        /* If this isn't the last argument, eat the , */
         if (i+1<reqdArgs) {
-            if (curToken != TOKEN_COMMA)
+            if (curToken != TOKEN_COMMA) {
                 return ERROR_UNEXPECTED_TOKEN;
+            }
+
             getNextToken();
         }
     }
-    // now all the arguments will be on the stack (last first)
+
+    /* Now all the arguments will be on the stack (last first) */
     if (executeMode) {
         int tmp;
         switch (op) {
@@ -1085,13 +1255,16 @@ int parseFnCallExpr(void) {
         case TOKEN_STR:
             {
                 char buf[16];
-                if (!stackPushStr(host_floatToStr(stackPopNum(), buf)))
+                if (!stackPushStr(host_floatToStr(stackPopNum(), buf))) {
                     return ERROR_OUT_OF_MEMORY;
+                }
             }
             break;
         case TOKEN_LEN:
             tmp = strlen(stackPopStr());
-            if (!stackPushNum(tmp)) return ERROR_OUT_OF_MEMORY;
+            if (!stackPushNum(tmp)) {
+                return ERROR_OUT_OF_MEMORY;
+            }
             break;
         case TOKEN_VAL:
             {
@@ -1103,26 +1276,35 @@ int parseFnCallExpr(void) {
                     if (val == ERROR_LEXER_TOO_LONG) return ERROR_OUT_OF_MEMORY;
                     else return ERROR_IN_VAL_INPUT;
                 }
-                // set tokenBuffer to point to the new set of tokens on the stack
+
+                /* Set tokenBuffer to point to the new set of tokens on the stack */
                 tokenBuffer = &mem[sysSTACKEND];
-                // move stack end to the end of the new tokens
+
+                /* Move stack end to the end of the new tokens */
                 sysSTACKEND = tokenOut - &mem[0];
                 getNextToken();
-                // then parseExpression
+
+                /* Then parseExpression */
                 val = parseExpression();
                 if (val & ERROR_MASK) {
                     if (val == ERROR_OUT_OF_MEMORY) return val;
                     else return ERROR_IN_VAL_INPUT;
                 }
-                if (!IS_TYPE_NUM(val))
+
+                if (!IS_TYPE_NUM(val)) {
                     return ERROR_EXPR_EXPECTED_NUM;
-                // read the result from the stack
+                }
+
+                /* Read the result from the stack */
                 float f = stackPopNum();
-                // pop the tokens from the stack
+
+                /* Pop the tokens from the stack */
                 sysSTACKEND = oldStackEnd;
-                // and pop the original string
+
+                /* And pop the original string */
                 stackPopStr();
-                // finally, push the result and set the token buffer back
+
+                /* Finally, push the result and set the token buffer back */
                 stackPushNum(f);
                 tokenBuffer = oldTokenBuffer;
                 getNextToken();
@@ -1130,106 +1312,145 @@ int parseFnCallExpr(void) {
             break;
         case TOKEN_LEFT:
             tmp = (int)stackPopNum();
-            if (tmp < 0) return ERROR_STR_SUBSCRIPT_OUT_RANGE;
+            if (tmp < 0) {
+                return ERROR_STR_SUBSCRIPT_OUT_RANGE;
+            }
             stackLeftOrRightStr(tmp, 0);
             break;
         case TOKEN_RIGHT:
             tmp = (int)stackPopNum();
-            if (tmp < 0) return ERROR_STR_SUBSCRIPT_OUT_RANGE;
+            if (tmp < 0) {
+                return ERROR_STR_SUBSCRIPT_OUT_RANGE;
+            }
             stackLeftOrRightStr(tmp, 1);
             break;
         case TOKEN_MID:
             {
                 tmp = (int)stackPopNum();
                 int start = stackPopNum();
-                if (tmp < 0 || start < 1) return ERROR_STR_SUBSCRIPT_OUT_RANGE;
+                if (tmp < 0 || start < 1) {
+                    return ERROR_STR_SUBSCRIPT_OUT_RANGE;
+                }
                 stackMidStr(start, tmp);
             }
             break;
         case TOKEN_PINREAD:
             tmp = (int)stackPopNum();
-            if (!stackPushNum(host_digitalRead(tmp))) return ERROR_OUT_OF_MEMORY;
+            if (!stackPushNum(host_digitalRead(tmp))) {
+                return ERROR_OUT_OF_MEMORY;
+            }
             break;
         case TOKEN_ANALOGRD:
             tmp = (int)stackPopNum();
-            if (!stackPushNum(host_analogRead(tmp))) return ERROR_OUT_OF_MEMORY;
+            if (!stackPushNum(host_analogRead(tmp))) {
+                return ERROR_OUT_OF_MEMORY;
+            }
             break;
         default:
             return ERROR_UNEXPECTED_TOKEN;
         }
     }
-    if (curToken != TOKEN_RBRACKET) return ERROR_EXPR_MISSING_BRACKET;
-    getNextToken(); // eat )
+
+    if (curToken != TOKEN_RBRACKET) {
+        return ERROR_EXPR_MISSING_BRACKET;
+    }
+
+    getNextToken(); /* eat ) */
     return ret;
 }
 
-// parse an identifer e.g. a$ or a(5,3)
+/* Parse an identifer e.g. a$ or a(5,3) */
 int parseIdentifierExpr(void) {
-    char ident[MAX_IDENT_LEN+1];
-    if (executeMode)
+    char ident[MAX_IDENT_LEN + 1];
+    if (executeMode) {
         strcpy(ident, identVal);
+    }
+
     int isStringIdentifier = isStrIdent;
-    getNextToken(); // eat ident
+    getNextToken(); /* Eat ident */
     if (curToken == TOKEN_LBRACKET) {
-        // array access
+        /* Array access */
         int val = parseSubscriptExpr();
         if (val) return val;
         if (executeMode) {
             if (isStringIdentifier) {
                 int error = 0;
                 char *str = lookupStrArrayElem(ident, &error);
-                if (error) return error;
-                else if (!stackPushStr(str)) return ERROR_OUT_OF_MEMORY;
+                if (error) {
+                    return error;
+                }
+                else if (!stackPushStr(str)) {
+                    return ERROR_OUT_OF_MEMORY;
+                }
             }
             else {
                 int error = 0;
                 float f = lookupNumArrayElem(ident, &error);
-                if (error) return error;
-                else if (!stackPushNum(f)) return ERROR_OUT_OF_MEMORY;
+                if (error) {
+                    return error;
+                }
+                else if (!stackPushNum(f)) {
+                    return ERROR_OUT_OF_MEMORY;
+                }
             }
         }
     }
     else {
-        // simple variable
+        /* Simple variable */
         if (executeMode) {
             if (isStringIdentifier) {
                 char *str = lookupStrVariable(ident);
-                if (!str) return ERROR_VARIABLE_NOT_FOUND;
-                else if (!stackPushStr(str)) return ERROR_OUT_OF_MEMORY;
+                if (!str) {
+                    return ERROR_VARIABLE_NOT_FOUND;
+                }
+                else if (!stackPushStr(str)) {
+                    return ERROR_OUT_OF_MEMORY;
+                }
             }
             else {
                 float f = lookupNumVariable(ident);
-                if (f == FLT_MAX) return ERROR_VARIABLE_NOT_FOUND;
-                else if (!stackPushNum(f)) return ERROR_OUT_OF_MEMORY;
+                if (f == FLT_MAX) {
+                    return ERROR_VARIABLE_NOT_FOUND;
+                }
+                else if (!stackPushNum(f)) {
+                    return ERROR_OUT_OF_MEMORY;
+                }
             }
         }
     }
     return isStringIdentifier ? TYPE_STRING : TYPE_NUMBER;
 }
 
-// parse a string e.g. "hello"
+/* Parse a string e.g. "hello" */
 int parseStringExpr(void) {
-    if (executeMode && !stackPushStr(strVal))
+    if (executeMode && !stackPushStr(strVal)) {
         return ERROR_OUT_OF_MEMORY;
-    getNextToken(); // consume the string
+    }
+
+    getNextToken(); /* Consume the string */
     return TYPE_STRING;
 }
 
-// parse a bracketed expressed e.g. (5+3)
+/* Parse a bracketed expressed e.g. (5+3) */
 int parseParenExpr(void) {
-    getNextToken();  // eat (
+    getNextToken();  /* eat ( */
     int val = parseExpression();
-    if (val & ERROR_MASK) return val;
-    if (curToken != TOKEN_RBRACKET)
+    if (val & ERROR_MASK) {
+        return val;
+    }
+
+    if (curToken != TOKEN_RBRACKET) {
         return ERROR_EXPR_MISSING_BRACKET;
-    getNextToken();  // eat )
+    }
+    getNextToken();  /* eat ) */
     return val;
 }
 
 int parse_RND(void) {
     getNextToken();
-    if (executeMode && !stackPushNum((float)rand()/(float)RAND_MAX))
+    if (executeMode && !stackPushNum((float)rand()/(float)RAND_MAX)) {
         return ERROR_OUT_OF_MEMORY;
+    }
     return TYPE_NUMBER; 
 }
 
@@ -1239,33 +1460,42 @@ int parse_INKEY(void) {
         char str[2];
         str[0] = host_getKey();
         str[1] = 0;
-        if (!stackPushStr(str))
+        if (!stackPushStr(str)) {
             return ERROR_OUT_OF_MEMORY;
+        }
     }
     return TYPE_STRING; 
 }
 
-int parseUnaryNumExp(void)
-{
+int parseUnaryNumExp(void) {
     int op = curToken;
     getNextToken();
     int val = parsePrimary();
-    if (val & ERROR_MASK) return val;
-    if (!IS_TYPE_NUM(val))
+    if (val & ERROR_MASK) {
+        return val;
+    }
+
+    if (!IS_TYPE_NUM(val)) {
         return ERROR_EXPR_EXPECTED_NUM;
+    }
+
     switch (op) {
     case TOKEN_MINUS:
-        if (executeMode) stackPushNum(stackPopNum() * -1.0f);
+        if (executeMode) {
+            stackPushNum(stackPopNum() * -1.0f);
+        }
         return TYPE_NUMBER;
     case TOKEN_NOT:
-        if (executeMode) stackPushNum(stackPopNum() ? 0.0f : 1.0f);
+        if (executeMode) {
+            stackPushNum(stackPopNum() ? 0.0f : 1.0f);
+        }
         return TYPE_NUMBER;
     default:
         return ERROR_UNEXPECTED_TOKEN;
     }
 }
 
-/// primary
+/* Primary */
 int parsePrimary() {
     switch (curToken) {
     case TOKEN_IDENT:   
@@ -1278,18 +1508,18 @@ int parsePrimary() {
     case TOKEN_LBRACKET:
         return parseParenExpr();
 
-        // "psuedo-identifiers"
+        /* "psuedo-identifiers" */
     case TOKEN_RND: 
         return parse_RND();
     case TOKEN_INKEY:
         return parse_INKEY();
 
-        // unary ops
+        /* unary ops */
     case TOKEN_MINUS:
     case TOKEN_NOT:
         return parseUnaryNumExp();
 
-        // functions
+        /* functions */
     case TOKEN_INT: 
     case TOKEN_STR: 
     case TOKEN_LEN: 
@@ -1312,137 +1542,208 @@ int parsePrimary() {
 }
 
 int getTokPrecedence(void) {
-    if (curToken == TOKEN_AND || curToken == TOKEN_OR) return 5;
-    if (curToken == TOKEN_EQUALS || curToken == TOKEN_NOT_EQ) return 10;
-    if (curToken == TOKEN_LT || curToken == TOKEN_GT || curToken == TOKEN_LT_EQ || curToken == TOKEN_GT_EQ) return 20;
-    if (curToken == TOKEN_MINUS || curToken == TOKEN_PLUS) return 30;
-    else if (curToken == TOKEN_MULT || curToken == TOKEN_DIV || curToken == TOKEN_MOD) return 40;
-    else return -1;
+    if (curToken == TOKEN_AND || curToken == TOKEN_OR) {
+        return 5;
+    }
+
+    if (curToken == TOKEN_EQUALS || curToken == TOKEN_NOT_EQ) {
+        return 10;
+    }
+
+    if (curToken == TOKEN_LT || curToken == TOKEN_GT || curToken == TOKEN_LT_EQ || curToken == TOKEN_GT_EQ) {
+        return 20;
+    }
+
+    if (curToken == TOKEN_MINUS || curToken == TOKEN_PLUS) {
+        return 30;
+    }
+    else if (curToken == TOKEN_MULT || curToken == TOKEN_DIV || curToken == TOKEN_MOD) {
+        return 40;
+    }
+    else {
+        return -1;
+    }
 }
 
-// Operator-Precedence Parsing
+/* Operator-Precedence Parsing */
 int parseBinOpRHS(int ExprPrec, int lhsVal) {
-    // If this is a binop, find its precedence.
+    /* If this is a binop, find its precedence */
     while (1) {
         int TokPrec = getTokPrecedence();
 
-        // If this is a binop that binds at least as tightly as the current binop,
-        // consume it, otherwise we are done.
-        if (TokPrec < ExprPrec)
+        /* If this is a binop that binds at least as tightly as the current binop,
+           consume it, otherwise we are done */
+        if (TokPrec < ExprPrec) {
             return lhsVal;
+        }
 
-        // Okay, we know this is a binop.
+        /* Okay, we know this is a binop */
         int BinOp = curToken;
-        getNextToken();  // eat binop
+        getNextToken();  /* eat binop */
 
-        // Parse the primary expression after the binary operator.
+        /* Parse the primary expression after the binary operator */
         int rhsVal = parsePrimary();
-        if (rhsVal & ERROR_MASK) return rhsVal;
+        if (rhsVal & ERROR_MASK) {
+            return rhsVal;
+        }
 
-        // If BinOp binds less tightly with RHS than the operator after RHS, let
-        // the pending operator take RHS as its LHS.
+        /* If BinOp binds less tightly with RHS than the operator after RHS, let
+           the pending operator take RHS as its LHS */
         int NextPrec = getTokPrecedence();
         if (TokPrec < NextPrec) {
-            rhsVal = parseBinOpRHS(TokPrec+1, rhsVal);
+            rhsVal = parseBinOpRHS(TokPrec + 1, rhsVal);
             if (rhsVal & ERROR_MASK) return rhsVal;
         }
 
-        if (IS_TYPE_NUM(lhsVal) && IS_TYPE_NUM(rhsVal))
-        {   // Number operations
+        if (IS_TYPE_NUM(lhsVal) && IS_TYPE_NUM(rhsVal)) {   
+            /* Number operations */
             float r = 0, l = 0;
             if (executeMode) {
                 r = stackPopNum();
                 l = stackPopNum();
             }
+
             if (BinOp == TOKEN_PLUS) {
-                if (executeMode) stackPushNum(l+r);
+                if (executeMode) {
+                    stackPushNum(l + r);
+                }
             }
             else if (BinOp == TOKEN_MINUS) {
-                if (executeMode) stackPushNum(l-r);
+                if (executeMode) {
+                    stackPushNum(l - r);
+                }
             }
             else if (BinOp == TOKEN_MULT) {
-                if (executeMode) stackPushNum(l*r);
+                if (executeMode) {
+                    stackPushNum(l * r);
+                }
             }
             else if (BinOp == TOKEN_DIV) {
                 if (executeMode) {
-                    if (r) stackPushNum(l/r);
-                    else return ERROR_EXPR_DIV_ZERO;
+                    if (r) {
+                        stackPushNum(l / r);
+                    }
+                    else {
+                        return ERROR_EXPR_DIV_ZERO;
+                    }
                 }
             }
             else if (BinOp == TOKEN_MOD) {
                 if (executeMode) {
-                    if ((int)r) stackPushNum((float)((int)l % (int)r));
-                    else return ERROR_EXPR_DIV_ZERO;
+                    if ((int)r) {
+                        stackPushNum((float)((int)l % (int)r));
+                    }
+                    else {
+                        return ERROR_EXPR_DIV_ZERO;
+                    }
                 }
             }
             else if (BinOp == TOKEN_LT) {
-                if (executeMode) stackPushNum(l < r ? 1.0f : 0.0f);
+                if (executeMode) {
+                    stackPushNum(l < r ? 1.0f : 0.0f);
+                }
             }
             else if (BinOp == TOKEN_GT) {
-                if (executeMode) stackPushNum(l > r ? 1.0f : 0.0f);
+                if (executeMode) {
+                    stackPushNum(l > r ? 1.0f : 0.0f);
+                }
             }
             else if (BinOp == TOKEN_EQUALS) {
-                if (executeMode) stackPushNum(l == r ? 1.0f : 0.0f);
+                if (executeMode) {
+                    stackPushNum(l == r ? 1.0f : 0.0f);
+                }
             }
             else if (BinOp == TOKEN_NOT_EQ) {
-                if (executeMode) stackPushNum(l != r ? 1.0f : 0.0f);
+                if (executeMode) {
+                    stackPushNum(l != r ? 1.0f : 0.0f);
+                }
             }
             else if (BinOp == TOKEN_LT_EQ) {
-                if (executeMode) stackPushNum(l <= r ? 1.0f : 0.0f);
+                if (executeMode) {
+                    stackPushNum(l <= r ? 1.0f : 0.0f);
+                }
             }
             else if (BinOp == TOKEN_GT_EQ) {
-                if (executeMode) stackPushNum(l >= r ? 1.0f : 0.0f);
+                if (executeMode) {
+                    stackPushNum(l >= r ? 1.0f : 0.0f);
+                }
             }
             else if (BinOp == TOKEN_AND) {
-                if (executeMode) stackPushNum(r != 0.0f ? l : 0.0f);
+                if (executeMode) {
+                    stackPushNum(r != 0.0f ? l : 0.0f);
+                }
             }
             else if (BinOp == TOKEN_OR) {
-                if (executeMode) stackPushNum(r != 0.0f ? 1 : l);
+                if (executeMode) {
+                    stackPushNum(r != 0.0f ? 1 : l);
+                }
             }
             else
                 return ERROR_UNEXPECTED_TOKEN;
         }
-        else if (IS_TYPE_STR(lhsVal) && IS_TYPE_STR(rhsVal))
-        {   // String operations
+        else if (IS_TYPE_STR(lhsVal) && IS_TYPE_STR(rhsVal)) {   
+            /* String operations */
             if (BinOp == TOKEN_PLUS) {
-                if (executeMode)
+                if (executeMode) {
                     stackAdd2Strs();
+                }
             }
             else if (BinOp >= TOKEN_EQUALS && BinOp <=TOKEN_LT_EQ) {
                 if (executeMode) {
                     char *r = stackPopStr();
                     char *l = stackPopStr();
                     int ret = strcmp(l,r);
-                    if (BinOp == TOKEN_EQUALS && ret == 0) stackPushNum(1.0f);
-                    else if (BinOp == TOKEN_NOT_EQ && ret != 0) stackPushNum(1.0f);
-                    else if (BinOp == TOKEN_GT && ret > 0) stackPushNum(1.0f);
-                    else if (BinOp == TOKEN_LT && ret < 0) stackPushNum(1.0f);
-                    else if (BinOp == TOKEN_GT_EQ && ret >= 0) stackPushNum(1.0f);
-                    else if (BinOp == TOKEN_LT_EQ && ret <= 0) stackPushNum(1.0f);
-                    else stackPushNum(0.0f);
+                    if (BinOp == TOKEN_EQUALS && ret == 0) {
+                        stackPushNum(1.0f);
+                    }
+                    else if (BinOp == TOKEN_NOT_EQ && ret != 0) {
+                        stackPushNum(1.0f);
+                    }
+                    else if (BinOp == TOKEN_GT && ret > 0) {
+                        stackPushNum(1.0f);
+                    }
+                    else if (BinOp == TOKEN_LT && ret < 0) {
+                        stackPushNum(1.0f);
+                    }
+                    else if (BinOp == TOKEN_GT_EQ && ret >= 0) {
+                        stackPushNum(1.0f);
+                    }
+                    else if (BinOp == TOKEN_LT_EQ && ret <= 0) {
+                        stackPushNum(1.0f);
+                    }
+                    else {
+                        stackPushNum(0.0f);
+                    }
                 }
                 lhsVal = TYPE_NUMBER;
             }
-            else
+            else {
                 return ERROR_UNEXPECTED_TOKEN;
+            }
         }
-        else
+        else {
             return ERROR_UNEXPECTED_TOKEN;
+        }
     }
 }
 
-int parseExpression()
-{
+int parseExpression() {
     int val = parsePrimary();
-    if (val & ERROR_MASK) return val;
+    if (val & ERROR_MASK) {
+        return val;
+    }
     return parseBinOpRHS(0, val);
 }
 
 int expectNumber(void) {
     int val = parseExpression();
-    if (val & ERROR_MASK) return val;
-    if (!IS_TYPE_NUM(val))
+    if (val & ERROR_MASK) {
+        return val;
+    }
+
+    if (!IS_TYPE_NUM(val)) {
         return ERROR_EXPR_EXPECTED_NUM;
+    }
     return 0;
 }
 
@@ -1451,15 +1752,20 @@ int parse_RUN(void) {
     uint16_t startLine = 1;
     if (curToken != TOKEN_EOL) {
         int val = expectNumber();
-        if (val) return val;    // error
+        if (val) {
+            return val;    /* error */
+        }
+
         if (executeMode) {
             startLine = (uint16_t)stackPopNum();
-            if (startLine <= 0)
+            if (startLine <= 0) {
                 return ERROR_BAD_LINE_NUM;
+            }
         }
     }
+
     if (executeMode) {
-        // clear variables
+        /* Clear variables */
         sysVARSTART = sysVAREND = sysGOSUBSTART = sysGOSUBEND = MEMORY_SIZE;
         jumpLineNumber = startLine;
         stopLineNumber = stopStmtNumber = 0;
@@ -1470,11 +1776,15 @@ int parse_RUN(void) {
 int parse_GOTO(void) {
     getNextToken();
     int val = expectNumber();
-    if (val) return val;    // error
+    if (val) {
+        return val;    /* error */
+    }
+
     if (executeMode) {
         uint16_t startLine = (uint16_t)stackPopNum();
-        if (startLine <= 0)
+        if (startLine <= 0) {
             return ERROR_BAD_LINE_NUM;
+        }
         jumpLineNumber = startLine;
     }
     return 0;
@@ -1483,11 +1793,15 @@ int parse_GOTO(void) {
 int parse_PAUSE(void) {
     getNextToken();
     int val = expectNumber();
-    if (val) return val;    // error
+    if (val) {
+        return val;    /* error */
+    }
+
     if (executeMode) {
         long ms = (long)stackPopNum();
-        if (ms < 0)
+        if (ms < 0) {
             return ERROR_BAD_PARAMETER;
+        }
         host_sleep(ms);
     }
     return 0;
@@ -1498,17 +1812,27 @@ int parse_LIST(void) {
     uint16_t first = 0, last = 0;
     if (curToken != TOKEN_EOL && curToken != TOKEN_CMD_SEP) {
         int val = expectNumber();
-        if (val) return val;    // error
-        if (executeMode)
+        if (val) {
+            return val;    /* error */
+        }
+
+        if (executeMode) {
             first = (uint16_t)stackPopNum();
+        }
     }
+
     if (curToken == TOKEN_COMMA) {
         getNextToken();
         int val = expectNumber();
-        if (val) return val;    // error
-        if (executeMode)
+        if (val) {
+            return val;    /* error */
+        }
+
+        if (executeMode) {
             last = (uint16_t)stackPopNum();
+        }
     }
+
     if (executeMode) {
         listProg(first,last);
         host_showBuffer();
@@ -1518,16 +1842,21 @@ int parse_LIST(void) {
 
 int parse_PRINT(void) {
     getNextToken();
-    // zero + expressions seperated by semicolons
+    /* zero + expressions seperated by semicolons */
     int newLine = 1;
     while (curToken != TOKEN_EOL && curToken != TOKEN_CMD_SEP) {
         int val = parseExpression();
-        if (val & ERROR_MASK) return val;
+        if (val & ERROR_MASK) {
+            return val;
+        }
+
         if (executeMode) {
-            if (IS_TYPE_NUM(val))
+            if (IS_TYPE_NUM(val)) {
                 host_outputFloat(stackPopNum());
-            else
+            }
+            else {
                 host_outputString(stackPopStr());
+            }
             newLine = 1;
         }
         if (curToken == TOKEN_SEMICOLON) {
@@ -1535,26 +1864,36 @@ int parse_PRINT(void) {
             getNextToken();
         }
     }
+
     if (executeMode) {
-        if (newLine)
+        if (newLine) {
             host_newLine();
+        }
         host_showBuffer();
     }
     return 0;
 }
 
-// parse a stmt that takes two int parameters 
-// e.g. POSITION 3,2
+/* Parse a stmt that takes two int parameters 
+   e.g. POSITION 3,2 */
 int parseTwoIntCmd(void) {
     int op = curToken;
     getNextToken();
     int val = expectNumber();
-    if (val) return val;    // error
-    if (curToken != TOKEN_COMMA)
+    if (val) {
+        return val;    /* error */
+    }
+
+    if (curToken != TOKEN_COMMA) {
         return ERROR_UNEXPECTED_TOKEN;
+    }
+
     getNextToken();
     val = expectNumber();
-    if (val) return val;    // error
+    if (val) {
+        return val;    /* error */
+    }
+
     if (executeMode) {
         int second = (int)stackPopNum();
         int first = (int)stackPopNum();
@@ -1573,32 +1912,45 @@ int parseTwoIntCmd(void) {
     return 0;
 }
 
-// this handles both LET a$="hello" and INPUT a$ type assignments
+/* This handles both LET a$="hello" and INPUT a$ type assignments */
 int parseAssignment(bool inputStmt) {
     char ident[MAX_IDENT_LEN+1];
     int val;
-    if (curToken != TOKEN_IDENT) return ERROR_UNEXPECTED_TOKEN;
-    if (executeMode)
+    if (curToken != TOKEN_IDENT) {
+        return ERROR_UNEXPECTED_TOKEN;
+    }
+
+    if (executeMode) {
         strcpy(ident, identVal);
+    }
+
     int isStringIdentifier = isStrIdent;
     int isArray = 0;
-    getNextToken(); // eat ident
+    getNextToken(); /* eat ident */
     if (curToken == TOKEN_LBRACKET) {
-        // array element being set
+        /* array element being set */
         val = parseSubscriptExpr();
-        if (val) return val;
+        if (val) {
+            return val;
+        }
+
         isArray = 1;
     }
+
     if (inputStmt) {
-        // from INPUT statement
+        /* From INPUT statement */
         if (executeMode) {
             char *inputStr = host_readLine();
             if (isStringIdentifier) {
-                if (!stackPushStr(inputStr)) return ERROR_OUT_OF_MEMORY;
+                if (!stackPushStr(inputStr)) {
+                    return ERROR_OUT_OF_MEMORY;
+                }
             }
             else {
                 float f = (float)strtod(inputStr, 0);
-                if (!stackPushNum(f)) return ERROR_OUT_OF_MEMORY;
+                if (!stackPushNum(f)) {
+                    return ERROR_OUT_OF_MEMORY;
+                }
             }
             host_newLine();
             host_showBuffer();
@@ -1606,39 +1958,59 @@ int parseAssignment(bool inputStmt) {
         val = isStringIdentifier ? TYPE_STRING : TYPE_NUMBER;
     }
     else {
-        // from LET statement
-        if (curToken != TOKEN_EQUALS) return ERROR_UNEXPECTED_TOKEN;
-        getNextToken(); // eat =
+        /* From LET statement */
+        if (curToken != TOKEN_EQUALS) {
+            return ERROR_UNEXPECTED_TOKEN;
+        }
+
+        getNextToken(); /* eat = */
         val = parseExpression();
-        if (val & ERROR_MASK) return val;
+        if (val & ERROR_MASK) {
+            return val;
+        }
     }
-    // type checking and actual assignment
-    if (!isStringIdentifier)
-    {   // numeric variable
-        if (!IS_TYPE_NUM(val)) return ERROR_EXPR_EXPECTED_NUM;
+
+    /* Type checking and actual assignment */
+    if (!isStringIdentifier) {   
+        /* Numeric variable */
+        if (!IS_TYPE_NUM(val)) {
+            return ERROR_EXPR_EXPECTED_NUM;
+        }
+
         if (executeMode) {
             if (isArray) {
                 val = setNumArrayElem(ident, stackPopNum());
-                if (val) return val;
+                if (val) {
+                    return val;
+                }
             }
             else {
-                if (!storeNumVariable(ident, stackPopNum())) return ERROR_OUT_OF_MEMORY;
+                if (!storeNumVariable(ident, stackPopNum())) {
+                    return ERROR_OUT_OF_MEMORY;
+                }
             }
         }
     }
-    else
-    {   // string variable
-        if (!IS_TYPE_STR(val)) return ERROR_EXPR_EXPECTED_STR;
+    else {   
+        /* String  */
+        if (!IS_TYPE_STR(val)) {
+            return ERROR_EXPR_EXPECTED_STR;
+        }
+
         if (executeMode) {
             if (isArray) {
-                // annoyingly, we've got the string at the top of the stack
-                // (from parseExpression) and the array index stuff (from
-                // parseSubscriptExpr) underneath.
+                /* Annoyingly, we've got the string at the top of the stack
+                   (from parseExpression) and the array index stuff (from
+                   parseSubscriptExpr) underneath */
                 val = setStrArrayElem(ident);
-                if (val) return val;
+                if (val) {
+                    return val;
+                }
             }
             else {
-                if (!storeStrVariable(ident, stackGetStr())) return ERROR_OUT_OF_MEMORY;
+                if (!storeStrVariable(ident, stackGetStr())) {
+                    return ERROR_OUT_OF_MEMORY;
+                }
                 stackPopStr();
             }
         }
@@ -1647,18 +2019,24 @@ int parseAssignment(bool inputStmt) {
 }
 
 int parse_IF(void) {
-    getNextToken(); // eat if
+    getNextToken(); /* eat if */
     int val = expectNumber();
-    if (val) return val;    // error
-    if (curToken != TOKEN_THEN)
+    if (val) {
+        return val;    /* error */
+    }
+
+    if (curToken != TOKEN_THEN) {
         return ERROR_MISSING_THEN;
+    }
     getNextToken();
     if (executeMode && stackPopNum() == 0.0f) {
-        // condition not met
+        /* Condition not met */
         breakCurrentLine = 1;
         return 0;
     }
-    else return 0;
+    else {
+        return 0;
+    }
 }
 
 int parse_FOR(void) {
@@ -1666,78 +2044,120 @@ int parse_FOR(void) {
     float start = 0;
     float end = 0;
     float step = 1.0f;
-    getNextToken(); // eat for
-    if (curToken != TOKEN_IDENT || isStrIdent) return ERROR_UNEXPECTED_TOKEN;
-    if (executeMode)
-        strcpy(ident, identVal);
-    getNextToken(); // eat ident
-    if (curToken != TOKEN_EQUALS) return ERROR_UNEXPECTED_TOKEN;
-    getNextToken(); // eat =
-    // parse START
-    int val = expectNumber();
-    if (val) return val;    // error
-    if (executeMode)
-        start = stackPopNum();
-    // parse TO
-    if (curToken != TOKEN_TO) return ERROR_UNEXPECTED_TOKEN;
-    getNextToken(); // eat TO
-    // parse END
-    val = expectNumber();
-    if (val) return val;    // error
-    if (executeMode)
-        end = stackPopNum();
-    // parse optional STEP
-    if (curToken == TOKEN_STEP) {
-        getNextToken(); // eat STEP
-        val = expectNumber();
-        if (val) return val;    // error
-        if (executeMode)
-            step = stackPopNum();
+    getNextToken(); /* eat for */
+    if (curToken != TOKEN_IDENT || isStrIdent) {
+        return ERROR_UNEXPECTED_TOKEN;
     }
+
     if (executeMode) {
-        if (!storeForNextVariable(ident, start, step, end, lineNumber, stmtNumber)) return ERROR_OUT_OF_MEMORY;
+        strcpy(ident, identVal);
+    }
+    getNextToken(); /* eat ident */
+    if (curToken != TOKEN_EQUALS) {
+        return ERROR_UNEXPECTED_TOKEN;
+    }
+    getNextToken(); /* eat = */
+
+    /* Parse START */
+    int val = expectNumber();
+    if (val) {
+        return val;    /* error */
+    }
+
+    if (executeMode) {
+        start = stackPopNum();
+    }
+
+    /* Parse TO */
+    if (curToken != TOKEN_TO) {
+        return ERROR_UNEXPECTED_TOKEN;
+    }
+    getNextToken(); /* eat TO */
+
+    /* Parse END */
+    val = expectNumber();
+    if (val) {
+        return val;    /* error */
+    }
+
+    if (executeMode) {
+        end = stackPopNum();
+    }
+
+    /* Parse optional STEP */
+    if (curToken == TOKEN_STEP) {
+        getNextToken(); /* eat STEP */
+        val = expectNumber();
+        if (val) {
+            return val;    /* error */
+        }
+
+        if (executeMode) {
+            step = stackPopNum();
+        }
+    }
+
+    if (executeMode) {
+        if (!storeForNextVariable(ident, start, step, end, lineNumber, stmtNumber)) {
+            return ERROR_OUT_OF_MEMORY;
+        }
     }
     return 0;
 }
 
 int parse_NEXT(void) {
-    getNextToken(); // eat next
-    if (curToken != TOKEN_IDENT || isStrIdent) return ERROR_UNEXPECTED_TOKEN;
+    getNextToken(); /* eat next */
+    if (curToken != TOKEN_IDENT || isStrIdent) {
+        return ERROR_UNEXPECTED_TOKEN;
+    }
+
     if (executeMode) {
         ForNextData data = lookupForNextVariable(identVal);
-        if (data.val == FLT_MAX) return ERROR_VARIABLE_NOT_FOUND;
-        else if (data.step == FLT_MAX) return ERROR_NEXT_WITHOUT_FOR;
-        // update and store the count variable
+        if (data.val == FLT_MAX) {
+            return ERROR_VARIABLE_NOT_FOUND;
+        }
+        else if (data.step == FLT_MAX) {
+            return ERROR_NEXT_WITHOUT_FOR;
+        }
+
+        /* Update and store the count variable */
         data.val += data.step;
         storeNumVariable(identVal, data.val);
-        // loop?
+
+        /* loop? */
         if ((data.step >= 0 && data.val <= data.end) || (data.step < 0 && data.val >= data.end)) {
             jumpLineNumber = data.lineNumber;
-            jumpStmtNumber = data.stmtNumber+1;
+            jumpStmtNumber = data.stmtNumber + 1;
         }
     }
-    getNextToken(); // eat ident
+    getNextToken(); /* eat ident */
     return 0;
 }
 
 int parse_GOSUB(void) {
-    getNextToken(); // eat gosub
+    getNextToken(); /* eat gosub */
     int val = expectNumber();
-    if (val) return val;    // error
+    if (val) {
+        return val;    /* error */
+    }
+
     if (executeMode) {
         uint16_t startLine = (uint16_t)stackPopNum();
-        if (startLine <= 0)
+        if (startLine <= 0) {
             return ERROR_BAD_LINE_NUM;
+        }
+
         jumpLineNumber = startLine;
-        if (!gosubStackPush(lineNumber,stmtNumber))
+        if (!gosubStackPush(lineNumber,stmtNumber)) {
             return ERROR_OUT_OF_MEMORY;
+        }
     }
     return 0;
 }
 
-// LOAD or LOAD "x"
-// SAVE, SAVE+ or SAVE "x"
-// DELETE "x"
+/* LOAD or LOAD "x"
+   SAVE, SAVE+ or SAVE "x"
+   DELETE "x" */
 int parseLoadSaveCmd(void) {
     int op = curToken;
     char autoexec = 0, gotFileName = 0;
@@ -1748,9 +2168,13 @@ int parseLoadSaveCmd(void) {
     }
     else if (curToken != TOKEN_EOL && curToken != TOKEN_CMD_SEP) {
         int val = parseExpression();
-        if (val & ERROR_MASK) return val;
-        if (!IS_TYPE_STR(val))
+        if (val & ERROR_MASK) {
+            return val;
+        }
+
+        if (!IS_TYPE_STR(val)) {
             return ERROR_EXPR_EXPECTED_STR;
+        }
         gotFileName = 1;
     }
 
@@ -1759,44 +2183,40 @@ int parseLoadSaveCmd(void) {
 #ifdef SD_CARD_IN_USE
             char fileName[MAX_IDENT_LEN + 1];
 
-            if (strlen(stackGetStr()) > MAX_IDENT_LEN)
-            {
+            if (strlen(stackGetStr()) > MAX_IDENT_LEN) {
                 return ERROR_BAD_PARAMETER;
             }
 
             strcpy(fileName, stackPopStr());
 
-            if (op == TOKEN_SAVE)
-            {
-                if (!host_saveSdCard(fileName))
-                {
+            if (op == TOKEN_SAVE) {
+                if (!host_saveSdCard(fileName)) {
                     return ERROR_OUT_OF_MEMORY;
                 }
             }
-            else if (op == TOKEN_LOAD)
-            {
+            else if (op == TOKEN_LOAD) {
                 reset();
-                if (!host_loadSdCard(fileName))
-                {
+                if (!host_loadSdCard(fileName)) {
                     return ERROR_BAD_PARAMETER;
                 }
             }
-            else if (op == TOKEN_DELETE)
-            {
+            else if (op == TOKEN_DELETE) {
  /*               if (!host_removeExtEEPROM(fileName))
                       return ERROR_BAD_PARAMETER; */
             }
 #endif
         }
         else {
-            if (op == TOKEN_SAVE)
+            if (op == TOKEN_SAVE) {
                 host_saveProgram(autoexec);
+            }
             else if (op == TOKEN_LOAD) {
                 reset();
                 host_loadProgram();
             }
-            else
+            else {
                 return ERROR_UNEXPECTED_CMD;
+            }
         }
     }
     return 0;
@@ -1804,7 +2224,7 @@ int parseLoadSaveCmd(void) {
 
 int parseSimpleCmd(void) {
     int op = curToken;
-    getNextToken(); // eat op
+    getNextToken(); /* eat op */
     if (executeMode) {
         switch (op) {
             case TOKEN_NEW:
@@ -1824,8 +2244,9 @@ int parseSimpleCmd(void) {
             case TOKEN_RETURN:
             {
                 int returnLineNumber, returnStmtNumber;
-                if (!gosubStackPop(&returnLineNumber, &returnStmtNumber))
+                if (!gosubStackPop(&returnLineNumber, &returnStmtNumber)) {
                     return ERROR_RETURN_WITHOUT_GOSUB;
+                }
                 jumpLineNumber = returnLineNumber;
                 jumpStmtNumber = returnStmtNumber+1;
                 break;
@@ -1835,7 +2256,7 @@ int parseSimpleCmd(void) {
                 host_showBuffer();
                 break;
             case TOKEN_DIR:
-#ifdef EXTERNAL_EEPROM
+#ifdef EXTERNAL_EEPROM /* TODO */
                 host_directoryExtEEPROM();
 #endif
                 break;
@@ -1845,33 +2266,44 @@ int parseSimpleCmd(void) {
 }
 
 int parse_DIM(void) {
-    char ident[MAX_IDENT_LEN+1];
-    getNextToken(); // eat DIM
-    if (curToken != TOKEN_IDENT) return ERROR_UNEXPECTED_TOKEN;
-    if (executeMode)
+    char ident[MAX_IDENT_LEN + 1];
+    getNextToken(); /* eat DIM */
+    if (curToken != TOKEN_IDENT) {
+        return ERROR_UNEXPECTED_TOKEN;
+    }
+
+    if (executeMode) {
         strcpy(ident, identVal);
+    }
     int isStringIdentifier = isStrIdent;
-    getNextToken(); // eat ident
+    getNextToken(); /* eat ident */
     int val = parseSubscriptExpr();
-    if (val) return val;
-    if (executeMode && !createArray(ident, isStringIdentifier ? 1 : 0))
+    if (val) {
+        return val;
+    }
+
+    if (executeMode && !createArray(ident, isStringIdentifier ? 1 : 0)) {
         return ERROR_OUT_OF_MEMORY;
+    }
     return 0;
 }
 
 static int targetStmtNumber;
-int parseStmts(void)
-{
+int parseStmts(void) {
     int ret = 0;
     breakCurrentLine = 0;
     jumpLineNumber = 0;
     jumpStmtNumber = 0;
 
     while (ret == 0) {
-        if (curToken == TOKEN_EOL)
+        if (curToken == TOKEN_EOL) {
             break;
-        if (executeMode)
-            sysSTACKEND = sysSTACKSTART = sysPROGEND;   // clear calculator stack
+        }
+
+        if (executeMode) {
+            sysSTACKEND = sysSTACKSTART = sysPROGEND;   /* Clear calculator stack */
+        }
+
         int needCmdSep = 1;
         switch (curToken) {
         case TOKEN_PRINT: ret = parse_PRINT(); break;
@@ -1913,117 +2345,143 @@ int parseStmts(void)
         default: 
             ret = ERROR_UNEXPECTED_CMD;
         }
-        // if error, or the execution line has been changed, exit here
-        if (ret || breakCurrentLine || jumpLineNumber || jumpStmtNumber)
+
+        /* If error, or the execution line has been changed, exit here */
+        if (ret || breakCurrentLine || jumpLineNumber || jumpStmtNumber) {
             break;
-        // it should either be the end of the line now, and (generally) a command seperator
-        // before the next command
+        }
+
+        /* it should either be the end of the line now, and (generally) a command seperator
+           before the next command */
         if (curToken != TOKEN_EOL) {
             if (needCmdSep) {
-                if (curToken != TOKEN_CMD_SEP) ret = ERROR_UNEXPECTED_CMD;
+                if (curToken != TOKEN_CMD_SEP) {
+                    ret = ERROR_UNEXPECTED_CMD;
+                }
                 else {
                     getNextToken();
-                    // don't allow a trailing :
-                    if (curToken == TOKEN_EOL) ret = ERROR_UNEXPECTED_CMD;
+
+                    /* Don't allow a trailing : */
+                    if (curToken == TOKEN_EOL) {
+                        ret = ERROR_UNEXPECTED_CMD;
+                    }
                 }
             }
         }
-        // increase the statement number
+
+        /* Increase the statement number */
         stmtNumber++;
-        // if we're just scanning to find a target statement, check
-        if (stmtNumber == targetStmtNumber)
+        
+        /* If we're just scanning to find a target statement, check */
+        if (stmtNumber == targetStmtNumber) {
             break;
+        }
     }
     return ret;
 }
 
 int processInput(unsigned char *tokenBuf) {
-    // first token can be TOKEN_INTEGER for line number - stored as a float in numVal
-    // store as WORD line number (max 65535)
+    /* First token can be TOKEN_INTEGER for line number - stored as a float in numVal
+       store as WORD line number (max 65535) */
     tokenBuffer = tokenBuf;
     getNextToken();
-    // check for a line number at the start
+    
+    /* Check for a line number at the start */
     uint16_t gotLineNumber = 0;
     unsigned char *lineStartPtr = 0;
     if (curToken == TOKEN_INTEGER) {
         long val = (long)numVal;
-        if (val <=65535) {
+        if (val <= 65535) {
             gotLineNumber = (uint16_t)val;
             lineStartPtr = tokenBuffer;
             getNextToken();
         }
-        else
+        else {
             return ERROR_LINE_NUM_TOO_BIG;
+        }
     }
 
     executeMode = 0;
     targetStmtNumber = 0;
-    int ret = parseStmts(); // syntax check
-    if (ret != ERROR_NONE)
+    int ret = parseStmts(); /* Syntax check */
+    if (ret != ERROR_NONE) {
         return ret;
+    }
 
     if (gotLineNumber) {
-        if (!doProgLine(gotLineNumber, lineStartPtr, tokenBuffer - lineStartPtr))
+        if (!doProgLine(gotLineNumber, lineStartPtr, tokenBuffer - lineStartPtr)) {
             ret = ERROR_OUT_OF_MEMORY;
+        }
     }
     else {
-        // we start off executing from the input buffer
+        /* We start off executing from the input buffer */
         tokenBuffer = tokenBuf;
         executeMode = 1;
-        lineNumber = 0; // buffer
+        lineNumber = 0; /* Buffer */
         unsigned char *p = NULL;
 
         while (1) {
             getNextToken();
 
             stmtNumber = 0;
-            // skip any statements? (e.g. for/next)
+
+            /* Skip any statements? (e.g. for/next) */
             if (targetStmtNumber) {
                 executeMode = 0; 
                 parseStmts(); 
                 executeMode = 1;
                 targetStmtNumber = 0;
             }
-            // now execute
+
+            /* Now execute */
             ret = parseStmts();
-            if (ret != ERROR_NONE)
+            if (ret != ERROR_NONE) {
                 break;
+            }
 
-            // are we processing the input buffer?
-            if (!lineNumber && !jumpLineNumber && !jumpStmtNumber)
-                break;  // if no control flow jumps, then just exit
+            /* Are we processing the input buffer? */
+            if (!lineNumber && !jumpLineNumber && !jumpStmtNumber) {
+                break;  /* If no control flow jumps, then just exit */
+            }
 
-            // are we RETURNing to the input buffer?
-            if (lineNumber && !jumpLineNumber && jumpStmtNumber)
+            /* Are we RETURNing to the input buffer? */
+            if (lineNumber && !jumpLineNumber && jumpStmtNumber) {
                 lineNumber = 0;
+            }
 
             if (!lineNumber && !jumpLineNumber && jumpStmtNumber) {
-                // we're executing the buffer, and need to jump stmt (e.g. for/next)
+                /* We're executing the buffer, and need to jump stmt (e.g. for/next) */
                 tokenBuffer = tokenBuf;
             }
             else {
-                // we're executing the program
+                /* We're executing the program */
                 if (jumpLineNumber || jumpStmtNumber) {
-                    // line/statement number was changed e.g. goto
+                    /* Line/statement number was changed e.g. goto */
                     p = findProgLine(jumpLineNumber);
                 }
                 else {
-                    // line number didn't change, so just move one to the next one
-                    p+= *(uint16_t *)p;
+                    /* Line number didn't change, so just move one to the next one */
+                    p += *(uint16_t *)p;
                 }
-                // end of program?
-                if (p == &mem[sysPROGEND])
-                    break;  // end of program
 
-                lineNumber = *(uint16_t*)(p+2);
-                tokenBuffer = p+4;
-                // if the target for a jump is missing (e.g. line deleted) and we're on the next line
-                // reset the stmt number to 0
-                if (jumpLineNumber && jumpStmtNumber && lineNumber > jumpLineNumber)
+                /* End of program? */
+                if (p == &mem[sysPROGEND]) {
+                    break;  /* End of program */
+                }
+
+                lineNumber = *(uint16_t*)(p + 2);
+                tokenBuffer = p + 4;
+
+                /* If the target for a jump is missing (e.g. line deleted) and we're on the next line
+                   reset the stmt number to 0 */
+                if (jumpLineNumber && jumpStmtNumber && lineNumber > jumpLineNumber) {
                     jumpStmtNumber = 0;
+                }
             }
-            if (jumpStmtNumber)
+
+            if (jumpStmtNumber) {
                 targetStmtNumber = jumpStmtNumber;
+            }
 
             if (host_ESCPressed())
             { 
@@ -2036,11 +2494,13 @@ int processInput(unsigned char *tokenBuf) {
 }
 
 void reset() {
-    // program at the start of memory
+    /* Program at the start of memory */
     sysPROGEND = 0;
-    // stack is at the end of the program area
+
+    /* Stack is at the end of the program area */
     sysSTACKSTART = sysSTACKEND = sysPROGEND;
-    // variables/gosub stack at the end of memory
+
+    /* Variables/gosub stack at the end of memory */
     sysVARSTART = sysVAREND = sysGOSUBSTART = sysGOSUBEND = MEMORY_SIZE;
     memset(&mem[0], 0, MEMORY_SIZE);
 
@@ -2048,4 +2508,3 @@ void reset() {
     stopStmtNumber = 0;
     lineNumber = 0;
 }
-

@@ -32,6 +32,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #include <libopencm3/stm32/usart.h>
 #endif
 
+/* Arduino legacy code workaround */
+#define pgm_read_byte(x)                        (*(x))
+#define pgm_read_word(x)                        (*(x))
+#define pgm_read_float(x)                       (*(x))
+#define pgm_read_byte_near(x)                   (*(x))
+#define PROGMEM
+
 #define PS2_CLOCK_PORT                          GPIOA
 #define PS2_CLOCK_PIN                           GPIO0
 #define PS2_DATA_PORT                           GPIOB

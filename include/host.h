@@ -26,13 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #include <stdint.h>
 #include <stdbool.h>
 
-// Arduino legacy workaround
-#define pgm_read_byte(x)                        (*(x))
-#define pgm_read_word(x)                        (*(x))
-#define pgm_read_float(x)                       (*(x))
-#define pgm_read_byte_near(x)                   (*(x))
-#define PROGMEM
-
 #define SCREEN_WIDTH                            20
 #define SCREEN_HEIGHT                           4
 
