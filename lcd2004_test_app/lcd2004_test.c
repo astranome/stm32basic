@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #include "../include/lcd2004.h"
 
 DisplayCapability dispCapability;
-const char applicationName[] = "LCD tester";
+const char applicationName[] = "LCD tester HW 1.0";
 const char teststr[] = " stm32basic";
 
 int main(void) {

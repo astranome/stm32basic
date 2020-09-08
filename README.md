@@ -9,7 +9,7 @@ If so, you can convert it in to an 80's home computer! With BASIC interpreter th
 #### See more in the [gallery](https://github.com/vitasam/stm32basic/tree/development/docs/gallery)
 
 #### Based on https://github.com/robinhedwards/ArduinoBASIC
-### Technical specs of stm32basic ver 1.0
+### Technical specs of stm32basic HW 1.0
 * MCU: STM32F103C8T6 (72 MHz, 20 KB RAM, 64 KB Flash), a.k.a. "bluepill"
 * PS/2 keyboard 
 * 20x4 parallel character LCD display (HD44780) 
