@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #include <libopencm3/stm32/usart.h>
 #endif
 
-const char applicationName[] = "SD tester";
+const char applicationName[] = "SD tester HW 1.0";
 
 #define TEST_BUFFER_SIZE                4 * 1024
 

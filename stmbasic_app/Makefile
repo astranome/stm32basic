@@ -14,7 +14,9 @@ OBJS += ../src/sd_spi.o
 
 LDLIBS += -lm
 
-# Configuration flags (when traces flags are enabled, the code may not fit in to stm32f103 ROM)
+# Configuration flags
+#   Note: when traces flags are enabled, the code may not fit in to STM32F103C8T6 ROM,
+# so, if traces are needed for debugging purpose, disable SD_CARD_IN_USE flag first
 #DEFS += -DSERIAL_TRACES_ENABLED
 #DEFS += -DVERBOSE_TRACES
 DEFS += -DLCD2004_IN_USE

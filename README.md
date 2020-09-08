@@ -9,7 +9,7 @@ If so, you can convert it in to an 80's home computer! With BASIC interpreter th
 #### See more in the [gallery](https://github.com/vitasam/stm32basic/tree/development/docs/gallery)
 
 #### Based on https://github.com/robinhedwards/ArduinoBASIC
-### Technical specs of stm32basic ver 1.0
+### Technical specs of stm32basic HW 1.0
 * MCU: STM32F103C8T6 (72 MHz, 20 KB RAM, 64 KB Flash), a.k.a. "bluepill"
 * PS/2 keyboard 
 * 20x4 parallel character LCD display (HD44780) 
@@ -33,12 +33,13 @@ If so, you can convert it in to an 80's home computer! With BASIC interpreter th
 * [ ] Short statetemenst for saving space of 20-char screen, e.g. PRINT -> PR
 * [ ] Battery for RTC (time/date file attributes, BASIC operators)
 * [ ] 16-Bit 5V I/O Expander with Serial Interface
-* [ ] Graphics LCD (e.g. TFT 320 x 240 pixels)
+* [ ] Migrate to STM32F103RET6 with TFT 320x240 display (stm32basic HW 2.0)
 
 ## GIT branches
 
 - **master** - main "production" branch for releases
 - **development** - R&D branch
+- **stm32basic_hw20** - R&D branch for stm32basic HW 2.0 platform
 - **dso138_port** - "unofficial" port of stm32basic to DSO138 oscilloscope platform
 
 ## Prerequisites
@@ -183,8 +184,9 @@ Only the addition operator is supported on strings (plus the functions below).
 
 Commands
 ```
+? shows the amount of free memory
 PRINT <expr>;<expr>... e.g. PRINT "A=";a
-LET variable = <expr> e.g. LET A$="Hello".
+LET variable = <expr> e.g. LET A$="Hello"
 variable = <expr> e.g. A=5
 LIST [start],[end] e.g. LIST or LIST 10,100
 RUN [lineNumber]
