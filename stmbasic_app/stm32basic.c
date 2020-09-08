@@ -44,6 +44,7 @@ int main(void)
     host_cls();
 
     host_outputProgMemString(applicationName);
+    host_moveCursor(0, 1);
     host_outputProgMemString(globalVer);
     DEBUG_SERIAL_PRINT(applicationName);
     DEBUG_SERIAL_PRINT(globalVer);
