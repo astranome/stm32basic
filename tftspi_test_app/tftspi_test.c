@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #endif
 
 #include "../include/utility.h"
-#include "../include/lcd2004.h"
+//#include "../include/lcd2004.h"
 
 DisplayCapability dispCapability;
 const char applicationName[] = "TFT tester HW 2.0";
