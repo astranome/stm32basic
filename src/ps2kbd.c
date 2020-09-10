@@ -403,9 +403,9 @@ void exti0_isr(void)
     uint32_t now_tick;
     uint8_t n, val;
 
-    exti_reset_request(EXTI0);
+    exti_reset_request(EXTI12);
 
-    val = (gpio_get(GPIOB, PS2_DATA_PIN) >> 8) & 0x01;
+    val = (gpio_get(PS2_DATA_PORT, PS2_DATA_PIN) >> 11) & 0x01;
     now_tick = get_sys_tick();
     if (now_tick - prev_tick > MS_250)
     {
