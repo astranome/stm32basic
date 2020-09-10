@@ -53,7 +53,7 @@ void clock_setup(void) {
 
 void ext_interrupt_setup(void) {
     /* Enable EXTI0 interrupt */
-    nvic_enable_irq(NVIC_EXTI0_IRQ);
+    nvic_enable_irq(NVIC_EXTI15_10_IRQ);
 
     /* Set PS2 clock pin  to 'input open-drain' */
     gpio_set_mode(

@@ -395,7 +395,8 @@ const PS2Keymap_t PS2Keymap_UK =
 
 
 /* The ISR for the external interrupt */
-void exti0_isr(void)
+//void exti0_isr(void)
+void exti15_10_isr()
 {
     static uint8_t bitcount = 0;
     static uint8_t incoming = 0;
