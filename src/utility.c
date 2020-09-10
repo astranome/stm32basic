@@ -55,7 +55,7 @@ void ext_interrupt_setup(void) {
     /* Enable EXTI0 interrupt */
     nvic_enable_irq(NVIC_EXTI0_IRQ);
 
-    /* Set PS2 clock pin (in GPIO port A) to 'input open-drain' */
+    /* Set PS2 clock pin  to 'input open-drain' */
     gpio_set_mode(
         PS2_CLOCK_PORT,
         GPIO_MODE_INPUT,
@@ -63,13 +63,13 @@ void ext_interrupt_setup(void) {
         PS2_CLOCK_PIN);
 
     /* Configure the EXTI subsystem */
-    exti_select_source(EXTI0, GPIOA);
-    exti_set_trigger(EXTI0, EXTI_TRIGGER_FALLING);
-    exti_enable_request(EXTI0);
+    exti_select_source(EXTI12, PS2_CLOCK_PORT);
+    exti_set_trigger(EXTI12, EXTI_TRIGGER_FALLING);
+    exti_enable_request(EXTI12);
 }
 
 void misc_gpio_setup(void) {
-    /* Set PS2 data pin (in GPIO port B) to 'input open-drain' */
+    /* Set PS2 data pin to 'input open-drain' */
     gpio_set_mode(
         PS2_DATA_PORT,
         GPIO_MODE_INPUT,

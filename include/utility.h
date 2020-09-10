@@ -33,9 +33,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #endif
 
 #define PS2_CLOCK_PORT                          GPIOA
-#define PS2_CLOCK_PIN                           GPIO0
-#define PS2_DATA_PORT                           GPIOB
-#define PS2_DATA_PIN                            GPIO8
+#define PS2_CLOCK_PIN                           GPIO12 // GPIO0
+#define PS2_DATA_PORT                           GPIOA   // GPIOB
+#define PS2_DATA_PIN                            GPIO11  //GPIO8
 
 #define SPI_SD_PORT                             GPIOA
 #define SPI_SD_CS_PIN                           GPIO4
