@@ -70,11 +70,13 @@ void tft320240_set_cursor(uint8_t col, uint8_t row) {
 	current_cursor_row = row * TFT320240_CURSOR_COEFF_Y;
 
 	if (current_cursor_col >= ili_tftwidth) {
-		current_cursor_col = ili_tftwidth - 1;
+		// TODO current_cursor_col = ili_tftwidth - 1;
+		current_cursor_col = (col - 1) * TFT320240_CURSOR_COEFF_X;
 	}
 
 	if (current_cursor_row >= ili_tftheight) {
-		current_cursor_row = ili_tftheight - 1;
+		//TODO current_cursor_row = ili_tftheight - 1;
+		current_cursor_row = (row - 1) * TFT320240_CURSOR_COEFF_Y;
 	}
 }
 

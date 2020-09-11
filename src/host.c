@@ -178,6 +178,8 @@ void host_cls()
     memset(lineDirty, 1, SCREEN_HEIGHT);
     curX = 0;
     curY = 0;
+
+    ili_fill_screen(ILI_COLOR_BLACK);  // TODO
 }
 
 void host_moveCursor(int x, int y)
